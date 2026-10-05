@@ -70,3 +70,6 @@ regions, sprints, fiscal quarters, company milestones and company holidays for e
 - `docs/`: landing page and Sparkle appcast (GitHub Pages)
 - `release-notes/`: per-version notes shown in the update dialog
 - `Tests/CWCoreTests`: 27 tests covering 53-week years, year boundaries, DST, locales, holiday rules and the parser
+
+## License
+MIT. See [LICENSE](LICENSE). Sparkle is included under its own MIT-style license.
