@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Example configuration profile for IT (Intune / Jamf / Kandji): presets Weekmark for the whole company.
+  Managed values override user settings and appear locked. Remove any key you don't want to enforce.
+  Complex values are JSON strings — the same format the app stores. Replace both PayloadUUIDs (uuidgen).
+-->
+<plist version="1.0">
+<dict>
+  <key>PayloadType</key><string>Configuration</string>
+  <key>PayloadVersion</key><integer>1</integer>
+  <key>PayloadIdentifier</key><string>com.example.weekmark.profile</string>
+  <key>PayloadUUID</key><string>REPLACE-WITH-UUID-1</string>
+  <key>PayloadDisplayName</key><string>Weekmark – Company Defaults</string>
+  <key>PayloadScope</key><string>System</string>
+  <key>PayloadContent</key>
+  <array>
+    <dict>
+      <key>PayloadType</key><string>com.rockykusuma.weekmark</string>
+      <key>PayloadVersion</key><integer>1</integer>
+      <key>PayloadIdentifier</key><string>com.example.weekmark.settings</string>
+      <key>PayloadUUID</key><string>REPLACE-WITH-UUID-2</string>
+      <key>PayloadDisplayName</key><string>Weekmark Settings</string>
+
+      <key>numbering</key><string>iso</string>
+      <key>regions</key><array><string>dk</string><string>in</string></array>
+
+      <!-- 2-week sprints counted from Sprint 1 starting Mon 5 Jan 2026; 5 sprints per PI -->
+      <key>sprint</key>
+      <string>{"enabled":true,"lengthWeeks":2,"anchor":{"y":2026,"m":1,"d":5},"firstNumber":1,"name":"Sprint","sprintsPerPI":5,"firstPI":1}</string>
+
+      <!-- Fiscal year starting April -->
+      <key>quarter</key>
+      <string>{"enabled":true,"fiscalStartMonth":4,"mode":"months"}</string>
+
+      <!-- Company-wide milestones -->
+      <key>milestones</key>
+      <string>[{"id":"6F0F2B1E-0000-4000-8000-000000000001","name":"Release 5.0","week":{"year":2026,"week":46},"color":"orange"}]</string>
+
+      <!-- Company holidays (source = label shown in Settings) -->
+      <key>customHolidays</key>
+      <string>[{"day":{"y":2026,"m":11,"d":9},"name":"Diwali","source":"Company"}]</string>
+    </dict>
+  </array>
+</dict>
+</plist>

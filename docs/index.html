@@ -1,0 +1,539 @@
+<title>Weekmark</title>
+<meta name="description" content="Weekmark keeps the calendar week on your Mac desktop and answers “when is CW46?” from any app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a planning board. Faint 7-column day grid behind everything; the week number is the hero; the year is a 53-cell strip. */
+:root {
+  --paper: #f5f7fb;
+  --sheet: #ffffff;
+  --ink: #131a2b;
+  --ink-2: #4a5470;
+  --ink-3: #8a93ab;
+  --rule: #dfe4ef;
+  --grid: rgba(47, 107, 255, .055);
+  --accent: #2f6bff;
+  --accent-soft: rgba(47, 107, 255, .12);
+  --mark: #f28a1c;          /* milestone / lookup */
+  --mark-soft: rgba(242, 138, 28, .16);
+  --holiday: #e5484d;
+  --shadow: 0 1px 2px rgba(19, 26, 43, .06), 0 12px 40px -12px rgba(19, 26, 43, .18);
+  --display: "Big Shoulders Display", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0d1220; --sheet: #151c2e; --ink: #eef1f8; --ink-2: #aab3cb; --ink-3: #6f7894;
+    --rule: #252e45; --grid: rgba(110, 150, 255, .06); --accent: #5b8cff; --accent-soft: rgba(91, 140, 255, .16);
+    --mark: #ff9d3a; --mark-soft: rgba(255, 157, 58, .16); --holiday: #ff6b6f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 16px 48px -16px rgba(0,0,0,.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0d1220; --sheet: #151c2e; --ink: #eef1f8; --ink-2: #aab3cb; --ink-3: #6f7894;
+  --rule: #252e45; --grid: rgba(110, 150, 255, .06); --accent: #5b8cff; --accent-soft: rgba(91, 140, 255, .16);
+  --mark: #ff9d3a; --mark-soft: rgba(255, 157, 58, .16); --holiday: #ff6b6f;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 16px 48px -16px rgba(0,0,0,.6);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+.board {
+  background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px);
+  background-size: calc(100% / 7) 100%;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.eyebrow { font: 600 .72rem/1 var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Header */
+header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 20px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+.brand img { width: 32px; height: 32px; }
+nav { display: flex; gap: clamp(12px, 3vw, 28px); font-weight: 500; font-size: .93rem; }
+nav a { color: var(--ink-2); text-decoration: none; }
+nav a:hover { color: var(--ink); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(24px, 6vw, 72px) clamp(32px, 6vw, 64px); }
+.today { display: flex; align-items: flex-end; gap: 14px; }
+.cw-label { font: 800 clamp(1.6rem, 3.4vw, 2.4rem)/1 var(--display); color: var(--ink-3); letter-spacing: .02em; padding-bottom: .55em; }
+.cw-big { font: 900 clamp(7rem, 17vw, 13rem)/.8 var(--display); color: var(--accent); letter-spacing: -.01em; }
+.today-meta { display: grid; gap: 4px; padding-bottom: .9em; }
+.today-meta strong { font-size: 1.05rem; }
+.today-meta span { color: var(--ink-2); font-size: .92rem; }
+.weekbar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-top: 18px; max-width: 420px; }
+.weekbar i { height: 6px; border-radius: 3px; background: var(--rule); position: relative; overflow: hidden; }
+.weekbar i b { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+.weekbar-label { display: flex; justify-content: space-between; max-width: 420px; margin-top: 6px; font-size: .8rem; color: var(--ink-3); }
+.hero h1 { font: 700 clamp(1.9rem, 4vw, 2.9rem)/1.12 var(--body); letter-spacing: -.02em; margin-top: 28px; }
+.hero .lede { color: var(--ink-2); font-size: 1.1rem; max-width: 34em; margin-top: 14px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 10px; font: 600 .97rem/1 var(--body); text-decoration: none; border: 0; cursor: pointer; }
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--accent); }
+.cmd { display: inline-flex; align-items: center; gap: 10px; padding: 10px 10px 10px 14px; border-radius: 10px; background: var(--sheet); border: 1px solid var(--rule); font: 400 .82rem/1 var(--mono); color: var(--ink-2); max-width: 100%; }
+.cmd code { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.copy { font: 600 .72rem/1 var(--body); padding: 6px 9px; border-radius: 6px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); cursor: pointer; flex: none; }
+.copy:hover { color: var(--ink); border-color: var(--ink-3); }
+.fine { font-size: .82rem; color: var(--ink-3); margin-top: 12px; }
+
+/* Quick Finder demo */
+.finder { background: var(--sheet); border: 1px solid var(--rule); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; min-width: 0; }
+.finder-bar { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--rule); }
+.finder-bar svg { flex: none; color: var(--accent); }
+.finder-bar input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: 500 1.35rem/1.2 var(--body); outline: none; }
+.finder-bar input::placeholder { color: var(--ink-3); }
+.kbd { font: 600 .72rem/1 var(--mono); padding: 5px 7px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); flex: none; }
+.result { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 14px; align-items: start; margin: 8px; padding: 12px 12px; border-radius: 12px; background: var(--accent-soft); }
+.result.is-error { background: transparent; }
+.result .ico { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--sheet); color: var(--accent); font: 800 .9rem/1 var(--display); }
+.result.lookup .ico { color: var(--mark); }
+.result h3 { font: 600 1rem/1.35 var(--body); }
+.result p { color: var(--ink-2); font-size: .88rem; margin-top: 2px; }
+.result .copy { margin-top: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 16px 16px; }
+.chip { font: 500 .8rem/1 var(--mono); padding: 7px 10px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-2); cursor: pointer; }
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.finder-foot { display: flex; flex-wrap: wrap; gap: 14px; padding: 10px 18px; border-top: 1px solid var(--rule); font-size: .76rem; color: var(--ink-3); }
+.finder-foot b { font: 600 .7rem/1 var(--mono); padding: 3px 5px; border-radius: 4px; background: var(--paper); color: var(--ink-2); margin-right: 4px; }
+
+/* Year strip */
+.year { padding-block: clamp(28px, 5vw, 48px); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--sheet); }
+.year-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin-bottom: 18px; }
+.year-head h2 { font: 800 clamp(1.5rem, 3vw, 2.1rem)/1.1 var(--display); letter-spacing: .01em; }
+.year-head p { color: var(--ink-2); font-size: .92rem; }
+.strip-scroll { overflow-x: auto; padding-bottom: 6px; }
+.strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(16px, 1fr); gap: 3px; min-width: 860px; }
+.cell { display: grid; grid-template-rows: 14px 42px; gap: 4px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+.cell .m { font: 600 .66rem/14px var(--body); color: var(--ink-3); text-align: left; white-space: nowrap; overflow: visible; }
+.cell .bar { border-radius: 4px; background: var(--rule); display: grid; place-items: end center; padding-bottom: 4px; font: 600 .62rem/1 var(--mono); color: var(--ink-3); transition: transform .12s ease; }
+.cell.past .bar { background: color-mix(in srgb, var(--rule) 55%, transparent); }
+.cell.now .bar { background: var(--accent); color: var(--sheet); }
+.cell.picked .bar { background: var(--mark); color: var(--sheet); }
+.cell:hover .bar { transform: translateY(-3px); }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: .8rem; color: var(--ink-3); }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; background: var(--rule); }
+.legend .l-now::before { background: var(--accent); }
+.legend .l-pick::before { background: var(--mark); }
+
+/* Features */
+section.block { padding-block: clamp(48px, 8vw, 96px); }
+.block-head { max-width: 40em; display: grid; gap: 12px; margin-bottom: clamp(28px, 4vw, 48px); }
+.block-head h2 { font: 700 clamp(1.7rem, 3.4vw, 2.4rem)/1.15 var(--body); letter-spacing: -.02em; }
+.block-head p { color: var(--ink-2); font-size: 1.05rem; }
+.showcase { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+.shot-widget { width: 100%; max-width: 340px; filter: drop-shadow(0 24px 40px rgba(19, 26, 43, .18)); }
+.features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; }
+.feature { display: grid; gap: 6px; padding-top: 14px; border-top: 2px solid var(--rule); }
+.feature h3 { font: 600 1.05rem/1.3 var(--body); }
+.feature p { color: var(--ink-2); font-size: .95rem; }
+.feature .tag { font: 600 .7rem/1 var(--mono); color: var(--accent); letter-spacing: .04em; }
+
+/* Syntax table */
+.syntax-wrap { overflow-x: auto; margin-top: clamp(36px, 5vw, 56px); border: 1px solid var(--rule); border-radius: 14px; background: var(--sheet); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: .92rem; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 600 .72rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); background: var(--paper); }
+tr:last-child td { border-bottom: 0; }
+td code { font: 400 .84rem/1.5 var(--mono); color: var(--ink); background: var(--paper); padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
+td:last-child { color: var(--ink-2); }
+
+.finder-shot { margin-top: clamp(28px, 4vw, 40px); width: 100%; max-width: 640px; border-radius: 16px; box-shadow: var(--shadow); display: block; }
+
+/* Teams */
+.teams { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 56px); align-items: start; }
+.teams ul { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.teams li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; color: var(--ink-2); }
+.teams li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+pre.profile { margin: 0; overflow-x: auto; padding: 20px; border-radius: 14px; background: var(--ink); color: var(--paper); font: 400 .8rem/1.65 var(--mono); }
+pre.profile .k { color: #9bb8ff; }
+pre.profile .s { color: #ffc27a; }
+pre.profile .c { color: #8a93ab; }
+
+/* Install */
+.install { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: clamp(24px, 4vw, 40px); border-radius: 20px; background: var(--sheet); border: 1px solid var(--rule); }
+.install h2 { font: 800 clamp(1.8rem, 4vw, 2.6rem)/1.05 var(--display); }
+.install p { color: var(--ink-2); margin-top: 8px; }
+.install .ctas { margin-top: 0; justify-content: flex-end; }
+
+footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+@media (max-width: 860px) {
+  .hero, .showcase, .teams, .install { grid-template-columns: minmax(0, 1fr); }
+  .shot-widget { max-width: 300px; }
+  .install .ctas { justify-content: flex-start; }
+}
+@media (max-width: 560px) {
+  .features { grid-template-columns: minmax(0, 1fr); }
+  nav a.hide-sm { display: none; }
+  .finder-bar input { font-size: 1.1rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="board">
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="#top"><img src="assets/icon.png" alt="">Weekmark</a>
+      <nav>
+        <a href="#features" class="hide-sm">Features</a>
+        <a href="#teams" class="hide-sm">For teams</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/rockykusuma/weekmark">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Right now it is</p>
+          <div class="today">
+            <span class="cw-label">CW</span>
+            <span class="cw-big num" id="cwBig">41</span>
+            <div class="today-meta">
+              <strong id="cwRange">5–11 Oct</strong>
+              <span id="cwOf">Week 41 of 53</span>
+            </div>
+          </div>
+          <div class="weekbar" id="weekbar" aria-hidden="true"></div>
+          <div class="weekbar-label"><span id="dayName">Monday</span><span id="weekPct" class="num">10% of the week</span></div>
+
+          <h1>Any calendar week, one keystroke away.</h1>
+          <p class="lede">Weekmark keeps the week number on your Mac desktop and answers “when is CW46?” from any app, with working days, holidays, sprints and milestones included.</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="https://github.com/rockykusuma/weekmark/releases/latest">Download for macOS</a>
+            <div class="cmd"><code id="brewHero">brew install --cask rockykusuma/tap/weekmark</code><button class="copy" data-copy="brewHero" type="button">Copy</button></div>
+          </div>
+          <p class="fine">Free · macOS 14 or later · Apple silicon and Intel · No account, no tracking</p>
+        </div>
+
+        <div class="finder" aria-label="Quick Finder demo">
+          <div class="finder-bar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <label for="q" class="eyebrow" style="position:absolute;left:-9999px">Look up a week</label>
+            <input id="q" value="46" autocomplete="off" spellcheck="false" placeholder="46 · Dec 12 · +6w · 46-50">
+            <span class="kbd">⌃⌥W</span>
+          </div>
+          <div id="results"></div>
+          <div class="chips" id="chips"></div>
+          <div class="finder-foot"><span><b>⏎</b>Copy</span><span><b>⌘⏎</b>Show in widget</span><span><b>esc</b>Close</span><span>This demo counts Mon–Fri. The app also subtracts holidays.</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<section class="year" aria-labelledby="yearTitle">
+  <div class="wrap">
+    <div class="year-head">
+      <h2 id="yearTitle">2026 has 53 weeks</h2>
+      <p id="yearSub">Click any week to look it up.</p>
+    </div>
+    <div class="strip-scroll"><div class="strip" id="strip"></div></div>
+    <div class="legend"><span class="l-now">This week</span><span class="l-pick">Looked up</span><span>ISO 8601: weeks start Monday, week 1 contains the first Thursday</span></div>
+  </div>
+</section>
+
+<section class="block" id="features">
+  <div class="wrap">
+    <div class="block-head">
+      <p class="eyebrow">On your desktop</p>
+      <h2>Made for people who plan in weeks</h2>
+      <p>Release trains, sprint reviews, “we’ll ship it in CW46”. Weekmark keeps that vocabulary on screen and does the date maths for you.</p>
+    </div>
+    <div class="showcase">
+      <img class="shot-widget" src="assets/widget.png" alt="The Weekmark widget showing calendar week 41 of 2026, Q4, Sprint 20 day 5 of 9, PI 4, two milestones and an October month grid with week numbers">
+      <div class="features">
+        <div class="feature"><span class="tag">⌃⌥W</span><h3>Quick Finder</h3><p>Look up a week, date, range or countdown from any app. Press ⏎ to copy “CW46 (9–15 Nov)” into Slack or Jira.</p></div>
+        <div class="feature"><span class="tag">MILESTONES</span><h3>Countdowns that count working days</h3><p>Pin “Release 5.0 → CW46” and see 5 weeks · 30 working days left. Milestone weeks are flagged in the calendar.</p></div>
+        <div class="feature"><span class="tag">SPRINTS · PI · Q</span><h3>Your team’s cadence</h3><p>Sprint 20 · day 5/9, PI 4 · sprint 5/5, Q3 FY27. Set the sprint length once and the app counts forward.</p></div>
+        <div class="feature"><span class="tag">HOLIDAYS</span><h3>Working days that are actually right</h3><p>Public holidays for 10 countries, plus your company’s holiday calendar imported from .ics.</p></div>
+        <div class="feature"><span class="tag">ISO ≠ US</span><h3>Catches the off-by-one</h3><p>In some years ISO and US week numbers differ. Weekmark tells you when “CW10” means CW11 to your US colleagues.</p></div>
+        <div class="feature"><span class="tag">MULTI-DISPLAY</span><h3>Lives on your second screen</h3><p>Sits on the desktop behind your windows, remembers which display it belongs to, and returns when you plug it back in.</p></div>
+      </div>
+    </div>
+
+    <div class="syntax-wrap">
+      <table>
+        <thead><tr><th>You type</th><th>Examples</th><th>You get</th></tr></thead>
+        <tbody>
+          <tr><td>A week</td><td><code>46</code> <code>CW46</code> <code>KW 46</code> <code>3 2027</code> <code>2027-W3</code></td><td>Dates, how far away, working days, holidays, milestones, sprint</td></tr>
+          <tr><td>A date</td><td><code>Dec 12</code> <code>12/12/2026</code> <code>next friday</code></td><td>The calendar week it falls in</td></tr>
+          <tr><td>An offset</td><td><code>+6w</code> <code>-2w</code> <code>+10d</code> <code>in 6 weeks</code></td><td>The target week or date</td></tr>
+          <tr><td>A range</td><td><code>46-50</code> <code>CW52–CW2</code></td><td>Number of weeks and working days, holidays included</td></tr>
+          <tr><td>A countdown</td><td><code>until CW52</code> <code>to dec 24</code></td><td>Weeks and working days left</td></tr>
+          <tr><td>A milestone</td><td><code>release</code></td><td>Matching milestones with their countdown</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <img class="finder-shot" src="assets/finder.png" alt="The Quick Finder panel listing this week, two upcoming milestones and the next holiday">
+  </div>
+</section>
+
+<section class="block" id="teams" style="padding-top:0">
+  <div class="wrap teams">
+    <div>
+      <p class="eyebrow">For IT and team leads</p>
+      <h2 style="font:700 clamp(1.7rem,3.4vw,2.4rem)/1.15 var(--body);letter-spacing:-.02em;margin-top:12px">Roll it out with the plan already in it</h2>
+      <p style="color:var(--ink-2);margin-top:14px;font-size:1.05rem">Push one configuration profile through Intune, Jamf or Kandji and every Mac shows the same sprints, fiscal quarters, release milestones and company holidays.</p>
+      <ul>
+        <li>Notarized .pkg for MDM deployment</li>
+        <li>Managed settings override user settings</li>
+        <li>No network access except the optional update check</li>
+        <li>No account and no telemetry</li>
+      </ul>
+    </div>
+    <pre class="profile"><span class="c">&lt;!-- Weekmark-Company.mobileconfig --&gt;</span>
+<span class="k">&lt;key&gt;</span>numbering<span class="k">&lt;/key&gt;</span>     <span class="s">iso</span>
+<span class="k">&lt;key&gt;</span>regions<span class="k">&lt;/key&gt;</span>       <span class="s">dk, in</span>
+<span class="k">&lt;key&gt;</span>sprint<span class="k">&lt;/key&gt;</span>
+  <span class="s">{"enabled":true,"lengthWeeks":2,
+   "anchor":{"y":2026,"m":1,"d":5},
+   "sprintsPerPI":5}</span>
+<span class="k">&lt;key&gt;</span>quarter<span class="k">&lt;/key&gt;</span>
+  <span class="s">{"fiscalStartMonth":4}</span>
+<span class="k">&lt;key&gt;</span>milestones<span class="k">&lt;/key&gt;</span>
+  <span class="s">[{"name":"Release 5.0",
+    "week":{"year":2026,"week":46}}]</span></pre>
+  </div>
+</section>
+
+<section class="block" id="install" style="padding-top:0">
+  <div class="wrap">
+    <div class="install">
+      <div>
+        <h2>Get Weekmark</h2>
+        <p>Free for everyone. Drag the widget to any display, press ⌃⌥W, and type a week.</p>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-primary" href="https://github.com/rockykusuma/weekmark/releases/latest">Download for macOS</a>
+        <div class="cmd"><code id="brewFoot">brew install --cask rockykusuma/tap/weekmark</code><button class="copy" data-copy="brewFoot" type="button">Copy</button></div>
+      </div>
+    </div>
+    <footer>
+      <span>Weekmark · by Rakesh Kusuma</span>
+      <span><a href="https://github.com/rockykusuma/weekmark">Source on GitHub</a></span>
+    </footer>
+  </div>
+</section>
+
+<script>
+(() => {
+  const DAY = 864e5;
+  const fmt = (d, o) => d.toLocaleDateString(undefined, Object.assign({ timeZone: "UTC" }, o));
+  const utc = (y, m, d) => new Date(Date.UTC(y, m, d));
+  const todayUTC = (() => { const n = new Date(); return utc(n.getFullYear(), n.getMonth(), n.getDate()); })();
+
+  // ISO 8601 week maths (dates are UTC midnights)
+  function isoWeek(d) {
+    const t = new Date(d); const day = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - day);
+    const year = t.getUTCFullYear();
+    return { year, week: Math.ceil(((t - utc(year, 0, 1)) / DAY + 1) / 7) };
+  }
+  function weekStart(year, week) {
+    const jan4 = utc(year, 0, 4); const day = jan4.getUTCDay() || 7;
+    return new Date(jan4.getTime() + ((1 - day) + (week - 1) * 7) * DAY);
+  }
+  const weeksIn = y => isoWeek(utc(y, 11, 28)).week;
+  const addWeeks = (ref, n) => isoWeek(new Date(weekStart(ref.year, ref.week).getTime() + n * 7 * DAY));
+  const weeksBetween = (a, b) => Math.round((weekStart(b.year, b.week) - weekStart(a.year, a.week)) / (7 * DAY));
+  function workdays(from, to) { // [from, to)
+    let n = 0;
+    for (let t = from.getTime(); t < to.getTime(); t += DAY) { const wd = new Date(t).getUTCDay(); if (wd !== 0 && wd !== 6) n++; }
+    return n;
+  }
+  function shortRange(ref) {
+    const s = weekStart(ref.year, ref.week), e = new Date(s.getTime() + 6 * DAY);
+    const sameMonth = s.getUTCMonth() === e.getUTCMonth();
+    const dayFirst = /^\d/.test(fmt(s, { day: "numeric", month: "short" }));
+    if (!sameMonth) return `${fmt(s, { day: "numeric", month: "short" })} – ${fmt(e, { day: "numeric", month: "short" })}`;
+    const m = fmt(s, { month: "short" });
+    return dayFirst ? `${s.getUTCDate()}–${e.getUTCDate()} ${m}` : `${m} ${s.getUTCDate()}–${e.getUTCDate()}`;
+  }
+  function longRange(ref) {
+    const s = weekStart(ref.year, ref.week), e = new Date(s.getTime() + 6 * DAY);
+    return `${fmt(s, { weekday: "short", day: "numeric", month: "short" })} – ${fmt(e, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}`;
+  }
+  const rel = n => n === 0 ? "This week" : n === 1 ? "Next week" : n === -1 ? "Last week" : n > 0 ? `In ${n} weeks` : `${-n} weeks ago`;
+
+  const cur = isoWeek(todayUTC);
+  const copyText = ref => `CW${ref.week}${ref.year !== cur.year ? " " + ref.year : ""} (${shortRange(ref)})`;
+
+  // Query parsing — a subset of the app's QueryEngine
+  function parseWeek(s) {
+    s = s.toLowerCase().trim();
+    if (/^[+-]/.test(s)) return null;
+    s = s.replace(/calendar week|week|cw|kw|wk/g, "w");
+    const letters = s.replace(/[^a-z]/g, "");
+    if (letters && letters !== "w") return null;
+    const nums = (s.match(/\d+/g) || []).map(Number);
+    let week, year;
+    if (nums.length === 1 && nums[0] < 100) week = nums[0];
+    else if (nums.length === 2) {
+      const big = nums.filter(n => n >= 1000), small = nums.filter(n => n < 100);
+      if (big.length !== 1 || small.length !== 1) return null;
+      year = big[0]; week = small[0];
+    } else return null;
+    let y = year ?? cur.year;
+    if (year === undefined && cur.week >= 40 && week <= 12) y++;
+    const max = weeksIn(y);
+    if (week < 1 || week > max) return { error: `${y} has only ${max} weeks` };
+    return { year: y, week };
+  }
+  function weekResult(ref, kind) {
+    const s = weekStart(ref.year, ref.week);
+    const wd = workdays(s, new Date(s.getTime() + 7 * DAY));
+    return { kind, ref, title: `CW${ref.week} · ${longRange(ref)}`, sub: `${rel(weeksBetween(cur, ref))} · ${wd} working days`, copy: copyText(ref) };
+  }
+  function parseDate(q) {
+    if (!/[a-z\/]/i.test(q)) return null;
+    let t = Date.parse(q);
+    if (isNaN(t)) t = Date.parse(`${q} ${cur.year}`);
+    if (isNaN(t)) return null;
+    const d = new Date(t);
+    return utc(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+  function evaluate(input) {
+    const q = input.trim(), lower = q.toLowerCase();
+    if (!q) return weekResult(cur, "week");
+    // countdown
+    const cd = lower.replace(/^(today|now)\s*/, "").match(/^(until|till|to|→|->)\s*(.+)$/);
+    if (cd) {
+      const w = parseWeek(cd[2]);
+      if (w && !w.error) {
+        const s = weekStart(w.year, w.week), end = new Date(s.getTime() + 7 * DAY);
+        const n = weeksBetween(cur, w);
+        return { kind: "lookup", ref: w, title: `${n} week${n === 1 ? "" : "s"} until CW${w.week}`, sub: `${workdays(todayUTC, s)} working days until it starts · ${workdays(todayUTC, end)} through its end`, copy: `${n} weeks / ${workdays(todayUTC, end)} working days until end of CW${w.week}` };
+      }
+      const d = parseDate(cd[2]);
+      if (d) {
+        const days = Math.round((d - todayUTC) / DAY), ref = isoWeek(d);
+        return { kind: "lookup", ref, title: `${days} days until ${fmt(d, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}`, sub: `${workdays(todayUTC, d)} working days · CW${ref.week}`, copy: `${days} days / ${workdays(todayUTC, d)} working days until ${fmt(d, { day: "numeric", month: "short" })}` };
+      }
+    }
+    if (["today", "now", "this week"].includes(lower)) return weekResult(cur, "week");
+    if (lower === "next week") return weekResult(addWeeks(cur, 1), "lookup");
+    if (lower === "last week") return weekResult(addWeeks(cur, -1), "lookup");
+    // relative
+    const r = lower.replace(/\s+/g, "").match(/^(in)?([+-])?(\d{1,3})(w|wk|wks|weeks?|d|days?)?(ago)?$/);
+    if (r && (r[1] || r[2] || r[5] || r[4])) {
+      const sign = r[5] || r[2] === "-" ? -1 : 1, n = Number(r[3]), isDays = /^d/.test(r[4] || "");
+      if (isDays) {
+        const d = new Date(todayUTC.getTime() + sign * n * DAY), ref = isoWeek(d);
+        return { kind: "lookup", ref, title: `${sign > 0 ? "+" : "−"}${n} days → ${fmt(d, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}`, sub: `CW${ref.week} · ${shortRange(ref)}`, copy: `${fmt(d, { weekday: "short", day: "numeric", month: "short" })} (CW${ref.week})` };
+      }
+      const ref = addWeeks(cur, sign * n), base = weekResult(ref, "lookup");
+      return Object.assign(base, { title: `${sign > 0 ? "+" : "−"}${n} weeks → CW${ref.week}${ref.year !== cur.year ? " " + ref.year : ""}`, sub: `${longRange(ref)} · ${base.sub.split(" · ")[1]}` });
+    }
+    // range
+    const parts = lower.split(/\s*(?:\.\.|–|—|\bto\b|-)\s*/);
+    if (parts.length === 2 && parts[0] && parts[1]) {
+      const a = parseWeek(parts[0]); let b = parseWeek(parts[1]);
+      if (a && !a.error && b && !b.error) {
+        if (!/\d{4}/.test(parts[1])) b = { year: b.week < a.week ? a.year + 1 : a.year, week: b.week };
+        const [x, y] = weekStart(a.year, a.week) <= weekStart(b.year, b.week) ? [a, b] : [b, a];
+        const s = weekStart(x.year, x.week), e = new Date(weekStart(y.year, y.week).getTime() + 7 * DAY);
+        const n = weeksBetween(x, y) + 1;
+        return { kind: "lookup", ref: x, title: `CW${x.week} – CW${y.week} · ${n} weeks`, sub: `${fmt(s, { day: "numeric", month: "short" })} – ${fmt(new Date(e.getTime() - DAY), { day: "numeric", month: "short", year: "numeric" })} · ${workdays(s, e)} working days`, copy: `CW${x.week}–CW${y.week} (${n} weeks)` };
+      }
+    }
+    const w = parseWeek(lower);
+    if (w && w.error) return { kind: "error", title: w.error, sub: "Try 46, CW3 2027, Dec 12, +6w, 46-50 or until CW52" };
+    if (w) return weekResult(w, "lookup");
+    const d = parseDate(q);
+    if (d) {
+      const ref = isoWeek(d), base = weekResult(ref, "lookup");
+      return Object.assign(base, { title: `${fmt(d, { weekday: "long", day: "numeric", month: "long", year: "numeric" })} is in CW${ref.week}`, sub: `${shortRange(ref)} · ${rel(weeksBetween(cur, ref))}` });
+    }
+    return { kind: "error", title: `No match for “${q}”`, sub: "Try 46, CW3 2027, Dec 12, +6w, 46-50 or until CW52" };
+  }
+
+  // Hero: today
+  const $ = id => document.getElementById(id);
+  $("cwBig").textContent = cur.week;
+  $("cwRange").textContent = `${shortRange(cur)} ${cur.year}`;
+  $("cwOf").textContent = `Week ${cur.week} of ${weeksIn(cur.year)} · ${weeksIn(cur.year) - cur.week} left`;
+  const now = new Date();
+  const dow = (now.getDay() + 6) % 7; // Mon = 0
+  const pct = Math.min(1, (dow * DAY + (now - new Date(now.getFullYear(), now.getMonth(), now.getDate()))) / (7 * DAY));
+  $("weekbar").innerHTML = Array.from({ length: 7 }, (_, i) => {
+    const fill = Math.max(0, Math.min(1, pct * 7 - i));
+    return `<i><b style="width:${(fill * 100).toFixed(1)}%"></b></i>`;
+  }).join("");
+  $("dayName").textContent = now.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long" });
+  $("weekPct").textContent = `${Math.round(pct * 100)}% of the week`;
+
+  // Year strip
+  const strip = $("strip");
+  const total = weeksIn(cur.year);
+  $("yearTitle").textContent = `${cur.year} has ${total} weeks`;
+  $("yearSub").textContent = `You're in week ${cur.week}. Click any week to look it up.`;
+  let lastMonth = -1;
+  for (let w = 1; w <= total; w++) {
+    const s = weekStart(cur.year, w), mid = new Date(s.getTime() + 3 * DAY);
+    const m = mid.getUTCMonth();
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "cell" + (w === cur.week ? " now" : w < cur.week ? " past" : "");
+    b.dataset.week = w;
+    b.title = `CW${w} · ${shortRange({ year: cur.year, week: w })}`;
+    b.setAttribute("aria-label", b.title);
+    b.innerHTML = `<span class="m">${m !== lastMonth ? fmt(mid, { month: "short" }) : ""}</span><span class="bar num">${w}</span>`;
+    lastMonth = m;
+    b.addEventListener("click", () => { input.value = `CW${w} ${cur.year}`; render(); input.focus(); });
+    strip.appendChild(b);
+  }
+
+  // Finder demo
+  const input = $("q"), out = $("results");
+  const examples = ["46", "Dec 25", "+6w", "46-50", "until CW52", "3 2027"];
+  $("chips").innerHTML = examples.map(e => `<button class="chip" type="button">${e}</button>`).join("");
+  $("chips").addEventListener("click", e => { if (e.target.matches(".chip")) { input.value = e.target.textContent; render(); input.focus(); } });
+  function esc(s) { return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  let current = null;
+  function render() {
+    const r = evaluate(input.value);
+    current = r;
+    const isErr = r.kind === "error";
+    out.innerHTML = `<div class="result ${isErr ? "is-error" : ""} ${r.kind === "lookup" ? "lookup" : ""}">
+      <div class="ico">${isErr ? "!" : r.ref ? r.ref.week : "CW"}</div>
+      <div style="min-width:0"><h3>${esc(r.title)}</h3><p>${esc(r.sub)}</p></div>
+      ${r.copy ? `<button class="copy" type="button" id="copyResult">Copy</button>` : ""}
+    </div>`;
+    strip.querySelectorAll(".cell").forEach(c => c.classList.toggle("picked", !!r.ref && r.ref.year === cur.year && +c.dataset.week === r.ref.week && r.ref.week !== cur.week));
+  }
+  input.addEventListener("input", render);
+  input.addEventListener("keydown", e => { if (e.key === "Enter" && current && current.copy) copy(current.copy, $("copyResult")); if (e.key === "Escape") { input.value = ""; render(); } });
+  out.addEventListener("click", e => { if (e.target.id === "copyResult" && current) copy(current.copy, e.target); });
+  render();
+
+  // Copy helpers
+  function copy(text, btn) {
+    const done = () => { if (btn) { const t = btn.textContent; btn.textContent = "Copied"; setTimeout(() => btn.textContent = t, 1200); } };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
+    } else fallback(text, done);
+  }
+  function fallback(text, done) {
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (_) {} ta.remove();
+  }
+  document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", () => copy($(b.dataset.copy).textContent, b)));
+})();
+</script>
