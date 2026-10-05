@@ -239,14 +239,22 @@ struct QuickFinderView: View {
 struct PanelBackground: ViewModifier {
     func body(content: Content) -> some View {
         let shape = RoundedRectangle(cornerRadius: 18, style: .continuous)
+        #if compiler(>=6.2) // Liquid Glass needs the macOS 26 SDK (Xcode 26+)
         if #available(macOS 26.0, *) {
             content
                 .background(shape.fill(Color(nsColor: .windowBackgroundColor).opacity(0.55)))
                 .glassEffect(.regular, in: shape)
         } else {
-            content
-                .background(VisualEffect().clipShape(shape))
-                .overlay(shape.strokeBorder(.primary.opacity(0.1)))
+            fallback(content, shape)
         }
+        #else
+        fallback(content, shape)
+        #endif
+    }
+
+    private func fallback(_ content: Content, _ shape: RoundedRectangle) -> some View {
+        content
+            .background(VisualEffect().clipShape(shape))
+            .overlay(shape.strokeBorder(.primary.opacity(0.1)))
     }
 }

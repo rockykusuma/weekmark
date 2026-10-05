@@ -421,16 +421,17 @@ struct WidgetBackground: ViewModifier {
         let shape = RoundedRectangle(cornerRadius: radius, style: .continuous)
         switch reduceTransparency ? .solid : style {
         case .glass:
+            #if compiler(>=6.2) // Liquid Glass needs the macOS 26 SDK (Xcode 26+)
             if #available(macOS 26.0, *) {
                 content
                     .background(shape.fill(Color(nsColor: .windowBackgroundColor).opacity(0.45)))
                     .glassEffect(.regular, in: shape)
             } else {
-                content
-                    .background(shape.fill(Color(nsColor: .windowBackgroundColor).opacity(0.35)))
-                    .background(VisualEffect().clipShape(shape))
-                    .overlay(shape.strokeBorder(.white.opacity(0.12)))
+                blurFallback(content, shape)
             }
+            #else
+            blurFallback(content, shape)
+            #endif
         case .solid:
             content
                 .background(shape.fill(Color(nsColor: .windowBackgroundColor)))
@@ -439,6 +440,15 @@ struct WidgetBackground: ViewModifier {
         case .clear:
             content.shadow(color: .black.opacity(0.35), radius: 3, y: 1)
         }
+    }
+}
+
+extension WidgetBackground {
+    func blurFallback(_ content: Content, _ shape: RoundedRectangle) -> some View {
+        content
+            .background(shape.fill(Color(nsColor: .windowBackgroundColor).opacity(0.35)))
+            .background(VisualEffect().clipShape(shape))
+            .overlay(shape.strokeBorder(.white.opacity(0.12)))
     }
 }
 
