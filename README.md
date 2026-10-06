@@ -48,26 +48,15 @@ Command-line flags: `--find "<query>"`, `--settings <general|widget|planning|hol
 
 ## Release
 ```bash
-cp .env.local.example .env.local   # fill in Developer ID, notarization and Sparkle settings
-./scripts/release.sh
+./scripts/ship.sh 1.1
 ```
-`.env.local.example` explains every credential and where to get it. `.env.local` is git-ignored.
-Signs the app (including Sparkle's helpers) with the hardened runtime, builds a DMG, notarizes and staples it,
-writes the Sparkle feed to `docs/appcast.xml`, and prints the SHA-256 for the Homebrew cask.
-Set `INSTALLER_ID` as well to build a signed `.pkg` for MDM/Intune. One-time setup is described at the top of the script.
-
-Then upload the DMG to a GitHub release tagged `v<version>`, update `version` and `sha256` in
-[rockykusuma/homebrew-weekmark](https://github.com/rockykusuma/homebrew-weekmark) `Casks/weekmark.rb`, and push. GitHub Pages (from `/docs`) serves both the
-landing page and `appcast.xml`, and installed copies update themselves.
-
-**Update signing key:** the EdDSA private key is stored in your login keychain under the account `weekmark`
-(public key in `Resources/Info.plist`). A backup exported with `generate_keys --account weekmark -x <file>`
-must be kept outside git, ideally in a password manager. If the key is lost, existing installs can't verify future
-updates. To restore it on a new Mac: `generate_keys --account weekmark -f <file>`.
+One command bumps the version, builds, signs, notarizes, publishes the GitHub release, updates the Homebrew tap and
+the Sparkle feed, then verifies them. See **[RELEASING.md](RELEASING.md)** for the full process, one-time setup on a
+new Mac, and troubleshooting.
 
 ## Website
-`docs/index.html` is the landing page, with a live CW lookup demo and a 53-week year strip. In the GitHub repo, enable
-Pages from the `main` branch `/docs` folder to publish it at `https://rockykusuma.github.io/weekmark/`.
+`docs/index.html` is the landing page (live CW lookup demo, 53-week year strip), served with `docs/appcast.xml` by
+GitHub Pages at [rockykusuma.github.io/weekmark](https://rockykusuma.github.io/weekmark/).
 
 ## Company rollout (IT)
 `packaging/mdm/Weekmark-Company.mobileconfig` is an example profile that presets week numbering, holiday

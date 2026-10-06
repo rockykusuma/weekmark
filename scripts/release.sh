@@ -95,4 +95,4 @@ ls -lh dist/
 echo "SHA-256 (for the Homebrew cask):"
 shasum -a 256 "$DMG"
 echo
-echo "Next: create GitHub release v$VERSION, upload $DMG, then commit + push docs/appcast.xml (GitHub Pages serves it)."
+[ -z "${SHIP:-}" ] && echo "Tip: ./scripts/ship.sh $VERSION does the GitHub release, Homebrew tap and feed for you."
