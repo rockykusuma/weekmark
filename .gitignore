@@ -6,3 +6,5 @@ dist/
 .swiftpm/
 *.key
 .vscode/
+.env.local
+.env

@@ -42,8 +42,10 @@ Command-line flags: `--find "<query>"`, `--settings <general|widget|planning|hol
 
 ## Release
 ```bash
-DEV_ID="Developer ID Application: Your Name (TEAMID)" ./scripts/release.sh
+cp .env.local.example .env.local   # fill in Developer ID, notarization and Sparkle settings
+./scripts/release.sh
 ```
+`.env.local.example` explains every credential and where to get it. `.env.local` is git-ignored.
 Signs the app (including Sparkle's helpers) with the hardened runtime, builds a DMG, notarizes and staples it,
 writes the Sparkle feed to `docs/appcast.xml`, and prints the SHA-256 for `packaging/homebrew/weekmark.rb`.
 Set `INSTALLER_ID` as well to build a signed `.pkg` for MDM/Intune. One-time setup is described at the top of the script.
