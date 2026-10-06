@@ -55,8 +55,13 @@ DMG="dist/Weekmark-$VERSION.dmg"
 # ── Pre-flight ───────────────────────────────────────────────────────────────
 step "Pre-flight checks"
 command -v gh >/dev/null || fail "GitHub CLI missing: brew install gh"
+# Strict rule: PersonalProjects publishes only as rockykusuma, whatever account gh has active.
+GH_TOKEN=$(gh auth token --hostname github.com --user "${REPO%%/*}" 2>/dev/null) \
+  || fail "No gh login for ${REPO%%/*}. Run: gh auth login (as ${REPO%%/*})"
+export GH_TOKEN
 GH_USER=$(gh api user --jq .login 2>/dev/null) || fail "GitHub CLI not signed in: gh auth login"
-[ "$GH_USER" = "${REPO%%/*}" ] || fail "GitHub CLI is using '$GH_USER'. Switch with: gh auth switch -u ${REPO%%/*}"
+[ "$GH_USER" = "${REPO%%/*}" ] || fail "GitHub token belongs to '$GH_USER', expected ${REPO%%/*}"
+[ "$(git config user.email)" = "rockykusuma@gmail.com" ] || fail "git user.email is '$(git config user.email)', expected rockykusuma@gmail.com"
 ok "GitHub CLI signed in as $GH_USER"
 [ -f .env.local ] || fail ".env.local missing. Copy .env.local.example and fill it in (see RELEASING.md)"
 ok ".env.local present"
