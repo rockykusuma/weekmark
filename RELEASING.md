@@ -21,8 +21,11 @@ Add `--dry-run` to see the checks and the plan without changing anything.
 4. **Publishes** the GitHub release `v<version>` with the DMG and your notes.
 5. **Updates the Homebrew tap** ([rockykusuma/homebrew-weekmark](https://github.com/rockykusuma/homebrew-weekmark)):
    version and sha256 in `Casks/weekmark.rb`.
-6. **Pushes the update feed** last, so the download already exists when installed apps are told about it.
-7. **Verifies** the live download (checksum and Gatekeeper) and waits for the feed to list the new version.
+6. **Refreshes the website screenshots** (`scripts/screenshots.sh`) from the new build with sample data
+   dated relative to release day. Your own settings are restored afterwards. Needs Screen Recording permission
+   for your terminal; without it the old screenshots are kept.
+7. **Pushes the update feed** last, so the download already exists when installed apps are told about it.
+8. **Verifies** the live download (checksum and Gatekeeper) and waits for the feed to list the new version.
 
 If a step fails (notarization timeout, network), fix the cause and run the same command again. Finished steps are
 detected and skipped.
@@ -42,6 +45,7 @@ detected and skipped.
 | `.env.local` | `cp .env.local.example .env.local` and fill it in. The comments explain every value |
 | Notarization profile | `xcrun notarytool store-credentials weekmark-notary --apple-id <id> --team-id Y87BZN47C5 --password <app-specific password>` |
 | Sparkle signing key | Restore from your backup: `swift package resolve`, then `.build/artifacts/sparkle/Sparkle/bin/generate_keys --account weekmark -f weekmark-sparkle.key` |
+| Screen Recording permission | System Settings → Privacy & Security → Screen & System Audio Recording → enable your terminal (for screenshots) |
 | Homebrew tap checkout (optional) | `git clone git@github.com:rockykusuma/homebrew-weekmark ../homebrew-weekmark`. Without it, `ship.sh` clones a temporary copy |
 
 ## Troubleshooting

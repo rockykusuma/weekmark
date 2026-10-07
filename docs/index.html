@@ -1,5 +1,9 @@
 <title>Weekmark</title>
 <meta name="description" content="Weekmark keeps the calendar week on your Mac desktop and answers “when is CW46?” from any app.">
+<meta property="og:title" content="Weekmark — any calendar week, one keystroke away">
+<meta property="og:description" content="A macOS widget and CW lookup for teams that plan in calendar weeks. Free, notarized, no tracking.">
+<meta property="og:image" content="https://rockykusuma.github.io/weekmark/assets/widget.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -204,14 +208,14 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
           <p class="eyebrow">Right now it is</p>
           <div class="today">
             <span class="cw-label">CW</span>
-            <span class="cw-big num" id="cwBig">41</span>
+            <span class="cw-big num" id="cwBig">—</span>
             <div class="today-meta">
-              <strong id="cwRange">5–11 Oct</strong>
-              <span id="cwOf">Week 41 of 53</span>
+              <strong id="cwRange">Monday to Sunday</strong>
+              <span id="cwOf">ISO 8601 week number</span>
             </div>
           </div>
           <div class="weekbar" id="weekbar" aria-hidden="true"></div>
-          <div class="weekbar-label"><span id="dayName">Monday</span><span id="weekPct" class="num">10% of the week</span></div>
+          <div class="weekbar-label"><span id="dayName">This week</span><span id="weekPct" class="num"></span></div>
 
           <h1>Any calendar week, one keystroke away.</h1>
           <p class="lede">Weekmark keeps the week number on your Mac desktop and answers “when is CW46?” from any app, with working days, holidays, sprints and milestones included.</p>
@@ -241,7 +245,7 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
 <section class="year" aria-labelledby="yearTitle">
   <div class="wrap">
     <div class="year-head">
-      <h2 id="yearTitle">2026 has 53 weeks</h2>
+      <h2 id="yearTitle">Every week of the year</h2>
       <p id="yearSub">Click any week to look it up.</p>
     </div>
     <div class="strip-scroll"><div class="strip" id="strip"></div></div>
@@ -257,7 +261,7 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
       <p>Release trains, sprint reviews, “we’ll ship it in CW46”. Weekmark keeps that vocabulary on screen and does the date maths for you.</p>
     </div>
     <div class="showcase">
-      <img class="shot-widget" src="assets/widget.png" alt="The Weekmark widget showing calendar week 41 of 2026, Q4, Sprint 20 day 5 of 9, PI 4, two milestones and an October month grid with week numbers">
+      <img class="shot-widget" src="assets/widget.png" alt="The Weekmark widget showing the calendar week, quarter, sprint and PI chips, upcoming milestones and a month grid with week numbers">
       <div class="features">
         <div class="feature"><span class="tag">⌃⌥W</span><h3>Quick Finder</h3><p>Look up a week, date, range or countdown from any app. Press ⏎ to copy “CW46 (9–15 Nov)” into Slack or Jira.</p></div>
         <div class="feature"><span class="tag">MILESTONES</span><h3>Countdowns that count working days</h3><p>Pin “Release 5.0 → CW46” and see 5 weeks · 30 working days left. Milestone weeks are flagged in the calendar.</p></div>

@@ -6,7 +6,7 @@
 #   ./scripts/ship.sh 1.1 --dry-run  # checks only, changes nothing
 #
 # Steps: pre-flight checks → bump version → build/sign/notarize (release.sh) → GitHub release
-#        → Homebrew tap → update feed (appcast) → verify the live download and feed.
+#        → Homebrew tap → website screenshots → update feed (appcast) → verify download and feed.
 # Safe to re-run with the same version if a step fails; finished steps are skipped.
 # See RELEASING.md.
 set -euo pipefail
@@ -112,6 +112,7 @@ bold "Ready to publish Weekmark $VERSION"
 echo "  • bump Info.plist, build, sign, notarize ($DMG)"
 echo "  • GitHub release v$VERSION on $REPO"
 echo "  • Homebrew tap $TAP_REPO → $VERSION"
+echo "  • website screenshots refreshed from the new build"
 echo "  • update feed docs/appcast.xml → installed copies get the update"
 [ "$DRY" = 1 ] && { echo; ok "Dry run: nothing changed"; exit 0; }
 if [ "$YES" != 1 ]; then
@@ -165,10 +166,14 @@ ok "brew install --cask rockykusuma/weekmark/weekmark now installs $VERSION"
   cat "$CASK"
 } > packaging/homebrew/weekmark.rb
 
+# ── Website screenshots (best effort) ────────────────────────────────────────
+step "Refreshing website screenshots"
+./scripts/screenshots.sh build/Weekmark.app || echo "  • Screenshots not refreshed; the old ones stay"
+
 # ── Update feed (last, so the download exists before apps are told about it) ──
 step "Publishing update feed"
-git add docs/appcast.xml packaging/homebrew/weekmark.rb
-git commit -q -m "Appcast for $VERSION"
+git add docs/appcast.xml docs/assets packaging/homebrew/weekmark.rb
+git commit -q -m "Release $VERSION: appcast, cask mirror, screenshots"
 git push -q origin main
 ok "docs/appcast.xml pushed (GitHub Pages deploys it in about a minute)"
 
