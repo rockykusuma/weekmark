@@ -175,10 +175,25 @@ pre.profile .c { color: #8a93ab; }
 .install p { color: var(--ink-2); margin-top: 8px; }
 .install .ctas { margin-top: 0; justify-content: flex-end; }
 
+/* iPhone & Watch (coming soon) */
+.mobile { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.soon { display: inline-flex; align-items: center; gap: 6px; font: 600 .72rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--mark); background: var(--mark-soft); padding: 6px 10px; border-radius: 999px; }
+.mobile h2 { font: 700 clamp(1.7rem, 3.4vw, 2.4rem)/1.15 var(--body); letter-spacing: -.02em; margin-top: 14px; }
+.mobile .lede { color: var(--ink-2); font-size: 1.05rem; margin-top: 14px; max-width: 34em; }
+.mobile ul { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.mobile li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; color: var(--ink-2); }
+.mobile li::before { content: "◆"; color: var(--accent); font-size: .8rem; line-height: 1.7; }
+.devices { display: flex; align-items: flex-end; justify-content: center; gap: clamp(10px, 2vw, 22px); min-width: 0; }
+.devices img { display: block; height: auto; box-shadow: var(--shadow); border: 1px solid var(--rule); }
+.devices .phone { width: 36%; max-width: 250px; border-radius: 28px; }
+.devices .watch { width: 22%; max-width: 150px; border-radius: 34px; margin-bottom: 8%; }
+.mobile .fine a { color: var(--ink-2); }
+
 footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 
 @media (max-width: 860px) {
-  .hero, .showcase, .teams, .install { grid-template-columns: minmax(0, 1fr); }
+  .hero, .showcase, .teams, .install, .mobile { grid-template-columns: minmax(0, 1fr); }
   .shot-widget { max-width: 300px; }
   .install .ctas { justify-content: flex-start; }
 }
@@ -196,6 +211,7 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
       <a class="brand" href="#top"><img src="assets/icon.png" alt="">Weekmark</a>
       <nav>
         <a href="#features" class="hide-sm">Features</a>
+        <a href="#mobile" class="hide-sm">iPhone</a>
         <a href="#teams" class="hide-sm">For teams</a>
         <a href="#install">Install</a>
         <a href="https://github.com/rockykusuma/weekmark">GitHub</a>
@@ -289,6 +305,28 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
   </div>
 </section>
 
+<section class="block" id="mobile" style="padding-top:0">
+  <div class="wrap mobile">
+    <div>
+      <span class="soon">Coming soon</span>
+      <h2>Weekmark for iPhone and Apple Watch</h2>
+      <p class="lede">The week on your Lock Screen and your wrist, for when you’re travelling or away from your desk. Milestones, sprints, quarters and holidays sync from your Mac through iCloud, starting with Mac version 1.1.</p>
+      <ul>
+        <li>“CW42” on the Lock Screen, above the clock or as a ring that fills through the week</li>
+        <li>Home Screen and StandBy widgets with the week strip, next milestone and month grid</li>
+        <li>Watch complications and a weeks list you scroll with the Digital Crown</li>
+        <li>The same lookup as on the Mac: 46, Dec 12, +6w, 46-50, until CW52</li>
+      </ul>
+      <p class="fine">In testing now. <a href="https://github.com/rockykusuma/weekmark">Watch the GitHub repo</a> to hear when it’s out.</p>
+    </div>
+    <div class="devices">
+      <img class="phone" src="assets/iphone-week.png" alt="Weekmark on iPhone showing calendar week 42 with sprint and PI chips, the week strip, milestones and a month grid with week numbers">
+      <img class="phone" src="assets/iphone-widgets.png" alt="Weekmark widgets: small, medium and large Home Screen widgets and Lock Screen widgets showing CW42">
+      <img class="watch" src="assets/watch.png" alt="Weekmark on Apple Watch showing calendar week 42 and the week strip">
+    </div>
+  </div>
+</section>
+
 <section class="block" id="teams" style="padding-top:0">
   <div class="wrap teams">
     <div>
@@ -298,8 +336,8 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
       <ul>
         <li>Notarized .pkg for MDM deployment</li>
         <li>Managed settings override user settings</li>
-        <li>No network access except the optional update check</li>
         <li>No account and no telemetry</li>
+        <li>Planning data syncs only through each person's own iCloud</li>
       </ul>
     </div>
     <pre class="profile"><span class="c">&lt;!-- Weekmark-Company.mobileconfig --&gt;</span>
