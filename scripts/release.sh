@@ -91,7 +91,11 @@ echo "→ Generating Sparkle appcast (docs/appcast.xml)…"
 # Feed lists only the latest build; Sparkle just needs the newest version + its EdDSA signature.
 FEED_SRC=$(mktemp -d)
 cp "$DMG" "$FEED_SRC/"
-[ -f "release-notes/$VERSION.md" ] && cp "release-notes/$VERSION.md" "$FEED_SRC/Weekmark-$VERSION.md"
+# Release notes: HTML next to the feed on GitHub Pages (generate_appcast links docs/Weekmark-<version>.html).
+if [ -f "release-notes/$VERSION.md" ]; then
+  python3 scripts/notes-to-html.py "release-notes/$VERSION.md" "docs/Weekmark-$VERSION.html"
+  cp "docs/Weekmark-$VERSION.html" "$FEED_SRC/"
+fi
 mkdir -p docs
 if [ -n "${SPARKLE_KEY_FILE:-}" ]; then KEYARG=(--ed-key-file "$SPARKLE_KEY_FILE"); else KEYARG=(--account "$SPARKLE_ACCOUNT"); fi
 .build/artifacts/sparkle/Sparkle/bin/generate_appcast "${KEYARG[@]}" \

@@ -8,7 +8,7 @@
             <sparkle:version>2</sparkle:version>
             <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <sparkle:releaseNotesLink>https://rockykusuma.github.io/weekmark/Weekmark-1.1.md</sparkle:releaseNotesLink>
+            <sparkle:releaseNotesLink>https://rockykusuma.github.io/weekmark/Weekmark-1.1.html</sparkle:releaseNotesLink>
             <enclosure url="https://github.com/rockykusuma/weekmark/releases/download/v1.1/Weekmark-1.1.dmg" length="2813799" type="application/octet-stream" sparkle:edSignature="T9ASR6p3U0xk0Yaqwc29NS7OZpaK9Zk9IrKgYQZrz2G+eIrbpTpktEtYoJhUtYMN5nH0LTUlo0D1JBlZMRQVDA=="/>
         </item>
         <item>
@@ -17,7 +17,7 @@
             <sparkle:version>1</sparkle:version>
             <sparkle:shortVersionString>1.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <sparkle:releaseNotesLink>https://rockykusuma.github.io/weekmark/Weekmark-1.0.md</sparkle:releaseNotesLink>
+            <sparkle:releaseNotesLink>https://rockykusuma.github.io/weekmark/Weekmark-1.0.html</sparkle:releaseNotesLink>
             <enclosure url="https://github.com/rockykusuma/weekmark/releases/download/v1.0/Weekmark-1.0.dmg" length="2763056" type="application/octet-stream" sparkle:edSignature="VCSsrXeF3R6XcsL9Mon38gkX18UHNrVSrDKUE9s4GtpDN8Z62Shy0NBpsvcerX9jBN1AOaTRavhXVWdQWi0/Dw=="/>
         </item>
     </channel>

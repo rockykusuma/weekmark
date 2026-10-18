@@ -70,7 +70,7 @@ ok ".env.local present"
 # feed (docs/appcast.xml) or screenshots may be uncommitted. Anything else must be clean.
 RESUMING=0; [ "$CUR" = "$VERSION" ] && RESUMING=1
 DIRTY=$(git status --porcelain)
-[ "$RESUMING" = 1 ] && DIRTY=$(echo "$DIRTY" | grep -vE ' (docs/appcast\.xml|docs/assets/.*)$' || true)
+[ "$RESUMING" = 1 ] && DIRTY=$(echo "$DIRTY" | grep -vE ' (docs/appcast\.xml|docs/assets/.*|docs/Weekmark-.*\.html)$' || true)
 [ -z "$DIRTY" ] || fail "Uncommitted changes. Commit or stash them first:
 $DIRTY"
 git fetch -q origin main --tags
@@ -182,7 +182,7 @@ step "Refreshing website screenshots"
 
 # ── Update feed (last, so the download exists before apps are told about it) ──
 step "Publishing update feed"
-git add docs/appcast.xml docs/assets packaging/homebrew/weekmark.rb
+git add docs/appcast.xml docs/assets docs/Weekmark-*.html packaging/homebrew/weekmark.rb
 git commit -q -m "Release $VERSION: appcast, cask mirror, screenshots"
 git push -q origin main
 ok "docs/appcast.xml pushed (GitHub Pages deploys it in about a minute)"
