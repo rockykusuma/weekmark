@@ -105,4 +105,7 @@ ls -lh dist/
 echo "SHA-256 (for the Homebrew cask):"
 shasum -a 256 "$DMG"
 echo
-[ -z "${SHIP:-}" ] && echo "Tip: ./scripts/ship.sh $VERSION does the GitHub release, Homebrew tap and feed for you."
+if [ -z "${SHIP:-}" ]; then
+  echo "Tip: ./scripts/ship.sh $VERSION does the GitHub release, Homebrew tap and feed for you."
+fi
+exit 0

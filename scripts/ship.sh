@@ -66,11 +66,21 @@ ok "GitHub CLI signed in as $GH_USER"
 [ -f .env.local ] || fail ".env.local missing. Copy .env.local.example and fill it in (see RELEASING.md)"
 ok ".env.local present"
 [ "$(git rev-parse --abbrev-ref HEAD)" = "main" ] || fail "Switch to the main branch first"
-[ -z "$(git status --porcelain)" ] || fail "Uncommitted changes. Commit or stash them first:
-$(git status --short)"
+# Resuming an interrupted run of this version: its "Release X" commit may be unpushed and the generated
+# feed (docs/appcast.xml) or screenshots may be uncommitted. Anything else must be clean.
+RESUMING=0; [ "$CUR" = "$VERSION" ] && RESUMING=1
+DIRTY=$(git status --porcelain)
+[ "$RESUMING" = 1 ] && DIRTY=$(echo "$DIRTY" | grep -vE ' (docs/appcast\.xml|docs/assets/.*)$' || true)
+[ -z "$DIRTY" ] || fail "Uncommitted changes. Commit or stash them first:
+$DIRTY"
 git fetch -q origin main --tags
-[ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] || fail "main is not in sync with origin/main (pull or push first)"
-ok "On main, clean, in sync with GitHub"
+if [ "$RESUMING" = 1 ]; then
+  git merge-base --is-ancestor origin/main HEAD || fail "main is behind origin/main (pull first)"
+  ok "On main, resuming $VERSION ($(git rev-list --count origin/main..HEAD) unpushed commit(s))"
+else
+  [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] || fail "main is not in sync with origin/main (pull or push first)"
+  ok "On main, clean, in sync with GitHub"
+fi
 if gh release view "v$VERSION" -R "$REPO" >/dev/null 2>&1; then
   fail "Release v$VERSION already exists on GitHub"
 fi
