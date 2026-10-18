@@ -42,6 +42,16 @@ APP="build/Weekmark.app"
 
 ./build.sh
 
+# iCloud sync: embed the Developer ID provisioning profile and sign with iCloud entitlements when available.
+ENT=()
+if [ -f Resources/Weekmark.provisionprofile ]; then
+  cp Resources/Weekmark.provisionprofile "$APP/Contents/embedded.provisionprofile"
+  ENT=(--entitlements Resources/Weekmark.entitlements)
+  echo "→ iCloud sync enabled (embedded provisioning profile)"
+else
+  echo "  • No Resources/Weekmark.provisionprofile; building without iCloud sync (run scripts/fetch-mac-profile.sh)"
+fi
+
 echo "→ Signing with hardened runtime…"
 SP="$APP/Contents/Frameworks/Sparkle.framework/Versions/B"
 sign() { codesign --force --options runtime --timestamp --sign "$DEV_ID" "$@"; }
@@ -50,7 +60,7 @@ sign --preserve-metadata=entitlements "$SP/XPCServices/Downloader.xpc"
 sign "$SP/Autoupdate"
 sign "$SP/Updater.app"
 sign "$APP/Contents/Frameworks/Sparkle.framework"
-sign "$APP"
+sign ${ENT[@]+"${ENT[@]}"} "$APP"
 codesign --verify --strict --verbose=2 "$APP"
 
 mkdir -p dist

@@ -72,7 +72,7 @@ final class Settings: ObservableObject {
     private let d = UserDefaults.standard
 
     // Widget
-    @Published var numbering: WeekNumbering { didSet { d.set(numbering.rawValue, forKey: "numbering") } }
+    @Published var numbering: WeekNumbering { didSet { d.set(numbering.rawValue, forKey: "numbering"); edited("numbering") } }
     @Published var size: WidgetSize { didSet { d.set(size.rawValue, forKey: "size") } }
     @Published var layer: WindowLayer { didSet { d.set(layer.rawValue, forKey: "layer") } }
     @Published var background: BackgroundStyle { didSet { d.set(background.rawValue, forKey: "background") } }
@@ -89,13 +89,13 @@ final class Settings: ObservableObject {
     @Published var onboardingDone: Bool { didSet { d.set(onboardingDone, forKey: "onboardingDone") } }
 
     // Planning
-    @Published var sprint: SprintConfig { didSet { save(sprint, "sprint") } }
-    @Published var quarter: QuarterConfig { didSet { save(quarter, "quarter") } }
-    @Published var milestones: [Milestone] { didSet { save(milestones, "milestones") } }
+    @Published var sprint: SprintConfig { didSet { save(sprint, "sprint"); edited("sprint") } }
+    @Published var quarter: QuarterConfig { didSet { save(quarter, "quarter"); edited("quarter") } }
+    @Published var milestones: [Milestone] { didSet { save(milestones, "milestones"); edited("milestones") } }
 
     // Holidays
-    @Published var regions: Set<HolidayRegion> { didSet { d.set(regions.map(\.rawValue).sorted(), forKey: "regions"); rebuildHolidays() } }
-    @Published var customHolidays: [Holiday] { didSet { save(customHolidays, "customHolidays"); rebuildHolidays() } }
+    @Published var regions: Set<HolidayRegion> { didSet { d.set(regions.map(\.rawValue).sorted(), forKey: "regions"); rebuildHolidays(); edited("regions") } }
+    @Published var customHolidays: [Holiday] { didSet { save(customHolidays, "customHolidays"); rebuildHolidays(); edited("customHolidays") } }
     private(set) var holidays: HolidayStore = .empty
 
     /// One-time copy of preferences from the pre-rename bundle id (Calendar Week → Weekmark).
@@ -135,6 +135,42 @@ final class Settings: ObservableObject {
             regions = HolidayRegion.guess().map { [$0] } ?? []
         }
         rebuildHolidays()
+        startSync()
+    }
+
+    // MARK: iCloud sync (milestones, sprints, quarters, holidays, numbering) with iPhone and Apple Watch
+
+    private var sync: SettingsSync?
+    private var applyingRemote = false
+    @Published private(set) var lastSync: Date?
+
+    private func startSync() {
+        let s = SettingsSync(local: d, remote: NSUbiquitousKeyValueStore.default)
+        s.onRemoteChange = { [weak self] _ in self?.reloadSynced() }
+        sync = s
+        s.start()
+        lastSync = Date()
+    }
+
+    func syncNow() { sync?.syncNow(); lastSync = Date() }
+
+    private func edited(_ key: String) {
+        guard !applyingRemote else { return }
+        sync?.localDidChange(key)
+    }
+
+    /// Apply values that arrived from another device without echoing them back.
+    private func reloadSynced() {
+        applyingRemote = true
+        defer { applyingRemote = false; lastSync = Date() }
+        numbering = WeekNumbering(rawValue: d.string(forKey: "numbering") ?? "") ?? numbering
+        sprint = Settings.load("sprint", sprint)
+        quarter = Settings.load("quarter", quarter)
+        milestones = Settings.load("milestones", milestones)
+        customHolidays = Settings.load("customHolidays", customHolidays)
+        if let saved = d.array(forKey: "regions") as? [String] {
+            regions = Set(saved.compactMap(HolidayRegion.init(rawValue:)))
+        }
     }
 
     private func rebuildHolidays() { holidays = HolidayStore(regions: regions, custom: customHolidays) }

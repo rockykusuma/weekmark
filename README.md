@@ -38,6 +38,19 @@ From week 40 onward, a week number of 12 or lower means next year.
 - Holidays are shown in red, milestone weeks get a flag, and a line marks where each sprint starts.
 - The menu bar shows `CW 41`. Its menu has a copy action and **Weeks in 2026/2027**, a list of every week with its dates, holidays and milestones.
 
+## iPhone & Apple Watch
+`Mobile/` holds the iOS app, its Home Screen / Lock Screen / StandBy widgets, and the watchOS app with complications.
+They share `Sources/CWCore` with the Mac app. Milestones, sprints, quarters, holidays and week numbering sync between
+Mac, iPhone and Watch through iCloud key-value storage (`SettingsSync`).
+
+```bash
+cd Mobile && xcodegen          # regenerate WeekmarkMobile.xcodeproj after adding files
+open WeekmarkMobile.xcodeproj  # pick your iPhone, press Run
+```
+Signing uses team Y87BZN47C5 (Xcode → Settings → Accounts must include an Apple ID in that team).
+For Mac ↔ iPhone sync, the Mac release build needs `Resources/Weekmark.provisionprofile`: run
+`scripts/fetch-mac-profile.sh` once.
+
 ## Build
 ```bash
 ./build.sh            # runs tests, builds build/Weekmark.app (universal, ad-hoc signed)

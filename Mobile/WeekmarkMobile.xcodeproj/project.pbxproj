@@ -1,0 +1,861 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		005B701E9BAE412164355788 /* WeekTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA66AFEFBECE3DEBBF52604C /* WeekTab.swift */; };
+		02E08A1D0F02C7833AD40B38 /* WeekmarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9C4A6565D791A91995377A /* WeekmarkApp.swift */; };
+		0A224E54365F12E79473FBA3 /* WatchWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C86EE3996228BBFEAF6E3B1 /* WatchWidgets.swift */; };
+		0A933E6656BDDF04BBE586A9 /* Holidays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */; };
+		18F001395B1656CAA623A142 /* QueryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408579A783BC8BCF0643066D /* QueryEngine.swift */; };
+		21769C3832592B2C34C7439B /* QueryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408579A783BC8BCF0643066D /* QueryEngine.swift */; };
+		22814E1A36BD2B812FA5ABE5 /* Holidays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */; };
+		253F6572D4064938FB77E795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
+		286E6DFA6AB0011A4DA1B70B /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386A6CAEBED564FC7E15E6B /* SettingsTab.swift */; };
+		315434473CE9DA23A11B3F66 /* SettingsSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FDF9FF35682F39E1B83FA /* SettingsSync.swift */; };
+		32F27818DE753A5B2C620824 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD370C6D5516651EB60FA717 /* Store.swift */; };
+		43E75B0DC1A4869270760F01 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418F29628FDE40E379041F66 /* Views.swift */; };
+		47CD4DC181A28205C0EDF738 /* WeekMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2F338AACB9FFFA7C7A6F3 /* WeekMath.swift */; };
+		4979240FE9528031B2B98FD5 /* Holidays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */; };
+		4C7A6E7BAA56FFC81945FE6C /* WeekMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2F338AACB9FFFA7C7A6F3 /* WeekMath.swift */; };
+		501A041A0158FAD7B47F4FB7 /* WeekSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900BA1A9195C5A0E438AB6B3 /* WeekSnapshot.swift */; };
+		50B77135D45B534F0862E497 /* WeekSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900BA1A9195C5A0E438AB6B3 /* WeekSnapshot.swift */; };
+		510B516ACCFA6C3D6D582461 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D2752522AD6E43A582499 /* WidgetSupport.swift */; };
+		56DD374D249DECBBCD908B2C /* WeekMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2F338AACB9FFFA7C7A6F3 /* WeekMath.swift */; };
+		62826D1FA115BECE71009EB7 /* WeekmarkWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A66F9C98B2EA05AC71F8CE82 /* WeekmarkWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6315444B42B84ABC2539B1C1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD370C6D5516651EB60FA717 /* Store.swift */; };
+		6804AB3584DB263B1912D7B6 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D2752522AD6E43A582499 /* WidgetSupport.swift */; };
+		69D8FC2D6FB939DE1F3E3CEC /* SettingsSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FDF9FF35682F39E1B83FA /* SettingsSync.swift */; };
+		6CE3679C608398444581CA49 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD370C6D5516651EB60FA717 /* Store.swift */; };
+		7463076D8D0582C055FF060F /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD370C6D5516651EB60FA717 /* Store.swift */; };
+		75F6DE2247D56912F1667312 /* QueryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408579A783BC8BCF0643066D /* QueryEngine.swift */; };
+		7CBED92384DD1097B3882607 /* Planning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C3945993F385E414D52393 /* Planning.swift */; };
+		85658C877B10F96CBE6B0171 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418F29628FDE40E379041F66 /* Views.swift */; };
+		863CF1696336DD9F3EC52E0D /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418F29628FDE40E379041F66 /* Views.swift */; };
+		8874BF55E513A66BE56EB348 /* WatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3511D441A28D95B2B27400 /* WatchApp.swift */; };
+		8BF9FF616C18F70FAE12C395 /* WeekmarkWatchWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 354FA41A4A4536DD230C8069 /* WeekmarkWatchWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8F97614FAA2BCE48BDACAE2B /* DebugSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D3DED37457C1871B5EF528 /* DebugSupport.swift */; };
+		9775CBFC532AFC536E303DE6 /* WeekmarkWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 9DEF857EB55907B414DF31CA /* WeekmarkWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		982BC1590EEA38C4F9EF4017 /* Planning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C3945993F385E414D52393 /* Planning.swift */; };
+		99A98F3940B6FB2193828B47 /* Holidays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */; };
+		9C0608347F593CCFFF9C30E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
+		A300527FF4E00603D8C95898 /* QueryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408579A783BC8BCF0643066D /* QueryEngine.swift */; };
+		B320ECC3086E6F6FCDD3E22C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
+		BC12C3204CA5B44C6542F466 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D2752522AD6E43A582499 /* WidgetSupport.swift */; };
+		C95E4F1AD8F8C5B62FD67A4D /* FindTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A37FC868B4787AC3FA3CF8D /* FindTab.swift */; };
+		CE046A16D409291B7072712D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
+		D63E38606D9093FC2258E441 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418F29628FDE40E379041F66 /* Views.swift */; };
+		DF1C6B0D24BCF620ED9555DB /* Planning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C3945993F385E414D52393 /* Planning.swift */; };
+		DFAD8675F3B2285F656C8E8D /* WeekSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900BA1A9195C5A0E438AB6B3 /* WeekSnapshot.swift */; };
+		E05D32B16B6F6B5E32390467 /* Planning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C3945993F385E414D52393 /* Planning.swift */; };
+		E1D40C7B98A62DE5F816133C /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D2752522AD6E43A582499 /* WidgetSupport.swift */; };
+		F0F5CA4760F43925186A7B1F /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A38A119307A9DABA64552F /* Widgets.swift */; };
+		F0FDFCB569926290A000B305 /* SettingsSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FDF9FF35682F39E1B83FA /* SettingsSync.swift */; };
+		FCF4699EFCB35C8779DC25B8 /* WeekSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900BA1A9195C5A0E438AB6B3 /* WeekSnapshot.swift */; };
+		FE0402B85C78FEFA7E46AD59 /* WeekMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2F338AACB9FFFA7C7A6F3 /* WeekMath.swift */; };
+		FE43399D097D872C0DCB16DA /* SettingsSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FDF9FF35682F39E1B83FA /* SettingsSync.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7B416F5AE0F134D2674C4D9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 983A4E8046E4FFF1D44FD6CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4D1DC58F212BA8CE6095142;
+			remoteInfo = WeekmarkWidgets;
+		};
+		9E13F278CC176E968E280557 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 983A4E8046E4FFF1D44FD6CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A872E9A5E08A85EFE30B6E3;
+			remoteInfo = WeekmarkWatch;
+		};
+		D2A4F7F1249EDBC31BA21F66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 983A4E8046E4FFF1D44FD6CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E25F9AB55B4B369F1590498;
+			remoteInfo = WeekmarkWatchWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		13AE8C0976D876DE43CF45E8 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8BF9FF616C18F70FAE12C395 /* WeekmarkWatchWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F2F34E75F9BAA34A5B33C17 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				9775CBFC532AFC536E303DE6 /* WeekmarkWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8337D6B806D169832C2A5EB6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				62826D1FA115BECE71009EB7 /* WeekmarkWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		09C3945993F385E414D52393 /* Planning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planning.swift; sourceTree = "<group>"; };
+		175E3322223949C72C0C651E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A5B45E4B1677F9121EDB2BE /* WatchApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchApp.entitlements; sourceTree = "<group>"; };
+		23F5B6DBBEC970AF583B8C72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		25A38A119307A9DABA64552F /* Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
+		2A3511D441A28D95B2B27400 /* WatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchApp.swift; sourceTree = "<group>"; };
+		354FA41A4A4536DD230C8069 /* WeekmarkWatchWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeekmarkWatchWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		39EC48626EF29115B68B729D /* Weekmark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Weekmark.entitlements; sourceTree = "<group>"; };
+		408579A783BC8BCF0643066D /* QueryEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryEngine.swift; sourceTree = "<group>"; };
+		418F29628FDE40E379041F66 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+		47D3DED37457C1871B5EF528 /* DebugSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSupport.swift; sourceTree = "<group>"; };
+		5E3D2752522AD6E43A582499 /* WidgetSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSupport.swift; sourceTree = "<group>"; };
+		66C6E49BBD1BF3B7AA0B2815 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6C942354AA785AED5392424D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holidays.swift; sourceTree = "<group>"; };
+		8A37FC868B4787AC3FA3CF8D /* FindTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindTab.swift; sourceTree = "<group>"; };
+		900BA1A9195C5A0E438AB6B3 /* WeekSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSnapshot.swift; sourceTree = "<group>"; };
+		9C86EE3996228BBFEAF6E3B1 /* WatchWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchWidgets.swift; sourceTree = "<group>"; };
+		9DEF857EB55907B414DF31CA /* WeekmarkWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeekmarkWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F1FDF9FF35682F39E1B83FA /* SettingsSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSync.swift; sourceTree = "<group>"; };
+		A058054489901370FBDA7D4D /* Widgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widgets.entitlements; sourceTree = "<group>"; };
+		A66F9C98B2EA05AC71F8CE82 /* WeekmarkWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = WeekmarkWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA11CD193B8F898359FD4542 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AC9C4A6565D791A91995377A /* WeekmarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekmarkApp.swift; sourceTree = "<group>"; };
+		AD370C6D5516651EB60FA717 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		C7A2F338AACB9FFFA7C7A6F3 /* WeekMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekMath.swift; sourceTree = "<group>"; };
+		D2C0911E34D09C2496DB3838 /* Weekmark.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Weekmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA66AFEFBECE3DEBBF52604C /* WeekTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTab.swift; sourceTree = "<group>"; };
+		F386A6CAEBED564FC7E15E6B /* SettingsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTab.swift; sourceTree = "<group>"; };
+		FB151FA867EA14E31CE11064 /* WatchWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidgets.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		02674EF1ACA28C886AAC6930 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				47D3DED37457C1871B5EF528 /* DebugSupport.swift */,
+				8A37FC868B4787AC3FA3CF8D /* FindTab.swift */,
+				AA11CD193B8F898359FD4542 /* Info.plist */,
+				F386A6CAEBED564FC7E15E6B /* SettingsTab.swift */,
+				39EC48626EF29115B68B729D /* Weekmark.entitlements */,
+				AC9C4A6565D791A91995377A /* WeekmarkApp.swift */,
+				DA66AFEFBECE3DEBBF52604C /* WeekTab.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0AFD4C9FA346C34A5A0D4B98 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				6C942354AA785AED5392424D /* Info.plist */,
+				A058054489901370FBDA7D4D /* Widgets.entitlements */,
+				25A38A119307A9DABA64552F /* Widgets.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		0EAC8E31D4F9D0581EC3DF1F /* calendar-week-widget */ = {
+			isa = PBXGroup;
+			children = (
+				4E35666AA931DBF076CE4139 /* Sources */,
+			);
+			name = "calendar-week-widget";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		2B09D85E60068442668B968E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				175E3322223949C72C0C651E /* Assets.xcassets */,
+				AD370C6D5516651EB60FA717 /* Store.swift */,
+				418F29628FDE40E379041F66 /* Views.swift */,
+				5E3D2752522AD6E43A582499 /* WidgetSupport.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		48165E5EDDC1C357484E53DB /* CWCore */ = {
+			isa = PBXGroup;
+			children = (
+				77526EA64AA55F7AEC17CF66 /* CWCore */,
+			);
+			name = CWCore;
+			sourceTree = "<group>";
+		};
+		4E35666AA931DBF076CE4139 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				77526EA64AA55F7AEC17CF66 /* CWCore */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		668BB65D9EE069E3447DA630 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				02674EF1ACA28C886AAC6930 /* App */,
+				0AFD4C9FA346C34A5A0D4B98 /* Widgets */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		686C493F6B934D49631BD16D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				23F5B6DBBEC970AF583B8C72 /* Info.plist */,
+				1A5B45E4B1677F9121EDB2BE /* WatchApp.entitlements */,
+				2A3511D441A28D95B2B27400 /* WatchApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		77526EA64AA55F7AEC17CF66 /* CWCore */ = {
+			isa = PBXGroup;
+			children = (
+				6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */,
+				09C3945993F385E414D52393 /* Planning.swift */,
+				408579A783BC8BCF0643066D /* QueryEngine.swift */,
+				9F1FDF9FF35682F39E1B83FA /* SettingsSync.swift */,
+				C7A2F338AACB9FFFA7C7A6F3 /* WeekMath.swift */,
+				900BA1A9195C5A0E438AB6B3 /* WeekSnapshot.swift */,
+			);
+			name = CWCore;
+			path = ../Sources/CWCore;
+			sourceTree = "<group>";
+		};
+		B381262626FF12836C871989 /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				686C493F6B934D49631BD16D /* App */,
+				BBA20CA9727925DD5D4638C0 /* Widgets */,
+			);
+			path = watchOS;
+			sourceTree = "<group>";
+		};
+		BBA20CA9727925DD5D4638C0 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				66C6E49BBD1BF3B7AA0B2815 /* Info.plist */,
+				FB151FA867EA14E31CE11064 /* WatchWidgets.entitlements */,
+				9C86EE3996228BBFEAF6E3B1 /* WatchWidgets.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		EC2AE76914BF6B6826EE2323 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2C0911E34D09C2496DB3838 /* Weekmark.app */,
+				9DEF857EB55907B414DF31CA /* WeekmarkWatch.app */,
+				354FA41A4A4536DD230C8069 /* WeekmarkWatchWidgets.appex */,
+				A66F9C98B2EA05AC71F8CE82 /* WeekmarkWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FC04CDD448B73C0ED3BAB5D4 = {
+			isa = PBXGroup;
+			children = (
+				0EAC8E31D4F9D0581EC3DF1F /* calendar-week-widget */,
+				48165E5EDDC1C357484E53DB /* CWCore */,
+				668BB65D9EE069E3447DA630 /* iOS */,
+				2B09D85E60068442668B968E /* Shared */,
+				B381262626FF12836C871989 /* watchOS */,
+				EC2AE76914BF6B6826EE2323 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		397F024141927D04A913056F /* Weekmark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16CA30EA6123A85AAC0C5FD8 /* Build configuration list for PBXNativeTarget "Weekmark" */;
+			buildPhases = (
+				A624B885E3F7733C7EE4FAA6 /* Sources */,
+				D8FAD7DF4BDBDD0EE1F1680C /* Resources */,
+				8337D6B806D169832C2A5EB6 /* Embed Foundation Extensions */,
+				5F2F34E75F9BAA34A5B33C17 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7ED7AC0E6DE1512F68BA0822 /* PBXTargetDependency */,
+				277C40ADA7DEEC803F8B524F /* PBXTargetDependency */,
+			);
+			name = Weekmark;
+			packageProductDependencies = (
+			);
+			productName = Weekmark;
+			productReference = D2C0911E34D09C2496DB3838 /* Weekmark.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5E25F9AB55B4B369F1590498 /* WeekmarkWatchWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B71285779A226E57C6B1ADC2 /* Build configuration list for PBXNativeTarget "WeekmarkWatchWidgets" */;
+			buildPhases = (
+				F26144DC654695464970D34F /* Sources */,
+				685E68E71FC26E3F8072CA14 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeekmarkWatchWidgets;
+			packageProductDependencies = (
+			);
+			productName = WeekmarkWatchWidgets;
+			productReference = 354FA41A4A4536DD230C8069 /* WeekmarkWatchWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		8A872E9A5E08A85EFE30B6E3 /* WeekmarkWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F05E98B54CCC222EFCFE160E /* Build configuration list for PBXNativeTarget "WeekmarkWatch" */;
+			buildPhases = (
+				AB34001412C3D5C9CA398D74 /* Sources */,
+				D767803E699EE0DD7F15B6A2 /* Resources */,
+				13AE8C0976D876DE43CF45E8 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E6A379ECAE3CE9D49729454F /* PBXTargetDependency */,
+			);
+			name = WeekmarkWatch;
+			packageProductDependencies = (
+			);
+			productName = WeekmarkWatch;
+			productReference = 9DEF857EB55907B414DF31CA /* WeekmarkWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F4D1DC58F212BA8CE6095142 /* WeekmarkWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 770F9AF1F5C359CC43B99005 /* Build configuration list for PBXNativeTarget "WeekmarkWidgets" */;
+			buildPhases = (
+				45952342585E8D2A989252CC /* Sources */,
+				854832D45B1CAC7319F04F67 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeekmarkWidgets;
+			packageProductDependencies = (
+			);
+			productName = WeekmarkWidgets;
+			productReference = A66F9C98B2EA05AC71F8CE82 /* WeekmarkWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		983A4E8046E4FFF1D44FD6CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					397F024141927D04A913056F = {
+						DevelopmentTeam = Y87BZN47C5;
+						ProvisioningStyle = Automatic;
+					};
+					5E25F9AB55B4B369F1590498 = {
+						DevelopmentTeam = Y87BZN47C5;
+						ProvisioningStyle = Automatic;
+					};
+					8A872E9A5E08A85EFE30B6E3 = {
+						DevelopmentTeam = Y87BZN47C5;
+						ProvisioningStyle = Automatic;
+					};
+					F4D1DC58F212BA8CE6095142 = {
+						DevelopmentTeam = Y87BZN47C5;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = FE321448CD652FDC01D77B64 /* Build configuration list for PBXProject "WeekmarkMobile" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = FC04CDD448B73C0ED3BAB5D4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = EC2AE76914BF6B6826EE2323 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				397F024141927D04A913056F /* Weekmark */,
+				F4D1DC58F212BA8CE6095142 /* WeekmarkWidgets */,
+				8A872E9A5E08A85EFE30B6E3 /* WeekmarkWatch */,
+				5E25F9AB55B4B369F1590498 /* WeekmarkWatchWidgets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		685E68E71FC26E3F8072CA14 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B320ECC3086E6F6FCDD3E22C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		854832D45B1CAC7319F04F67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C0608347F593CCFFF9C30E8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D767803E699EE0DD7F15B6A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				253F6572D4064938FB77E795 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8FAD7DF4BDBDD0EE1F1680C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE046A16D409291B7072712D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		45952342585E8D2A989252CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A933E6656BDDF04BBE586A9 /* Holidays.swift in Sources */,
+				DF1C6B0D24BCF620ED9555DB /* Planning.swift in Sources */,
+				75F6DE2247D56912F1667312 /* QueryEngine.swift in Sources */,
+				69D8FC2D6FB939DE1F3E3CEC /* SettingsSync.swift in Sources */,
+				6CE3679C608398444581CA49 /* Store.swift in Sources */,
+				D63E38606D9093FC2258E441 /* Views.swift in Sources */,
+				4C7A6E7BAA56FFC81945FE6C /* WeekMath.swift in Sources */,
+				50B77135D45B534F0862E497 /* WeekSnapshot.swift in Sources */,
+				510B516ACCFA6C3D6D582461 /* WidgetSupport.swift in Sources */,
+				F0F5CA4760F43925186A7B1F /* Widgets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A624B885E3F7733C7EE4FAA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F97614FAA2BCE48BDACAE2B /* DebugSupport.swift in Sources */,
+				C95E4F1AD8F8C5B62FD67A4D /* FindTab.swift in Sources */,
+				22814E1A36BD2B812FA5ABE5 /* Holidays.swift in Sources */,
+				982BC1590EEA38C4F9EF4017 /* Planning.swift in Sources */,
+				18F001395B1656CAA623A142 /* QueryEngine.swift in Sources */,
+				FE43399D097D872C0DCB16DA /* SettingsSync.swift in Sources */,
+				286E6DFA6AB0011A4DA1B70B /* SettingsTab.swift in Sources */,
+				6315444B42B84ABC2539B1C1 /* Store.swift in Sources */,
+				43E75B0DC1A4869270760F01 /* Views.swift in Sources */,
+				56DD374D249DECBBCD908B2C /* WeekMath.swift in Sources */,
+				501A041A0158FAD7B47F4FB7 /* WeekSnapshot.swift in Sources */,
+				005B701E9BAE412164355788 /* WeekTab.swift in Sources */,
+				02E08A1D0F02C7833AD40B38 /* WeekmarkApp.swift in Sources */,
+				BC12C3204CA5B44C6542F466 /* WidgetSupport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB34001412C3D5C9CA398D74 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4979240FE9528031B2B98FD5 /* Holidays.swift in Sources */,
+				E05D32B16B6F6B5E32390467 /* Planning.swift in Sources */,
+				21769C3832592B2C34C7439B /* QueryEngine.swift in Sources */,
+				F0FDFCB569926290A000B305 /* SettingsSync.swift in Sources */,
+				32F27818DE753A5B2C620824 /* Store.swift in Sources */,
+				85658C877B10F96CBE6B0171 /* Views.swift in Sources */,
+				8874BF55E513A66BE56EB348 /* WatchApp.swift in Sources */,
+				47CD4DC181A28205C0EDF738 /* WeekMath.swift in Sources */,
+				FCF4699EFCB35C8779DC25B8 /* WeekSnapshot.swift in Sources */,
+				E1D40C7B98A62DE5F816133C /* WidgetSupport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F26144DC654695464970D34F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99A98F3940B6FB2193828B47 /* Holidays.swift in Sources */,
+				7CBED92384DD1097B3882607 /* Planning.swift in Sources */,
+				A300527FF4E00603D8C95898 /* QueryEngine.swift in Sources */,
+				315434473CE9DA23A11B3F66 /* SettingsSync.swift in Sources */,
+				7463076D8D0582C055FF060F /* Store.swift in Sources */,
+				863CF1696336DD9F3EC52E0D /* Views.swift in Sources */,
+				0A224E54365F12E79473FBA3 /* WatchWidgets.swift in Sources */,
+				FE0402B85C78FEFA7E46AD59 /* WeekMath.swift in Sources */,
+				DFAD8675F3B2285F656C8E8D /* WeekSnapshot.swift in Sources */,
+				6804AB3584DB263B1912D7B6 /* WidgetSupport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		277C40ADA7DEEC803F8B524F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A872E9A5E08A85EFE30B6E3 /* WeekmarkWatch */;
+			targetProxy = 9E13F278CC176E968E280557 /* PBXContainerItemProxy */;
+		};
+		7ED7AC0E6DE1512F68BA0822 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4D1DC58F212BA8CE6095142 /* WeekmarkWidgets */;
+			targetProxy = 7B416F5AE0F134D2674C4D9D /* PBXContainerItemProxy */;
+		};
+		E6A379ECAE3CE9D49729454F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E25F9AB55B4B369F1590498 /* WeekmarkWatchWidgets */;
+			targetProxy = D2A4F7F1249EDBC31BA21F66 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4A3A0D5DC921C9290639AFDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Y87BZN47C5;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		4BA5C08921DCB049A55DF45B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Y87BZN47C5;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		51DCF30A4BEB196EF0632A63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = watchOS/App/WatchApp.entitlements;
+				INFOPLIST_FILE = watchOS/App/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		659373DF90506EB362E6FA12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iOS/App/Weekmark.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = iOS/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		71406C098462DF511BD4B23A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = watchOS/Widgets/WatchWidgets.entitlements;
+				INFOPLIST_FILE = watchOS/Widgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile.watchkitapp.widgets;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		73D01E5DDB5233E50C1EC853 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iOS/Widgets/Widgets.entitlements;
+				INFOPLIST_FILE = iOS/Widgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile.widgets;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		81B304BDB218F4F28CF6E575 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = watchOS/Widgets/WatchWidgets.entitlements;
+				INFOPLIST_FILE = watchOS/Widgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile.watchkitapp.widgets;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		854F5B0453B34A9574E6EEE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iOS/App/Weekmark.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = iOS/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AEC8D4506F8CCA4D17693956 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = watchOS/App/WatchApp.entitlements;
+				INFOPLIST_FILE = watchOS/App/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		C5001820A7A4BB53C35CDF4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iOS/Widgets/Widgets.entitlements;
+				INFOPLIST_FILE = iOS/Widgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockykusuma.weekmark.mobile.widgets;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		16CA30EA6123A85AAC0C5FD8 /* Build configuration list for PBXNativeTarget "Weekmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				659373DF90506EB362E6FA12 /* Debug */,
+				854F5B0453B34A9574E6EEE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		770F9AF1F5C359CC43B99005 /* Build configuration list for PBXNativeTarget "WeekmarkWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73D01E5DDB5233E50C1EC853 /* Debug */,
+				C5001820A7A4BB53C35CDF4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B71285779A226E57C6B1ADC2 /* Build configuration list for PBXNativeTarget "WeekmarkWatchWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71406C098462DF511BD4B23A /* Debug */,
+				81B304BDB218F4F28CF6E575 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F05E98B54CCC222EFCFE160E /* Build configuration list for PBXNativeTarget "WeekmarkWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AEC8D4506F8CCA4D17693956 /* Debug */,
+				51DCF30A4BEB196EF0632A63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FE321448CD652FDC01D77B64 /* Build configuration list for PBXProject "WeekmarkMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BA5C08921DCB049A55DF45B /* Debug */,
+				4A3A0D5DC921C9290639AFDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 983A4E8046E4FFF1D44FD6CD /* Project object */;
+}

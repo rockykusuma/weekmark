@@ -60,6 +60,17 @@ struct GeneralPane: View {
                 if let loginError { Text(loginError).font(.caption).foregroundStyle(.red) }
                 Toggle("Show week number in menu bar", isOn: $settings.showInMenuBar)
             }
+            Section("iCloud Sync") {
+                Text("Milestones, sprints, quarters, holidays and week numbering sync with Weekmark on iPhone and Apple Watch through your iCloud account.")
+                    .font(.caption).foregroundStyle(.secondary)
+                HStack {
+                    Button("Sync Now") { settings.syncNow() }
+                    Spacer()
+                    if let t = settings.lastSync {
+                        Text("Last synced \(t.formatted(.relative(presentation: .named)))").font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+            }
             Section("Updates") {
                 Toggle("Check for updates automatically", isOn: $updater.automaticChecks)
                 HStack {
