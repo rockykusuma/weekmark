@@ -2,8 +2,8 @@
 # Install: brew install --cask rockykusuma/weekmark/weekmark
 
 cask "weekmark" do
-  version "1.0"
-  sha256 "663973aefea8786fee90c30be84cf8a38b383574f91f906f1aae6d5090ee8ad9"
+  version "1.1"
+  sha256 "e7a35cb31d15f58a529177952d2a3b4814ac430131827939519607008c73a2b3"
 
   url "https://github.com/rockykusuma/weekmark/releases/download/v#{version}/Weekmark-#{version}.dmg"
   name "Weekmark"
