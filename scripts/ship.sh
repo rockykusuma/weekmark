@@ -179,6 +179,7 @@ ok "brew install --cask rockykusuma/weekmark/weekmark now installs $VERSION"
 # ── Website screenshots (best effort) ────────────────────────────────────────
 step "Refreshing website screenshots"
 ./scripts/screenshots.sh build/Weekmark.app || echo "  • Screenshots not refreshed; the old ones stay"
+./scripts/og-image.sh || echo "  • Link-preview image not refreshed; the old one stays"
 
 # ── Update feed (last, so the download exists before apps are told about it) ──
 step "Publishing update feed"
