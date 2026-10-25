@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code signing policy – Weekmark</title>
-<meta name="description" content="How Weekmark's Windows binaries are built and signed: only by GitHub Actions, from tagged commits of the public repository.">
+<meta name="description" content="How Weekmark's Windows binaries will be built and signed: only by GitHub Actions, from tagged commits of the public repository.">
 <link rel="canonical" href="https://rockykusuma.github.io/weekmark/code-signing.html">
+<link rel="icon" href="assets/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -22,16 +23,17 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="./">Weekmark</a>
+    <a class="brand" href="./"><img src="assets/icon.png" alt="">Weekmark</a>
     <nav><a href="https://github.com/rockykusuma/weekmark">Source</a><a href="https://github.com/rockykusuma/weekmark/releases">Releases</a></nav>
   </header>
   <main class="policy">
     <p class="eyebrow">Weekmark for Windows</p>
     <h1>Code signing policy</h1>
-    <p style="margin-top:14px">Weekmark is free, open-source software (MIT licence). This page describes how its Windows programs are built and signed, so you can tell a genuine copy from a tampered one.</p>
+    <p style="margin-top:14px">Weekmark is free, open-source software (MIT licence). This page describes how its Windows programs are built and how they will be signed, so you can tell a genuine copy from a tampered one.</p>
+    <p style="margin-top:10px"><strong>Current Windows builds are unsigned.</strong> Weekmark has applied to the SignPath Foundation for free open-source code signing; signing starts once that application is approved.</p>
 
-    <h2>What is signed</h2>
-    <p>The Windows programs and libraries of Weekmark (<code>Weekmark.exe</code>, its <code>.dll</code> files and the installer) published on the <a href="https://github.com/rockykusuma/weekmark/releases">Releases page</a>. Windows releases are tagged <code>windows-v*</code>.</p>
+    <h2>What will be signed</h2>
+    <p>Once the application is approved: the Windows programs and libraries of Weekmark (<code>Weekmark.exe</code> and its <code>.dll</code> files) and the Velopack installer and updater (<code>Setup.exe</code> and <code>Update.exe</code>) published on the <a href="https://github.com/rockykusuma/weekmark/releases">Releases page</a>. Windows releases are tagged <code>windows-v*</code>.</p>
 
     <h2>How they are built</h2>
     <ul>
@@ -52,7 +54,7 @@
     <p>Weekmark collects and transmits no personal data. It has no accounts, no analytics and no telemetry.</p>
 
     <h2>Unsigned builds</h2>
-    <p>Until code signing is approved, Windows builds are unsigned and Windows SmartScreen may show "Windows protected your PC". You can always <a href="https://github.com/rockykusuma/weekmark/blob/main/Windows/README.md">build Weekmark from source</a>.</p>
+    <p>Until code signing is approved, all Windows builds are unsigned and Windows SmartScreen may show "Windows protected your PC": click More info, then Run anyway. You can always <a href="https://github.com/rockykusuma/weekmark/blob/main/Windows/README.md">build Weekmark from source</a>.</p>
 
     <h2>Report a problem</h2>
     <p>If you believe a signed Weekmark file is not genuine, please <a href="https://github.com/rockykusuma/weekmark/issues">open an issue</a>.</p>

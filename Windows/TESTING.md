@@ -9,6 +9,8 @@ Open a GitHub issue at https://github.com/rockykusuma/weekmark/issues (title it 
 - your Windows version (Settings, System, About) and whether the PC is **x64 or ARM64** ("System type")
 - the numbers of the checklist items that failed or looked odd, and what you saw instead
 - a screenshot if it is visual (blur, wrong position, wrong colours)
+- if Weekmark crashed or closed by itself: the file `%LOCALAPPDATA%\Weekmark\crash.log` (paste that path into
+  Explorer's address bar). It holds only the error details and versions, none of your settings.
 
 Don't paste anything private (for example the contents of your company `.ics`).
 
@@ -26,11 +28,12 @@ Don't paste anything private (for example the contents of your company `.ics`).
 7. **Float above windows.** Switch it on in the tray menu or Settings. Does it stay above other windows? Switch it off again.
 8. **Tray number.** Pin the Weekmark icon to the visible tray area. Does it show the current week number?
 9. **Tray menu.** Try each item: copy, show/hide, position, size, settings, quit.
-10. **Copy text.** Use the tray menu's copy item and paste somewhere. Expect `CW43 (19–25 Oct)` for the current week.
+10. **Copy text.** Use the tray menu's copy item and paste somewhere. Expect the current week, e.g. `CW43 (19–25 Oct)`.
 11. **Holidays.** In Settings, choose your country. Are its public holidays marked in red on the right days?
 12. **Milestone.** Add a milestone for a date this month. Does the week show a flag, and does it appear in the list?
 13. **Company calendar.** Import your company `.ics` file. Do its entries show up? Any errors?
 14. **Overnight.** Leave the PC asleep overnight. Does the widget show the new day, and the new week after a Sunday night?
 15. **Restart Windows.** Does Weekmark start by itself after you sign in? (Settings lets you turn this off.)
+16. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.

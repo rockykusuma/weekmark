@@ -17,18 +17,21 @@ The calendar week number on your Windows desktop, same content and look as the M
 You only need the free .NET SDK (no Visual Studio, no admin rights beyond installing the SDK).
 
 1. Install the SDK, either way:
-   - `winget install Microsoft.DotNet.SDK.10`
-   - Without admin rights: install it per user with Microsoft's script
+   - `winget install Microsoft.DotNet.SDK.10`, then open a new terminal so it finds `dotnet`.
+   - Without admin rights: install it per user with Microsoft's script. In PowerShell:
      ```powershell
-     Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-     .\dotnet-install.ps1 -Channel 10.0 -InstallDir $env:LOCALAPPDATA\dotnet
+     Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile "$env:TEMP\dotnet-install.ps1"
+     powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\dotnet-install.ps1" -Channel 10.0 -InstallDir "$env:LOCALAPPDATA\dotnet"
      $env:PATH = "$env:LOCALAPPDATA\dotnet;$env:PATH"   # this PowerShell window only
      ```
+     (`-ExecutionPolicy Bypass` applies to that one script only; Windows blocks downloaded scripts by default.)
 2. Get the code: `git clone https://github.com/rockykusuma/weekmark` then `cd weekmark`.
    No git? Download the zip from https://github.com/rockykusuma/weekmark (Code, Download ZIP), unzip it, and open a
    terminal in that folder.
 3. Run it: `dotnet run --project Windows/src/Weekmark.App`
    To try it with sample data without touching your settings: `dotnet run --project Windows/src/Weekmark.App -- --demo-data`
+   Runs from source (`dotnet run`, a Debug build) don't register Weekmark to start with Windows; a `dotnet publish -c
+   Release` build (step 4) does, like the installed app.
 4. Make a local self-contained build:
    ```powershell
    dotnet publish Windows/src/Weekmark.App -c Release -r win-x64 --self-contained -o out
