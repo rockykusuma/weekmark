@@ -30,7 +30,11 @@ static class Program
     [STAThread]
     public static int Main(string[] args)
     {
-        VelopackApp.Build().Run(); // installer hooks; a no-op when not installed by Velopack
+        // Installer hooks; a no-op when not installed by Velopack. Uninstall (Windows only) drops the start-with-Windows value.
+        var velopack = VelopackApp.Build();
+        if (OperatingSystem.IsWindows())
+            velopack.OnBeforeUninstallFastCallback(_ => { try { Platform.Startup.Apply(false, ""); } catch { /* never block uninstall */ } });
+        velopack.Run();
         Options = Options.Parse(args);
 
         // Demo runs touch no settings, so they may run beside the real app (screenshots, development).
