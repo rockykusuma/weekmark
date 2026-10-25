@@ -364,6 +364,26 @@ public sealed class SettingsViewModelTests : IDisposable
         Assert.True(state.Settings.OnboardingDone);
         Assert.Equal(numbering, state.Settings.Numbering);
         Assert.Equal(holidays is { } h ? [h] : [], state.Settings.Regions);
+        Assert.True(state.Settings.StartWithWindows);
+    }
+
+    [AvaloniaFact]
+    public void WelcomeShownAgainKeepsTheSettings()
+    {
+        var s = new AppSettings { OnboardingDone = true, Regions = [HolidayRegion.Gb, HolidayRegion.Dk], Numbering = WeekNumbering.Us, StartWithWindows = false };
+        var state = new AppState(s, null, () => Now);
+        var vm = new WelcomeViewModel(state, "DE");
+        Assert.Equal((WeekNumbering.Us, HolidayRegion.Gb, false), (vm.Numbering, vm.Region, vm.StartWithWindows));
+        vm.Finish();
+        Assert.Equal([HolidayRegion.Gb, HolidayRegion.Dk], s.Regions);
+        Assert.Equal((WeekNumbering.Us, false), (s.Numbering, s.StartWithWindows));
+
+        vm.RegionIndex = (int)HolidayRegion.Dk + 1; // one the user already has
+        vm.Finish();
+        Assert.Equal([HolidayRegion.Gb, HolidayRegion.Dk], s.Regions);
+        vm.RegionIndex = (int)HolidayRegion.De + 1;
+        vm.Finish();
+        Assert.Equal([HolidayRegion.Gb, HolidayRegion.Dk, HolidayRegion.De], s.Regions);
     }
 
     [AvaloniaFact]

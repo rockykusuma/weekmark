@@ -8,11 +8,12 @@ using Weekmark.Core;
 
 namespace Weekmark.App.Onboarding;
 
-/// <summary>First run: numbering and holidays guessed from the Windows region, applied on Done.</summary>
+/// <summary>First run: numbering and holidays guessed from the Windows region, applied on Done. Shown again, it starts from the current settings.</summary>
 public sealed partial class WelcomeViewModel : ObservableObject
 {
     readonly AppState state;
     readonly string? startupExe;
+    readonly int seededRegion;
 
     public static string[] Numberings => SettingsViewModel.Numberings;
     public static string[] Regions { get; } =
@@ -23,8 +24,14 @@ public sealed partial class WelcomeViewModel : ObservableObject
     {
         this.state = state;
         this.startupExe = startupExe;
+        var s = state.Settings;
         numberingIndex = region.Equals("US", StringComparison.OrdinalIgnoreCase) ? (int)WeekNumbering.Us : (int)WeekNumbering.Iso;
-        regionIndex = HolidayRegionExtensions.Guess(region) is { } r ? (int)r + 1 : 0;
+        seededRegion = regionIndex = HolidayRegionExtensions.Guess(region) is { } r ? (int)r + 1 : 0;
+        if (!s.OnboardingDone) return;
+        // Show Welcome Screen Again: start from the current settings, so Done changes only what the user changes.
+        numberingIndex = (int)s.Numbering;
+        if (s.Regions.Count > 0) seededRegion = regionIndex = (int)s.Regions[0] + 1;
+        startWithWindows = s.StartWithWindows;
     }
 
     public static string CurrentRegion()
@@ -49,7 +56,12 @@ public sealed partial class WelcomeViewModel : ObservableObject
     {
         var s = state.Settings;
         s.Numbering = Numbering;
-        s.Regions = Region is { } r ? [r] : [];
+        if (!s.OnboardingDone) s.Regions = Region is { } r ? [r] : [];
+        else if (RegionIndex != seededRegion) // a second visit adds the picked country; None turns holidays off
+        {
+            if (Region is not { } picked) s.Regions = [];
+            else if (!s.Regions.Contains(picked)) s.Regions.Add(picked);
+        }
         s.StartWithWindows = StartWithWindows;
         s.OnboardingDone = true;
         state.Save();
