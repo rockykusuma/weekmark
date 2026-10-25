@@ -50,6 +50,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
     private var hosting: WidgetHostingView<WidgetView>!
     private var settingsWindow: NSWindow?
     private var onboardingWindow: NSWindow?
+    private var yearWindow: NSWindow?
+    private lazy var yearModel = YearModel(year: currentYear)
     private var statusItem: NSStatusItem!
     private let menu = NSMenu()
     private var cancellables = Set<AnyCancellable>()
@@ -92,11 +94,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
             self?.showOnboarding()
         }
 
-        // Command line: open -a "Weekmark" --args --find 46   |   --settings <tab>   |   --onboarding
+        // Command line: open -a "Weekmark" --args --find 46   |   --settings <tab>   |   --year   |   --onboarding
         let args = CommandLine.arguments
         if let i = args.firstIndex(of: "--find"), i + 1 < args.count {
             let q = args[i + 1]
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in self?.finder.show(query: q) }
+        }
+        if args.contains("--year") {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in self?.showYear() }
         }
         if let i = args.firstIndex(of: "--settings") {
             let tab = i + 1 < args.count ? SettingsTab(rawValue: args[i + 1]) : nil
@@ -328,6 +333,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
         settingsWindow?.makeKeyAndOrderFront(nil)
     }
 
+    private var currentYear: Int { makeCalendar(settings.numbering).component(.year, from: clock.now) }
+
+    func showYear() {
+        if yearWindow == nil {
+            let view = YearView(settings: settings, clock: clock, model: yearModel, context: { [unowned self] in self.makeContext() })
+            let host = NSHostingController(rootView: view)
+            host.sizingOptions = [.minSize]
+            let w = NSWindow(contentViewController: host)
+            w.title = "Year at a Glance"
+            w.styleMask = [.titled, .closable, .miniaturizable, .resizable]
+            w.isReleasedWhenClosed = false
+            w.setContentSize(NSSize(width: 1060, height: 820))
+            w.center()
+            w.setFrameAutosaveName("YearWindow")
+            yearWindow = w
+        }
+        if yearWindow?.isVisible != true {
+            yearModel.year = currentYear
+            yearModel.pinned = nil
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        yearWindow?.makeKeyAndOrderFront(nil)
+    }
+
     func showOnboarding() {
         if onboardingWindow == nil {
             let view = OnboardingView(settings: settings) { [weak self] in
@@ -426,6 +455,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
 
         let hk = settings.hotkey == .off ? "" : "   \(settings.hotkey.title)"
         menu.addItem(MenuAction("Quick Finder…\(hk)") { [weak self] in self?.finder.show() })
+        menu.addItem(MenuAction("Year at a Glance…", key: "y") { [weak self] in self?.showYear() })
         for year in [snap.weekYear, snap.weekYear + 1] {
             let item = NSMenuItem(title: "Weeks in \(year)", action: nil, keyEquivalent: "")
             item.submenu = weeksMenu(year: year, ctx: ctx)
