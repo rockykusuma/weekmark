@@ -1,0 +1,2 @@
+# RFC 5545 needs CRLF line endings; keep them byte for byte.
+docs/weeks.ics -text

@@ -1,0 +1,20 @@
+name: Week pages
+# Adds the next year to docs/weeks/, docs/weeks.ics and docs/sitemap.xml every January (scripts/week-pages.py).
+on:
+  schedule: [{ cron: "0 6 1 1 *" }]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/week-pages.py
+      - name: Commit if changed
+        run: |
+          git add -A docs
+          git diff --cached --quiet && exit 0
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Week pages: regenerate for $(date +%Y)"
+          git push

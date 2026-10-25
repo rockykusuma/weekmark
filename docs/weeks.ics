@@ -1,0 +1,2881 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Weekmark//Week numbers//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Week numbers
+X-WR-CALDESC:ISO 8601 calendar week numbers, by Weekmark
+REFRESH-INTERVAL;VALUE=DURATION:P1W
+X-PUBLISHED-TTL:P1W
+BEGIN:VEVENT
+UID:cw-2025-01@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20241230
+DTEND;VALUE=DATE:20241231
+SUMMARY:CW 1
+DESCRIPTION:Calendar week 1\, 2025: 30 Dec – 5 Jan\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2025/cw1/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw1/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-02@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250106
+DTEND;VALUE=DATE:20250107
+SUMMARY:CW 2
+DESCRIPTION:Calendar week 2\, 2025: 6–12 Jan\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2025/cw2/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw2/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-03@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250113
+DTEND;VALUE=DATE:20250114
+SUMMARY:CW 3
+DESCRIPTION:Calendar week 3\, 2025: 13–19 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw3/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw3/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-04@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250120
+DTEND;VALUE=DATE:20250121
+SUMMARY:CW 4
+DESCRIPTION:Calendar week 4\, 2025: 20–26 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw4/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw4/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-05@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250127
+DTEND;VALUE=DATE:20250128
+SUMMARY:CW 5
+DESCRIPTION:Calendar week 5\, 2025: 27 Jan – 2 Feb\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2025/cw5/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw5/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-06@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250203
+DTEND;VALUE=DATE:20250204
+SUMMARY:CW 6
+DESCRIPTION:Calendar week 6\, 2025: 3–9 Feb\nhttps://rockykusuma.github.i
+ o/weekmark/weeks/2025/cw6/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw6/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-07@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250210
+DTEND;VALUE=DATE:20250211
+SUMMARY:CW 7
+DESCRIPTION:Calendar week 7\, 2025: 10–16 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw7/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw7/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-08@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250217
+DTEND;VALUE=DATE:20250218
+SUMMARY:CW 8
+DESCRIPTION:Calendar week 8\, 2025: 17–23 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw8/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw8/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-09@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250224
+DTEND;VALUE=DATE:20250225
+SUMMARY:CW 9
+DESCRIPTION:Calendar week 9\, 2025: 24 Feb – 2 Mar\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2025/cw9/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw9/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-10@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250303
+DTEND;VALUE=DATE:20250304
+SUMMARY:CW 10
+DESCRIPTION:Calendar week 10\, 2025: 3–9 Mar\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2025/cw10/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw10/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-11@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250310
+DTEND;VALUE=DATE:20250311
+SUMMARY:CW 11
+DESCRIPTION:Calendar week 11\, 2025: 10–16 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw11/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw11/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-12@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250317
+DTEND;VALUE=DATE:20250318
+SUMMARY:CW 12
+DESCRIPTION:Calendar week 12\, 2025: 17–23 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw12/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw12/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-13@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250324
+DTEND;VALUE=DATE:20250325
+SUMMARY:CW 13
+DESCRIPTION:Calendar week 13\, 2025: 24–30 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw13/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw13/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-14@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250331
+DTEND;VALUE=DATE:20250401
+SUMMARY:CW 14
+DESCRIPTION:Calendar week 14\, 2025: 31 Mar – 6 Apr\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2025/cw14/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw14/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-15@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250407
+DTEND;VALUE=DATE:20250408
+SUMMARY:CW 15
+DESCRIPTION:Calendar week 15\, 2025: 7–13 Apr\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw15/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw15/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-16@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250414
+DTEND;VALUE=DATE:20250415
+SUMMARY:CW 16
+DESCRIPTION:Calendar week 16\, 2025: 14–20 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw16/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw16/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-17@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250421
+DTEND;VALUE=DATE:20250422
+SUMMARY:CW 17
+DESCRIPTION:Calendar week 17\, 2025: 21–27 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw17/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw17/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-18@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250428
+DTEND;VALUE=DATE:20250429
+SUMMARY:CW 18
+DESCRIPTION:Calendar week 18\, 2025: 28 Apr – 4 May\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2025/cw18/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw18/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-19@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250505
+DTEND;VALUE=DATE:20250506
+SUMMARY:CW 19
+DESCRIPTION:Calendar week 19\, 2025: 5–11 May\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw19/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw19/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-20@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250512
+DTEND;VALUE=DATE:20250513
+SUMMARY:CW 20
+DESCRIPTION:Calendar week 20\, 2025: 12–18 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw20/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw20/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-21@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250519
+DTEND;VALUE=DATE:20250520
+SUMMARY:CW 21
+DESCRIPTION:Calendar week 21\, 2025: 19–25 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw21/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw21/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-22@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250526
+DTEND;VALUE=DATE:20250527
+SUMMARY:CW 22
+DESCRIPTION:Calendar week 22\, 2025: 26 May – 1 Jun\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2025/cw22/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw22/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-23@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250602
+DTEND;VALUE=DATE:20250603
+SUMMARY:CW 23
+DESCRIPTION:Calendar week 23\, 2025: 2–8 Jun\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2025/cw23/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw23/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-24@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250609
+DTEND;VALUE=DATE:20250610
+SUMMARY:CW 24
+DESCRIPTION:Calendar week 24\, 2025: 9–15 Jun\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw24/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw24/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-25@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250616
+DTEND;VALUE=DATE:20250617
+SUMMARY:CW 25
+DESCRIPTION:Calendar week 25\, 2025: 16–22 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw25/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw25/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-26@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250623
+DTEND;VALUE=DATE:20250624
+SUMMARY:CW 26
+DESCRIPTION:Calendar week 26\, 2025: 23–29 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw26/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw26/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-27@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250630
+DTEND;VALUE=DATE:20250701
+SUMMARY:CW 27
+DESCRIPTION:Calendar week 27\, 2025: 30 Jun – 6 Jul\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2025/cw27/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw27/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-28@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250707
+DTEND;VALUE=DATE:20250708
+SUMMARY:CW 28
+DESCRIPTION:Calendar week 28\, 2025: 7–13 Jul\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw28/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw28/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-29@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250714
+DTEND;VALUE=DATE:20250715
+SUMMARY:CW 29
+DESCRIPTION:Calendar week 29\, 2025: 14–20 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw29/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw29/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-30@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250721
+DTEND;VALUE=DATE:20250722
+SUMMARY:CW 30
+DESCRIPTION:Calendar week 30\, 2025: 21–27 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw30/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw30/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-31@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250728
+DTEND;VALUE=DATE:20250729
+SUMMARY:CW 31
+DESCRIPTION:Calendar week 31\, 2025: 28 Jul – 3 Aug\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2025/cw31/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw31/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-32@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250804
+DTEND;VALUE=DATE:20250805
+SUMMARY:CW 32
+DESCRIPTION:Calendar week 32\, 2025: 4–10 Aug\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw32/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw32/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-33@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250811
+DTEND;VALUE=DATE:20250812
+SUMMARY:CW 33
+DESCRIPTION:Calendar week 33\, 2025: 11–17 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw33/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw33/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-34@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250818
+DTEND;VALUE=DATE:20250819
+SUMMARY:CW 34
+DESCRIPTION:Calendar week 34\, 2025: 18–24 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw34/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw34/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-35@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250825
+DTEND;VALUE=DATE:20250826
+SUMMARY:CW 35
+DESCRIPTION:Calendar week 35\, 2025: 25–31 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw35/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw35/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-36@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250901
+DTEND;VALUE=DATE:20250902
+SUMMARY:CW 36
+DESCRIPTION:Calendar week 36\, 2025: 1–7 Sep\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2025/cw36/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw36/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-37@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250908
+DTEND;VALUE=DATE:20250909
+SUMMARY:CW 37
+DESCRIPTION:Calendar week 37\, 2025: 8–14 Sep\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw37/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw37/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-38@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250915
+DTEND;VALUE=DATE:20250916
+SUMMARY:CW 38
+DESCRIPTION:Calendar week 38\, 2025: 15–21 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw38/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw38/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-39@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250922
+DTEND;VALUE=DATE:20250923
+SUMMARY:CW 39
+DESCRIPTION:Calendar week 39\, 2025: 22–28 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw39/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw39/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-40@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20250929
+DTEND;VALUE=DATE:20250930
+SUMMARY:CW 40
+DESCRIPTION:Calendar week 40\, 2025: 29 Sep – 5 Oct\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2025/cw40/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw40/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-41@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251006
+DTEND;VALUE=DATE:20251007
+SUMMARY:CW 41
+DESCRIPTION:Calendar week 41\, 2025: 6–12 Oct\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw41/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw41/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-42@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251013
+DTEND;VALUE=DATE:20251014
+SUMMARY:CW 42
+DESCRIPTION:Calendar week 42\, 2025: 13–19 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw42/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw42/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-43@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251020
+DTEND;VALUE=DATE:20251021
+SUMMARY:CW 43
+DESCRIPTION:Calendar week 43\, 2025: 20–26 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw43/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw43/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-44@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251027
+DTEND;VALUE=DATE:20251028
+SUMMARY:CW 44
+DESCRIPTION:Calendar week 44\, 2025: 27 Oct – 2 Nov\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2025/cw44/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw44/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-45@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251103
+DTEND;VALUE=DATE:20251104
+SUMMARY:CW 45
+DESCRIPTION:Calendar week 45\, 2025: 3–9 Nov\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2025/cw45/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw45/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-46@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251110
+DTEND;VALUE=DATE:20251111
+SUMMARY:CW 46
+DESCRIPTION:Calendar week 46\, 2025: 10–16 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw46/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw46/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-47@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251117
+DTEND;VALUE=DATE:20251118
+SUMMARY:CW 47
+DESCRIPTION:Calendar week 47\, 2025: 17–23 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw47/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw47/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-48@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251124
+DTEND;VALUE=DATE:20251125
+SUMMARY:CW 48
+DESCRIPTION:Calendar week 48\, 2025: 24–30 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw48/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw48/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-49@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251201
+DTEND;VALUE=DATE:20251202
+SUMMARY:CW 49
+DESCRIPTION:Calendar week 49\, 2025: 1–7 Dec\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2025/cw49/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw49/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-50@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251208
+DTEND;VALUE=DATE:20251209
+SUMMARY:CW 50
+DESCRIPTION:Calendar week 50\, 2025: 8–14 Dec\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2025/cw50/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw50/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-51@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251215
+DTEND;VALUE=DATE:20251216
+SUMMARY:CW 51
+DESCRIPTION:Calendar week 51\, 2025: 15–21 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw51/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw51/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2025-52@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251222
+DTEND;VALUE=DATE:20251223
+SUMMARY:CW 52
+DESCRIPTION:Calendar week 52\, 2025: 22–28 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2025/cw52/
+URL:https://rockykusuma.github.io/weekmark/weeks/2025/cw52/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-01@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20251229
+DTEND;VALUE=DATE:20251230
+SUMMARY:CW 1
+DESCRIPTION:Calendar week 1\, 2026: 29 Dec – 4 Jan\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2026/cw1/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw1/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-02@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260105
+DTEND;VALUE=DATE:20260106
+SUMMARY:CW 2
+DESCRIPTION:Calendar week 2\, 2026: 5–11 Jan\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2026/cw2/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw2/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-03@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260112
+DTEND;VALUE=DATE:20260113
+SUMMARY:CW 3
+DESCRIPTION:Calendar week 3\, 2026: 12–18 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw3/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw3/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-04@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260119
+DTEND;VALUE=DATE:20260120
+SUMMARY:CW 4
+DESCRIPTION:Calendar week 4\, 2026: 19–25 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw4/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw4/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-05@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260126
+DTEND;VALUE=DATE:20260127
+SUMMARY:CW 5
+DESCRIPTION:Calendar week 5\, 2026: 26 Jan – 1 Feb\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2026/cw5/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw5/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-06@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260202
+DTEND;VALUE=DATE:20260203
+SUMMARY:CW 6
+DESCRIPTION:Calendar week 6\, 2026: 2–8 Feb\nhttps://rockykusuma.github.i
+ o/weekmark/weeks/2026/cw6/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw6/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-07@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260209
+DTEND;VALUE=DATE:20260210
+SUMMARY:CW 7
+DESCRIPTION:Calendar week 7\, 2026: 9–15 Feb\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2026/cw7/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw7/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-08@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260216
+DTEND;VALUE=DATE:20260217
+SUMMARY:CW 8
+DESCRIPTION:Calendar week 8\, 2026: 16–22 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw8/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw8/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-09@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260223
+DTEND;VALUE=DATE:20260224
+SUMMARY:CW 9
+DESCRIPTION:Calendar week 9\, 2026: 23 Feb – 1 Mar\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2026/cw9/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw9/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-10@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260302
+DTEND;VALUE=DATE:20260303
+SUMMARY:CW 10
+DESCRIPTION:Calendar week 10\, 2026: 2–8 Mar\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2026/cw10/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw10/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-11@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260309
+DTEND;VALUE=DATE:20260310
+SUMMARY:CW 11
+DESCRIPTION:Calendar week 11\, 2026: 9–15 Mar\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw11/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw11/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-12@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260316
+DTEND;VALUE=DATE:20260317
+SUMMARY:CW 12
+DESCRIPTION:Calendar week 12\, 2026: 16–22 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw12/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw12/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-13@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260323
+DTEND;VALUE=DATE:20260324
+SUMMARY:CW 13
+DESCRIPTION:Calendar week 13\, 2026: 23–29 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw13/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw13/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-14@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260330
+DTEND;VALUE=DATE:20260331
+SUMMARY:CW 14
+DESCRIPTION:Calendar week 14\, 2026: 30 Mar – 5 Apr\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw14/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw14/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-15@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260406
+DTEND;VALUE=DATE:20260407
+SUMMARY:CW 15
+DESCRIPTION:Calendar week 15\, 2026: 6–12 Apr\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw15/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw15/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-16@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260413
+DTEND;VALUE=DATE:20260414
+SUMMARY:CW 16
+DESCRIPTION:Calendar week 16\, 2026: 13–19 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw16/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw16/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-17@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260420
+DTEND;VALUE=DATE:20260421
+SUMMARY:CW 17
+DESCRIPTION:Calendar week 17\, 2026: 20–26 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw17/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw17/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-18@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260427
+DTEND;VALUE=DATE:20260428
+SUMMARY:CW 18
+DESCRIPTION:Calendar week 18\, 2026: 27 Apr – 3 May\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw18/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw18/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-19@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260504
+DTEND;VALUE=DATE:20260505
+SUMMARY:CW 19
+DESCRIPTION:Calendar week 19\, 2026: 4–10 May\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw19/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw19/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-20@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260511
+DTEND;VALUE=DATE:20260512
+SUMMARY:CW 20
+DESCRIPTION:Calendar week 20\, 2026: 11–17 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw20/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw20/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-21@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260518
+DTEND;VALUE=DATE:20260519
+SUMMARY:CW 21
+DESCRIPTION:Calendar week 21\, 2026: 18–24 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw21/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw21/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-22@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260525
+DTEND;VALUE=DATE:20260526
+SUMMARY:CW 22
+DESCRIPTION:Calendar week 22\, 2026: 25–31 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw22/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw22/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-23@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260601
+DTEND;VALUE=DATE:20260602
+SUMMARY:CW 23
+DESCRIPTION:Calendar week 23\, 2026: 1–7 Jun\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2026/cw23/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw23/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-24@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260608
+DTEND;VALUE=DATE:20260609
+SUMMARY:CW 24
+DESCRIPTION:Calendar week 24\, 2026: 8–14 Jun\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw24/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw24/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-25@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260615
+DTEND;VALUE=DATE:20260616
+SUMMARY:CW 25
+DESCRIPTION:Calendar week 25\, 2026: 15–21 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw25/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw25/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-26@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260622
+DTEND;VALUE=DATE:20260623
+SUMMARY:CW 26
+DESCRIPTION:Calendar week 26\, 2026: 22–28 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw26/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw26/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-27@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260630
+SUMMARY:CW 27
+DESCRIPTION:Calendar week 27\, 2026: 29 Jun – 5 Jul\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw27/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw27/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-28@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260706
+DTEND;VALUE=DATE:20260707
+SUMMARY:CW 28
+DESCRIPTION:Calendar week 28\, 2026: 6–12 Jul\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw28/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw28/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-29@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260713
+DTEND;VALUE=DATE:20260714
+SUMMARY:CW 29
+DESCRIPTION:Calendar week 29\, 2026: 13–19 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw29/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw29/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-30@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260720
+DTEND;VALUE=DATE:20260721
+SUMMARY:CW 30
+DESCRIPTION:Calendar week 30\, 2026: 20–26 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw30/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw30/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-31@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260727
+DTEND;VALUE=DATE:20260728
+SUMMARY:CW 31
+DESCRIPTION:Calendar week 31\, 2026: 27 Jul – 2 Aug\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw31/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw31/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-32@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260803
+DTEND;VALUE=DATE:20260804
+SUMMARY:CW 32
+DESCRIPTION:Calendar week 32\, 2026: 3–9 Aug\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2026/cw32/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw32/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-33@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260810
+DTEND;VALUE=DATE:20260811
+SUMMARY:CW 33
+DESCRIPTION:Calendar week 33\, 2026: 10–16 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw33/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw33/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-34@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260817
+DTEND;VALUE=DATE:20260818
+SUMMARY:CW 34
+DESCRIPTION:Calendar week 34\, 2026: 17–23 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw34/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw34/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-35@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260824
+DTEND;VALUE=DATE:20260825
+SUMMARY:CW 35
+DESCRIPTION:Calendar week 35\, 2026: 24–30 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw35/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw35/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-36@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260831
+DTEND;VALUE=DATE:20260901
+SUMMARY:CW 36
+DESCRIPTION:Calendar week 36\, 2026: 31 Aug – 6 Sep\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw36/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw36/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-37@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260907
+DTEND;VALUE=DATE:20260908
+SUMMARY:CW 37
+DESCRIPTION:Calendar week 37\, 2026: 7–13 Sep\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw37/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw37/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-38@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260914
+DTEND;VALUE=DATE:20260915
+SUMMARY:CW 38
+DESCRIPTION:Calendar week 38\, 2026: 14–20 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw38/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw38/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-39@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260921
+DTEND;VALUE=DATE:20260922
+SUMMARY:CW 39
+DESCRIPTION:Calendar week 39\, 2026: 21–27 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw39/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw39/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-40@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20260928
+DTEND;VALUE=DATE:20260929
+SUMMARY:CW 40
+DESCRIPTION:Calendar week 40\, 2026: 28 Sep – 4 Oct\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw40/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw40/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-41@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:CW 41
+DESCRIPTION:Calendar week 41\, 2026: 5–11 Oct\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw41/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw41/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-42@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:CW 42
+DESCRIPTION:Calendar week 42\, 2026: 12–18 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw42/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw42/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-43@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261019
+DTEND;VALUE=DATE:20261020
+SUMMARY:CW 43
+DESCRIPTION:Calendar week 43\, 2026: 19–25 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw43/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw43/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-44@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:CW 44
+DESCRIPTION:Calendar week 44\, 2026: 26 Oct – 1 Nov\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw44/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw44/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-45@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:CW 45
+DESCRIPTION:Calendar week 45\, 2026: 2–8 Nov\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2026/cw45/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw45/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-46@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:CW 46
+DESCRIPTION:Calendar week 46\, 2026: 9–15 Nov\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw46/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw46/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-47@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:CW 47
+DESCRIPTION:Calendar week 47\, 2026: 16–22 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw47/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw47/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-48@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:CW 48
+DESCRIPTION:Calendar week 48\, 2026: 23–29 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw48/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw48/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-49@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:CW 49
+DESCRIPTION:Calendar week 49\, 2026: 30 Nov – 6 Dec\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw49/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw49/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-50@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261207
+DTEND;VALUE=DATE:20261208
+SUMMARY:CW 50
+DESCRIPTION:Calendar week 50\, 2026: 7–13 Dec\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2026/cw50/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw50/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-51@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261214
+DTEND;VALUE=DATE:20261215
+SUMMARY:CW 51
+DESCRIPTION:Calendar week 51\, 2026: 14–20 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw51/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw51/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-52@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261221
+DTEND;VALUE=DATE:20261222
+SUMMARY:CW 52
+DESCRIPTION:Calendar week 52\, 2026: 21–27 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2026/cw52/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw52/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2026-53@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20261228
+DTEND;VALUE=DATE:20261229
+SUMMARY:CW 53
+DESCRIPTION:Calendar week 53\, 2026: 28 Dec – 3 Jan\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2026/cw53/
+URL:https://rockykusuma.github.io/weekmark/weeks/2026/cw53/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-01@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270104
+DTEND;VALUE=DATE:20270105
+SUMMARY:CW 1
+DESCRIPTION:Calendar week 1\, 2027: 4–10 Jan\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2027/cw1/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw1/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-02@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270111
+DTEND;VALUE=DATE:20270112
+SUMMARY:CW 2
+DESCRIPTION:Calendar week 2\, 2027: 11–17 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw2/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw2/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-03@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270118
+DTEND;VALUE=DATE:20270119
+SUMMARY:CW 3
+DESCRIPTION:Calendar week 3\, 2027: 18–24 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw3/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw3/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-04@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270125
+DTEND;VALUE=DATE:20270126
+SUMMARY:CW 4
+DESCRIPTION:Calendar week 4\, 2027: 25–31 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw4/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw4/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-05@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270201
+DTEND;VALUE=DATE:20270202
+SUMMARY:CW 5
+DESCRIPTION:Calendar week 5\, 2027: 1–7 Feb\nhttps://rockykusuma.github.i
+ o/weekmark/weeks/2027/cw5/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw5/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-06@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270208
+DTEND;VALUE=DATE:20270209
+SUMMARY:CW 6
+DESCRIPTION:Calendar week 6\, 2027: 8–14 Feb\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2027/cw6/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw6/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-07@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270215
+DTEND;VALUE=DATE:20270216
+SUMMARY:CW 7
+DESCRIPTION:Calendar week 7\, 2027: 15–21 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw7/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw7/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-08@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270222
+DTEND;VALUE=DATE:20270223
+SUMMARY:CW 8
+DESCRIPTION:Calendar week 8\, 2027: 22–28 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw8/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw8/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-09@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270301
+DTEND;VALUE=DATE:20270302
+SUMMARY:CW 9
+DESCRIPTION:Calendar week 9\, 2027: 1–7 Mar\nhttps://rockykusuma.github.i
+ o/weekmark/weeks/2027/cw9/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw9/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-10@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270308
+DTEND;VALUE=DATE:20270309
+SUMMARY:CW 10
+DESCRIPTION:Calendar week 10\, 2027: 8–14 Mar\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw10/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw10/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-11@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270315
+DTEND;VALUE=DATE:20270316
+SUMMARY:CW 11
+DESCRIPTION:Calendar week 11\, 2027: 15–21 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw11/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw11/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-12@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270322
+DTEND;VALUE=DATE:20270323
+SUMMARY:CW 12
+DESCRIPTION:Calendar week 12\, 2027: 22–28 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw12/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw12/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-13@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270329
+DTEND;VALUE=DATE:20270330
+SUMMARY:CW 13
+DESCRIPTION:Calendar week 13\, 2027: 29 Mar – 4 Apr\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw13/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw13/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-14@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270405
+DTEND;VALUE=DATE:20270406
+SUMMARY:CW 14
+DESCRIPTION:Calendar week 14\, 2027: 5–11 Apr\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw14/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw14/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-15@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270412
+DTEND;VALUE=DATE:20270413
+SUMMARY:CW 15
+DESCRIPTION:Calendar week 15\, 2027: 12–18 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw15/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw15/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-16@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270419
+DTEND;VALUE=DATE:20270420
+SUMMARY:CW 16
+DESCRIPTION:Calendar week 16\, 2027: 19–25 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw16/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw16/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-17@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270426
+DTEND;VALUE=DATE:20270427
+SUMMARY:CW 17
+DESCRIPTION:Calendar week 17\, 2027: 26 Apr – 2 May\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw17/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw17/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-18@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270503
+DTEND;VALUE=DATE:20270504
+SUMMARY:CW 18
+DESCRIPTION:Calendar week 18\, 2027: 3–9 May\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2027/cw18/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw18/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-19@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270510
+DTEND;VALUE=DATE:20270511
+SUMMARY:CW 19
+DESCRIPTION:Calendar week 19\, 2027: 10–16 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw19/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw19/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-20@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270517
+DTEND;VALUE=DATE:20270518
+SUMMARY:CW 20
+DESCRIPTION:Calendar week 20\, 2027: 17–23 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw20/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw20/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-21@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270524
+DTEND;VALUE=DATE:20270525
+SUMMARY:CW 21
+DESCRIPTION:Calendar week 21\, 2027: 24–30 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw21/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw21/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-22@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270531
+DTEND;VALUE=DATE:20270601
+SUMMARY:CW 22
+DESCRIPTION:Calendar week 22\, 2027: 31 May – 6 Jun\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw22/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw22/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-23@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270607
+DTEND;VALUE=DATE:20270608
+SUMMARY:CW 23
+DESCRIPTION:Calendar week 23\, 2027: 7–13 Jun\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw23/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw23/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-24@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270614
+DTEND;VALUE=DATE:20270615
+SUMMARY:CW 24
+DESCRIPTION:Calendar week 24\, 2027: 14–20 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw24/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw24/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-25@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270621
+DTEND;VALUE=DATE:20270622
+SUMMARY:CW 25
+DESCRIPTION:Calendar week 25\, 2027: 21–27 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw25/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw25/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-26@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270628
+DTEND;VALUE=DATE:20270629
+SUMMARY:CW 26
+DESCRIPTION:Calendar week 26\, 2027: 28 Jun – 4 Jul\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw26/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw26/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-27@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270705
+DTEND;VALUE=DATE:20270706
+SUMMARY:CW 27
+DESCRIPTION:Calendar week 27\, 2027: 5–11 Jul\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw27/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw27/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-28@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270712
+DTEND;VALUE=DATE:20270713
+SUMMARY:CW 28
+DESCRIPTION:Calendar week 28\, 2027: 12–18 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw28/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw28/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-29@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270719
+DTEND;VALUE=DATE:20270720
+SUMMARY:CW 29
+DESCRIPTION:Calendar week 29\, 2027: 19–25 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw29/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw29/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-30@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270726
+DTEND;VALUE=DATE:20270727
+SUMMARY:CW 30
+DESCRIPTION:Calendar week 30\, 2027: 26 Jul – 1 Aug\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw30/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw30/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-31@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270802
+DTEND;VALUE=DATE:20270803
+SUMMARY:CW 31
+DESCRIPTION:Calendar week 31\, 2027: 2–8 Aug\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2027/cw31/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw31/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-32@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270809
+DTEND;VALUE=DATE:20270810
+SUMMARY:CW 32
+DESCRIPTION:Calendar week 32\, 2027: 9–15 Aug\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw32/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw32/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-33@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270816
+DTEND;VALUE=DATE:20270817
+SUMMARY:CW 33
+DESCRIPTION:Calendar week 33\, 2027: 16–22 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw33/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw33/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-34@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270823
+DTEND;VALUE=DATE:20270824
+SUMMARY:CW 34
+DESCRIPTION:Calendar week 34\, 2027: 23–29 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw34/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw34/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-35@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270830
+DTEND;VALUE=DATE:20270831
+SUMMARY:CW 35
+DESCRIPTION:Calendar week 35\, 2027: 30 Aug – 5 Sep\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw35/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw35/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-36@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270906
+DTEND;VALUE=DATE:20270907
+SUMMARY:CW 36
+DESCRIPTION:Calendar week 36\, 2027: 6–12 Sep\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw36/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw36/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-37@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270913
+DTEND;VALUE=DATE:20270914
+SUMMARY:CW 37
+DESCRIPTION:Calendar week 37\, 2027: 13–19 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw37/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw37/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-38@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270920
+DTEND;VALUE=DATE:20270921
+SUMMARY:CW 38
+DESCRIPTION:Calendar week 38\, 2027: 20–26 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw38/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw38/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-39@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20270927
+DTEND;VALUE=DATE:20270928
+SUMMARY:CW 39
+DESCRIPTION:Calendar week 39\, 2027: 27 Sep – 3 Oct\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw39/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw39/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-40@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271004
+DTEND;VALUE=DATE:20271005
+SUMMARY:CW 40
+DESCRIPTION:Calendar week 40\, 2027: 4–10 Oct\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw40/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw40/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-41@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271011
+DTEND;VALUE=DATE:20271012
+SUMMARY:CW 41
+DESCRIPTION:Calendar week 41\, 2027: 11–17 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw41/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw41/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-42@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271018
+DTEND;VALUE=DATE:20271019
+SUMMARY:CW 42
+DESCRIPTION:Calendar week 42\, 2027: 18–24 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw42/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw42/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-43@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271025
+DTEND;VALUE=DATE:20271026
+SUMMARY:CW 43
+DESCRIPTION:Calendar week 43\, 2027: 25–31 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw43/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw43/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-44@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271101
+DTEND;VALUE=DATE:20271102
+SUMMARY:CW 44
+DESCRIPTION:Calendar week 44\, 2027: 1–7 Nov\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2027/cw44/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw44/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-45@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271108
+DTEND;VALUE=DATE:20271109
+SUMMARY:CW 45
+DESCRIPTION:Calendar week 45\, 2027: 8–14 Nov\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw45/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw45/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-46@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271115
+DTEND;VALUE=DATE:20271116
+SUMMARY:CW 46
+DESCRIPTION:Calendar week 46\, 2027: 15–21 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw46/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw46/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-47@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271122
+DTEND;VALUE=DATE:20271123
+SUMMARY:CW 47
+DESCRIPTION:Calendar week 47\, 2027: 22–28 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw47/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw47/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-48@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271129
+DTEND;VALUE=DATE:20271130
+SUMMARY:CW 48
+DESCRIPTION:Calendar week 48\, 2027: 29 Nov – 5 Dec\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw48/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw48/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-49@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271206
+DTEND;VALUE=DATE:20271207
+SUMMARY:CW 49
+DESCRIPTION:Calendar week 49\, 2027: 6–12 Dec\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2027/cw49/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw49/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-50@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271213
+DTEND;VALUE=DATE:20271214
+SUMMARY:CW 50
+DESCRIPTION:Calendar week 50\, 2027: 13–19 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw50/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw50/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-51@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271220
+DTEND;VALUE=DATE:20271221
+SUMMARY:CW 51
+DESCRIPTION:Calendar week 51\, 2027: 20–26 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2027/cw51/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw51/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2027-52@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20271227
+DTEND;VALUE=DATE:20271228
+SUMMARY:CW 52
+DESCRIPTION:Calendar week 52\, 2027: 27 Dec – 2 Jan\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2027/cw52/
+URL:https://rockykusuma.github.io/weekmark/weeks/2027/cw52/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-01@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280103
+DTEND;VALUE=DATE:20280104
+SUMMARY:CW 1
+DESCRIPTION:Calendar week 1\, 2028: 3–9 Jan\nhttps://rockykusuma.github.i
+ o/weekmark/weeks/2028/cw1/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw1/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-02@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280110
+DTEND;VALUE=DATE:20280111
+SUMMARY:CW 2
+DESCRIPTION:Calendar week 2\, 2028: 10–16 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw2/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw2/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-03@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280117
+DTEND;VALUE=DATE:20280118
+SUMMARY:CW 3
+DESCRIPTION:Calendar week 3\, 2028: 17–23 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw3/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw3/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-04@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280124
+DTEND;VALUE=DATE:20280125
+SUMMARY:CW 4
+DESCRIPTION:Calendar week 4\, 2028: 24–30 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw4/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw4/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-05@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280131
+DTEND;VALUE=DATE:20280201
+SUMMARY:CW 5
+DESCRIPTION:Calendar week 5\, 2028: 31 Jan – 6 Feb\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2028/cw5/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw5/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-06@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280207
+DTEND;VALUE=DATE:20280208
+SUMMARY:CW 6
+DESCRIPTION:Calendar week 6\, 2028: 7–13 Feb\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2028/cw6/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw6/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-07@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280214
+DTEND;VALUE=DATE:20280215
+SUMMARY:CW 7
+DESCRIPTION:Calendar week 7\, 2028: 14–20 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw7/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw7/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-08@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280221
+DTEND;VALUE=DATE:20280222
+SUMMARY:CW 8
+DESCRIPTION:Calendar week 8\, 2028: 21–27 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw8/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw8/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-09@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280228
+DTEND;VALUE=DATE:20280229
+SUMMARY:CW 9
+DESCRIPTION:Calendar week 9\, 2028: 28 Feb – 5 Mar\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2028/cw9/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw9/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-10@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280306
+DTEND;VALUE=DATE:20280307
+SUMMARY:CW 10
+DESCRIPTION:Calendar week 10\, 2028: 6–12 Mar\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw10/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw10/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-11@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280313
+DTEND;VALUE=DATE:20280314
+SUMMARY:CW 11
+DESCRIPTION:Calendar week 11\, 2028: 13–19 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw11/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw11/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-12@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280320
+DTEND;VALUE=DATE:20280321
+SUMMARY:CW 12
+DESCRIPTION:Calendar week 12\, 2028: 20–26 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw12/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw12/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-13@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280327
+DTEND;VALUE=DATE:20280328
+SUMMARY:CW 13
+DESCRIPTION:Calendar week 13\, 2028: 27 Mar – 2 Apr\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw13/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw13/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-14@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280403
+DTEND;VALUE=DATE:20280404
+SUMMARY:CW 14
+DESCRIPTION:Calendar week 14\, 2028: 3–9 Apr\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2028/cw14/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw14/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-15@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280410
+DTEND;VALUE=DATE:20280411
+SUMMARY:CW 15
+DESCRIPTION:Calendar week 15\, 2028: 10–16 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw15/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw15/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-16@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280417
+DTEND;VALUE=DATE:20280418
+SUMMARY:CW 16
+DESCRIPTION:Calendar week 16\, 2028: 17–23 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw16/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw16/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-17@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280424
+DTEND;VALUE=DATE:20280425
+SUMMARY:CW 17
+DESCRIPTION:Calendar week 17\, 2028: 24–30 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw17/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw17/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-18@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280501
+DTEND;VALUE=DATE:20280502
+SUMMARY:CW 18
+DESCRIPTION:Calendar week 18\, 2028: 1–7 May\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2028/cw18/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw18/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-19@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280508
+DTEND;VALUE=DATE:20280509
+SUMMARY:CW 19
+DESCRIPTION:Calendar week 19\, 2028: 8–14 May\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw19/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw19/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-20@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280515
+DTEND;VALUE=DATE:20280516
+SUMMARY:CW 20
+DESCRIPTION:Calendar week 20\, 2028: 15–21 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw20/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw20/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-21@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280522
+DTEND;VALUE=DATE:20280523
+SUMMARY:CW 21
+DESCRIPTION:Calendar week 21\, 2028: 22–28 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw21/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw21/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-22@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280529
+DTEND;VALUE=DATE:20280530
+SUMMARY:CW 22
+DESCRIPTION:Calendar week 22\, 2028: 29 May – 4 Jun\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw22/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw22/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-23@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280605
+DTEND;VALUE=DATE:20280606
+SUMMARY:CW 23
+DESCRIPTION:Calendar week 23\, 2028: 5–11 Jun\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw23/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw23/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-24@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280612
+DTEND;VALUE=DATE:20280613
+SUMMARY:CW 24
+DESCRIPTION:Calendar week 24\, 2028: 12–18 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw24/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw24/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-25@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280619
+DTEND;VALUE=DATE:20280620
+SUMMARY:CW 25
+DESCRIPTION:Calendar week 25\, 2028: 19–25 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw25/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw25/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-26@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280626
+DTEND;VALUE=DATE:20280627
+SUMMARY:CW 26
+DESCRIPTION:Calendar week 26\, 2028: 26 Jun – 2 Jul\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw26/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw26/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-27@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280703
+DTEND;VALUE=DATE:20280704
+SUMMARY:CW 27
+DESCRIPTION:Calendar week 27\, 2028: 3–9 Jul\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2028/cw27/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw27/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-28@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280710
+DTEND;VALUE=DATE:20280711
+SUMMARY:CW 28
+DESCRIPTION:Calendar week 28\, 2028: 10–16 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw28/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw28/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-29@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280717
+DTEND;VALUE=DATE:20280718
+SUMMARY:CW 29
+DESCRIPTION:Calendar week 29\, 2028: 17–23 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw29/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw29/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-30@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280724
+DTEND;VALUE=DATE:20280725
+SUMMARY:CW 30
+DESCRIPTION:Calendar week 30\, 2028: 24–30 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw30/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw30/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-31@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280731
+DTEND;VALUE=DATE:20280801
+SUMMARY:CW 31
+DESCRIPTION:Calendar week 31\, 2028: 31 Jul – 6 Aug\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw31/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw31/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-32@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280807
+DTEND;VALUE=DATE:20280808
+SUMMARY:CW 32
+DESCRIPTION:Calendar week 32\, 2028: 7–13 Aug\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw32/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw32/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-33@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280814
+DTEND;VALUE=DATE:20280815
+SUMMARY:CW 33
+DESCRIPTION:Calendar week 33\, 2028: 14–20 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw33/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw33/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-34@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280821
+DTEND;VALUE=DATE:20280822
+SUMMARY:CW 34
+DESCRIPTION:Calendar week 34\, 2028: 21–27 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw34/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw34/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-35@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280828
+DTEND;VALUE=DATE:20280829
+SUMMARY:CW 35
+DESCRIPTION:Calendar week 35\, 2028: 28 Aug – 3 Sep\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw35/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw35/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-36@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280904
+DTEND;VALUE=DATE:20280905
+SUMMARY:CW 36
+DESCRIPTION:Calendar week 36\, 2028: 4–10 Sep\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw36/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw36/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-37@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280911
+DTEND;VALUE=DATE:20280912
+SUMMARY:CW 37
+DESCRIPTION:Calendar week 37\, 2028: 11–17 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw37/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw37/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-38@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280918
+DTEND;VALUE=DATE:20280919
+SUMMARY:CW 38
+DESCRIPTION:Calendar week 38\, 2028: 18–24 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw38/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw38/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-39@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20280925
+DTEND;VALUE=DATE:20280926
+SUMMARY:CW 39
+DESCRIPTION:Calendar week 39\, 2028: 25 Sep – 1 Oct\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw39/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw39/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-40@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281002
+DTEND;VALUE=DATE:20281003
+SUMMARY:CW 40
+DESCRIPTION:Calendar week 40\, 2028: 2–8 Oct\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2028/cw40/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw40/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-41@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281009
+DTEND;VALUE=DATE:20281010
+SUMMARY:CW 41
+DESCRIPTION:Calendar week 41\, 2028: 9–15 Oct\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw41/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw41/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-42@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281016
+DTEND;VALUE=DATE:20281017
+SUMMARY:CW 42
+DESCRIPTION:Calendar week 42\, 2028: 16–22 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw42/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw42/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-43@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281023
+DTEND;VALUE=DATE:20281024
+SUMMARY:CW 43
+DESCRIPTION:Calendar week 43\, 2028: 23–29 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw43/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw43/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-44@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281030
+DTEND;VALUE=DATE:20281031
+SUMMARY:CW 44
+DESCRIPTION:Calendar week 44\, 2028: 30 Oct – 5 Nov\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw44/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw44/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-45@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281106
+DTEND;VALUE=DATE:20281107
+SUMMARY:CW 45
+DESCRIPTION:Calendar week 45\, 2028: 6–12 Nov\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw45/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw45/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-46@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281113
+DTEND;VALUE=DATE:20281114
+SUMMARY:CW 46
+DESCRIPTION:Calendar week 46\, 2028: 13–19 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw46/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw46/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-47@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281120
+DTEND;VALUE=DATE:20281121
+SUMMARY:CW 47
+DESCRIPTION:Calendar week 47\, 2028: 20–26 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw47/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw47/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-48@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281127
+DTEND;VALUE=DATE:20281128
+SUMMARY:CW 48
+DESCRIPTION:Calendar week 48\, 2028: 27 Nov – 3 Dec\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2028/cw48/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw48/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-49@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281204
+DTEND;VALUE=DATE:20281205
+SUMMARY:CW 49
+DESCRIPTION:Calendar week 49\, 2028: 4–10 Dec\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2028/cw49/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw49/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-50@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281211
+DTEND;VALUE=DATE:20281212
+SUMMARY:CW 50
+DESCRIPTION:Calendar week 50\, 2028: 11–17 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw50/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw50/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-51@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281218
+DTEND;VALUE=DATE:20281219
+SUMMARY:CW 51
+DESCRIPTION:Calendar week 51\, 2028: 18–24 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw51/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw51/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2028-52@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20281225
+DTEND;VALUE=DATE:20281226
+SUMMARY:CW 52
+DESCRIPTION:Calendar week 52\, 2028: 25–31 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2028/cw52/
+URL:https://rockykusuma.github.io/weekmark/weeks/2028/cw52/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-01@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290101
+DTEND;VALUE=DATE:20290102
+SUMMARY:CW 1
+DESCRIPTION:Calendar week 1\, 2029: 1–7 Jan\nhttps://rockykusuma.github.i
+ o/weekmark/weeks/2029/cw1/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw1/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-02@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290108
+DTEND;VALUE=DATE:20290109
+SUMMARY:CW 2
+DESCRIPTION:Calendar week 2\, 2029: 8–14 Jan\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2029/cw2/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw2/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-03@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290115
+DTEND;VALUE=DATE:20290116
+SUMMARY:CW 3
+DESCRIPTION:Calendar week 3\, 2029: 15–21 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw3/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw3/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-04@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290122
+DTEND;VALUE=DATE:20290123
+SUMMARY:CW 4
+DESCRIPTION:Calendar week 4\, 2029: 22–28 Jan\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw4/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw4/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-05@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290129
+DTEND;VALUE=DATE:20290130
+SUMMARY:CW 5
+DESCRIPTION:Calendar week 5\, 2029: 29 Jan – 4 Feb\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2029/cw5/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw5/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-06@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290205
+DTEND;VALUE=DATE:20290206
+SUMMARY:CW 6
+DESCRIPTION:Calendar week 6\, 2029: 5–11 Feb\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2029/cw6/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw6/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-07@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290212
+DTEND;VALUE=DATE:20290213
+SUMMARY:CW 7
+DESCRIPTION:Calendar week 7\, 2029: 12–18 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw7/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw7/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-08@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290219
+DTEND;VALUE=DATE:20290220
+SUMMARY:CW 8
+DESCRIPTION:Calendar week 8\, 2029: 19–25 Feb\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw8/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw8/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-09@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290226
+DTEND;VALUE=DATE:20290227
+SUMMARY:CW 9
+DESCRIPTION:Calendar week 9\, 2029: 26 Feb – 4 Mar\nhttps://rockykusuma.g
+ ithub.io/weekmark/weeks/2029/cw9/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw9/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-10@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290305
+DTEND;VALUE=DATE:20290306
+SUMMARY:CW 10
+DESCRIPTION:Calendar week 10\, 2029: 5–11 Mar\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw10/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw10/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-11@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290312
+DTEND;VALUE=DATE:20290313
+SUMMARY:CW 11
+DESCRIPTION:Calendar week 11\, 2029: 12–18 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw11/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw11/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-12@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290319
+DTEND;VALUE=DATE:20290320
+SUMMARY:CW 12
+DESCRIPTION:Calendar week 12\, 2029: 19–25 Mar\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw12/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw12/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-13@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290326
+DTEND;VALUE=DATE:20290327
+SUMMARY:CW 13
+DESCRIPTION:Calendar week 13\, 2029: 26 Mar – 1 Apr\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw13/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw13/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-14@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290402
+DTEND;VALUE=DATE:20290403
+SUMMARY:CW 14
+DESCRIPTION:Calendar week 14\, 2029: 2–8 Apr\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2029/cw14/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw14/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-15@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290409
+DTEND;VALUE=DATE:20290410
+SUMMARY:CW 15
+DESCRIPTION:Calendar week 15\, 2029: 9–15 Apr\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw15/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw15/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-16@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290416
+DTEND;VALUE=DATE:20290417
+SUMMARY:CW 16
+DESCRIPTION:Calendar week 16\, 2029: 16–22 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw16/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw16/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-17@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290423
+DTEND;VALUE=DATE:20290424
+SUMMARY:CW 17
+DESCRIPTION:Calendar week 17\, 2029: 23–29 Apr\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw17/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw17/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-18@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290430
+DTEND;VALUE=DATE:20290501
+SUMMARY:CW 18
+DESCRIPTION:Calendar week 18\, 2029: 30 Apr – 6 May\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw18/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw18/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-19@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290507
+DTEND;VALUE=DATE:20290508
+SUMMARY:CW 19
+DESCRIPTION:Calendar week 19\, 2029: 7–13 May\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw19/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw19/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-20@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290514
+DTEND;VALUE=DATE:20290515
+SUMMARY:CW 20
+DESCRIPTION:Calendar week 20\, 2029: 14–20 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw20/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw20/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-21@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290521
+DTEND;VALUE=DATE:20290522
+SUMMARY:CW 21
+DESCRIPTION:Calendar week 21\, 2029: 21–27 May\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw21/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw21/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-22@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290528
+DTEND;VALUE=DATE:20290529
+SUMMARY:CW 22
+DESCRIPTION:Calendar week 22\, 2029: 28 May – 3 Jun\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw22/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw22/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-23@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290604
+DTEND;VALUE=DATE:20290605
+SUMMARY:CW 23
+DESCRIPTION:Calendar week 23\, 2029: 4–10 Jun\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw23/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw23/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-24@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290611
+DTEND;VALUE=DATE:20290612
+SUMMARY:CW 24
+DESCRIPTION:Calendar week 24\, 2029: 11–17 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw24/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw24/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-25@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290618
+DTEND;VALUE=DATE:20290619
+SUMMARY:CW 25
+DESCRIPTION:Calendar week 25\, 2029: 18–24 Jun\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw25/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw25/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-26@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290625
+DTEND;VALUE=DATE:20290626
+SUMMARY:CW 26
+DESCRIPTION:Calendar week 26\, 2029: 25 Jun – 1 Jul\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw26/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw26/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-27@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290702
+DTEND;VALUE=DATE:20290703
+SUMMARY:CW 27
+DESCRIPTION:Calendar week 27\, 2029: 2–8 Jul\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2029/cw27/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw27/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-28@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290709
+DTEND;VALUE=DATE:20290710
+SUMMARY:CW 28
+DESCRIPTION:Calendar week 28\, 2029: 9–15 Jul\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw28/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw28/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-29@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290716
+DTEND;VALUE=DATE:20290717
+SUMMARY:CW 29
+DESCRIPTION:Calendar week 29\, 2029: 16–22 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw29/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw29/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-30@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290723
+DTEND;VALUE=DATE:20290724
+SUMMARY:CW 30
+DESCRIPTION:Calendar week 30\, 2029: 23–29 Jul\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw30/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw30/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-31@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290730
+DTEND;VALUE=DATE:20290731
+SUMMARY:CW 31
+DESCRIPTION:Calendar week 31\, 2029: 30 Jul – 5 Aug\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw31/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw31/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-32@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290806
+DTEND;VALUE=DATE:20290807
+SUMMARY:CW 32
+DESCRIPTION:Calendar week 32\, 2029: 6–12 Aug\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw32/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw32/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-33@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290813
+DTEND;VALUE=DATE:20290814
+SUMMARY:CW 33
+DESCRIPTION:Calendar week 33\, 2029: 13–19 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw33/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw33/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-34@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290820
+DTEND;VALUE=DATE:20290821
+SUMMARY:CW 34
+DESCRIPTION:Calendar week 34\, 2029: 20–26 Aug\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw34/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw34/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-35@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290827
+DTEND;VALUE=DATE:20290828
+SUMMARY:CW 35
+DESCRIPTION:Calendar week 35\, 2029: 27 Aug – 2 Sep\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw35/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw35/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-36@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290903
+DTEND;VALUE=DATE:20290904
+SUMMARY:CW 36
+DESCRIPTION:Calendar week 36\, 2029: 3–9 Sep\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2029/cw36/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw36/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-37@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290910
+DTEND;VALUE=DATE:20290911
+SUMMARY:CW 37
+DESCRIPTION:Calendar week 37\, 2029: 10–16 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw37/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw37/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-38@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290917
+DTEND;VALUE=DATE:20290918
+SUMMARY:CW 38
+DESCRIPTION:Calendar week 38\, 2029: 17–23 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw38/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw38/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-39@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20290924
+DTEND;VALUE=DATE:20290925
+SUMMARY:CW 39
+DESCRIPTION:Calendar week 39\, 2029: 24–30 Sep\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw39/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw39/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-40@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291001
+DTEND;VALUE=DATE:20291002
+SUMMARY:CW 40
+DESCRIPTION:Calendar week 40\, 2029: 1–7 Oct\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2029/cw40/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw40/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-41@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291008
+DTEND;VALUE=DATE:20291009
+SUMMARY:CW 41
+DESCRIPTION:Calendar week 41\, 2029: 8–14 Oct\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw41/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw41/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-42@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291015
+DTEND;VALUE=DATE:20291016
+SUMMARY:CW 42
+DESCRIPTION:Calendar week 42\, 2029: 15–21 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw42/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw42/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-43@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291022
+DTEND;VALUE=DATE:20291023
+SUMMARY:CW 43
+DESCRIPTION:Calendar week 43\, 2029: 22–28 Oct\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw43/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw43/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-44@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291029
+DTEND;VALUE=DATE:20291030
+SUMMARY:CW 44
+DESCRIPTION:Calendar week 44\, 2029: 29 Oct – 4 Nov\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw44/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw44/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-45@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291105
+DTEND;VALUE=DATE:20291106
+SUMMARY:CW 45
+DESCRIPTION:Calendar week 45\, 2029: 5–11 Nov\nhttps://rockykusuma.github
+ .io/weekmark/weeks/2029/cw45/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw45/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-46@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291112
+DTEND;VALUE=DATE:20291113
+SUMMARY:CW 46
+DESCRIPTION:Calendar week 46\, 2029: 12–18 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw46/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw46/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-47@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291119
+DTEND;VALUE=DATE:20291120
+SUMMARY:CW 47
+DESCRIPTION:Calendar week 47\, 2029: 19–25 Nov\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw47/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw47/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-48@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291126
+DTEND;VALUE=DATE:20291127
+SUMMARY:CW 48
+DESCRIPTION:Calendar week 48\, 2029: 26 Nov – 2 Dec\nhttps://rockykusuma.
+ github.io/weekmark/weeks/2029/cw48/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw48/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-49@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291203
+DTEND;VALUE=DATE:20291204
+SUMMARY:CW 49
+DESCRIPTION:Calendar week 49\, 2029: 3–9 Dec\nhttps://rockykusuma.github.
+ io/weekmark/weeks/2029/cw49/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw49/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-50@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291210
+DTEND;VALUE=DATE:20291211
+SUMMARY:CW 50
+DESCRIPTION:Calendar week 50\, 2029: 10–16 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw50/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw50/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-51@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291217
+DTEND;VALUE=DATE:20291218
+SUMMARY:CW 51
+DESCRIPTION:Calendar week 51\, 2029: 17–23 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw51/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw51/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cw-2029-52@rockykusuma.github.io
+DTSTAMP:20250101T000000Z
+DTSTART;VALUE=DATE:20291224
+DTEND;VALUE=DATE:20291225
+SUMMARY:CW 52
+DESCRIPTION:Calendar week 52\, 2029: 24–30 Dec\nhttps://rockykusuma.githu
+ b.io/weekmark/weeks/2029/cw52/
+URL:https://rockykusuma.github.io/weekmark/weeks/2029/cw52/
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

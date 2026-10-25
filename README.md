@@ -71,6 +71,10 @@ new Mac, and troubleshooting.
 `docs/index.html` is the landing page (live CW lookup demo, 53-week year strip), served with `docs/appcast.xml` by
 GitHub Pages at [rockykusuma.github.io/weekmark](https://rockykusuma.github.io/weekmark/).
 
+`scripts/week-pages.py` generates `docs/weeks/` ("What week is it?", a year-at-a-glance page per year and a page per
+week), the subscribable `docs/weeks.ics` and `docs/sitemap.xml`. Edit `scripts/weeks/` (CSS, JS) or the script, not
+the output. The *Week pages* workflow re-runs it every 1 January to add the next year.
+
 ## Company rollout (IT)
 `packaging/mdm/Weekmark-Company.mobileconfig` is an example profile that presets week numbering, holiday
 regions, sprints, fiscal quarters, company milestones and company holidays for every Mac. Managed values override user settings.
