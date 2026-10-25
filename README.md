@@ -37,7 +37,7 @@ From week 40 onward, a week number of 12 or lower means next year.
 - Hover a week to see its dates. Click it to pin it. Scroll over the calendar to change month.
 - Holidays are shown in red, milestone weeks get a flag, and a line marks where each sprint starts.
 - The menu bar shows `CW 41`. Its menu has a copy action and **Weeks in 2026/2027**, a list of every week with its dates, holidays and milestones.
-- **Year at a Glance** (⌘Y in the menu): the whole year as 12 months with week numbers, holidays, milestones and sprint starts. Hover a week for its details, click to pin it, ⌘C copies it, ←/→ change the year.
+- **Year at a Glance** (the calendar button above the month, or the menu): the whole year as 12 months with week numbers, holidays, milestones and sprint starts. Hover a week for its details, click to pin it, ⌘C copies it, ←/→ change the year.
 
 ## iPhone & Apple Watch
 `Mobile/` holds the iOS app, its Home Screen / Lock Screen / StandBy widgets, and the watchOS app with complications.

@@ -135,7 +135,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
     // MARK: Panel
 
     private func makeRoot() -> WidgetView {
-        WidgetView(settings: settings, clock: clock, browser: browser, context: { [unowned self] in self.makeContext() })
+        WidgetView(settings: settings, clock: clock, browser: browser, context: { [unowned self] in self.makeContext() },
+                   onShowYear: { [unowned self] in self.showYear() })
     }
 
     private func setupPanel() {
@@ -455,7 +456,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
 
         let hk = settings.hotkey == .off ? "" : "   \(settings.hotkey.title)"
         menu.addItem(MenuAction("Quick Finder…\(hk)") { [weak self] in self?.finder.show() })
-        menu.addItem(MenuAction("Year at a Glance…", key: "y") { [weak self] in self?.showYear() })
+        menu.addItem(MenuAction("Year at a Glance…") { [weak self] in self?.showYear() })
         for year in [snap.weekYear, snap.weekYear + 1] {
             let item = NSMenuItem(title: "Weeks in \(year)", action: nil, keyEquivalent: "")
             item.submenu = weeksMenu(year: year, ctx: ctx)

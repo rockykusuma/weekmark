@@ -20,6 +20,7 @@ struct WidgetView: View {
     @ObservedObject var clock: Clock
     @ObservedObject var browser: Browser
     let context: () -> QueryContext
+    let onShowYear: () -> Void
     @FocusState private var findFocused: Bool
 
     private let lookup = Color.orange
@@ -241,6 +242,10 @@ struct WidgetView: View {
                     Button("Today") { browser.reset(); findFocused = false }
                         .buttonStyle(PillButton(s: s))
                 }
+                Button(action: onShowYear) { Image(systemName: "calendar") }
+                    .buttonStyle(PillButton(s: s, square: true))
+                    .help("Year at a Glance")
+                    .accessibilityLabel("Year at a Glance")
                 Button { browser.step(-1) } label: { Image(systemName: "chevron.left") }
                     .buttonStyle(PillButton(s: s, square: true))
                     .accessibilityLabel("Previous month")
