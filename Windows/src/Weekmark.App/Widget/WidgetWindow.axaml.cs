@@ -22,7 +22,7 @@ public partial class WidgetWindow : Window
     readonly WidgetViewModel vm = null!;
     readonly DispatcherTimer saveDelay = new() { Interval = TimeSpan.FromMilliseconds(400) };
     readonly DispatcherTimer floatEnd = new() { Interval = TimeSpan.FromSeconds(8) };
-    bool placing, floating;
+    bool placing, floating, hooked;
 
     /// <summary>For the XAML designer only.</summary>
     public WidgetWindow() => InitializeComponent();
@@ -41,13 +41,14 @@ public partial class WidgetWindow : Window
         state.Changed += ApplySettings;
         Screens.Changed += OnScreensChanged;
         PositionChanged += (_, _) => { if (!placing) { saveDelay.Stop(); saveDelay.Start(); } }; // save once the drag settles
-        Opened += (_, _) =>
+        Opened += (_, _) => // on every show, also after Hide Widget: that re-applies the layer
         {
             layering.HideFromTaskSwitcher(this);
             if (OperatingSystem.IsWindows())
             {
                 WindowsLayering.RoundCorners(this);
-                Win32Properties.AddWndProcHookCallback(this, WndProc);
+                if (!hooked) Win32Properties.AddWndProcHookCallback(this, WndProc);
+                hooked = true;
             }
             ApplyLayer();
             Place();
@@ -100,7 +101,6 @@ public partial class WidgetWindow : Window
         if (!IsVisible) return; // not shown yet, or hidden on purpose: layering must not re-show it
         layering.Apply(this, floating ? WindowLayer.Floating : S.Layer);
     }
-
     /// <summary>
     /// The tray's left click, a second launch, or a manual launch: shows the widget above other windows and focuses it.
     /// It goes back to its layer when it loses focus, or after 8 s if Windows never gave it focus.

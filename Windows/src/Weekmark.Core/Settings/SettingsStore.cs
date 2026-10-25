@@ -102,9 +102,9 @@ public sealed class SettingsStore(string path)
                 case "locked": Scalar(p.Name, v, C.Boolean, x => s.Locked = x); break;
                 case "onboardingDone": Scalar(p.Name, v, C.Boolean, x => s.OnboardingDone = x); break;
                 case "startWithWindows": Scalar(p.Name, v, C.Boolean, x => s.StartWithWindows = x); break;
-                // Absurd planning numbers would overflow or stall the working-day loops.
+                // Absurd planning numbers would overflow or stall the working-day loops; 52 weeks is also Sprints' limit.
                 case "sprint":
-                    Scalar(p.Name, v, C.SprintConfig, x => s.Sprint = x with { LengthWeeks = Math.Clamp(x.LengthWeeks, 1, 520), SprintsPerPI = Math.Clamp(x.SprintsPerPI, 0, 100) });
+                    Scalar(p.Name, v, C.SprintConfig, x => s.Sprint = x with { LengthWeeks = Math.Clamp(x.LengthWeeks, 1, 52), SprintsPerPI = Math.Clamp(x.SprintsPerPI, 0, 100) });
                     break;
                 case "quarter":
                     Scalar(p.Name, v, C.QuarterConfig, x => s.Quarter = x with { FiscalStartMonth = Math.Clamp(x.FiscalStartMonth, 1, 12) });

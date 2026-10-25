@@ -116,6 +116,29 @@ public sealed class TrayTests
         Assert.NotSame(numberIcon, tray.Icon.Icon);
     }
 
+    sealed class RecordingLayering : IWindowLayering
+    {
+        public List<WindowLayer> Applied { get; } = [];
+        public void Apply(Window w, WindowLayer layer) => Applied.Add(layer);
+        public void HideFromTaskSwitcher(Window w) { }
+    }
+
+    [AvaloniaFact]
+    public void ShowWidgetPutsItBackOnItsLayer()
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-GB");
+        var state = new AppState(DemoData.Create(DateOnly.FromDateTime(Now)), null, () => Now);
+        var layering = new RecordingLayering();
+        var widget = new WidgetWindow(state, layering);
+        widget.Show();
+        var tray = new TrayController(state, widget);
+
+        Item(tray.Menu, "Hide Widget").Command!.Execute(null);
+        layering.Applied.Clear();
+        Item(tray.Menu, "Show Widget").Command!.Execute(null);
+        Assert.Equal([WindowLayer.Desktop], layering.Applied);
+    }
+
     [AvaloniaFact]
     public void InvalidSprintSettingsOnlyDropTheSprintPart()
     {

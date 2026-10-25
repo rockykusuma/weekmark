@@ -148,9 +148,22 @@ public sealed class SettingsStoreTests : IDisposable
         {"sprint":{"enabled":true,"lengthWeeks":2000000000,"sprintsPerPI":-3},"quarter":{"fiscalStartMonth":99}}
         """);
         var s = Store.Load();
-        Assert.Equal(520, s.Sprint.LengthWeeks);
+        Assert.Equal(52, s.Sprint.LengthWeeks);
         Assert.Equal(0, s.Sprint.SprintsPerPI);
         Assert.Equal(12, s.Quarter.FiscalStartMonth);
+    }
+
+    [Theory]
+    [InlineData(300, 52)]
+    [InlineData(53, 52)]
+    [InlineData(0, 1)]
+    [InlineData(6, 6)]
+    public void SprintLengthIsNormalisedToWhatSprintsAccept(int stored, int loaded)
+    {
+        File.WriteAllText(P, $"{{\"sprint\":{{\"enabled\":true,\"lengthWeeks\":{stored},\"anchor\":{{\"y\":2026,\"m\":1,\"d\":5}}}}}}");
+        var s = Store.Load();
+        Assert.Equal(loaded, s.Sprint.LengthWeeks);
+        Assert.NotNull(Sprints.Info(new(2026, 10, 25), s.Sprint, new WeekCalendar(WeekNumbering.Iso), HolidayStore.Empty));
     }
 
     [Fact]

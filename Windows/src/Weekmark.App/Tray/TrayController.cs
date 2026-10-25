@@ -108,7 +108,7 @@ public sealed class TrayController : IDisposable
         menu.Add(Item(widget.IsVisible ? "Hide Widget" : "Show Widget", () =>
         {
             if (Widget.IsVisible) Widget.Hide(); // the layering's recovery never re-shows a hidden widget
-            else Widget.Show();
+            else Widget.Show(); // Avalonia raises Opened on every show, and Opened re-applies the layer
         }));
 
         var position = new NativeMenu();
