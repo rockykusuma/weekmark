@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:w="using:Weekmark.App.Widget"
+             x:Class="Weekmark.App.Widget.WeekRows"
+             x:DataType="w:WeekRows">
+  <!-- The six week rows of one month: CW number, flag, 7 days. Shared by the widget and the year window; styles come from WidgetTheme. -->
+  <UserControl.Styles>
+    <Style Selector="Panel.row.spacer">
+      <Setter Property="Opacity" Value="0" />
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+  </UserControl.Styles>
+  <ItemsControl ItemsSource="{Binding Rows, RelativeSource={RelativeSource AncestorType=w:WeekRows}}">
+    <ItemsControl.ItemsPanel>
+      <ItemsPanelTemplate>
+        <StackPanel Spacing="3" />
+      </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.ItemTemplate>
+      <DataTemplate x:DataType="w:MonthRowModel">
+        <Panel Classes="row" Classes.spacer="{Binding IsSpacer}" Classes.current="{Binding IsCurrent}" Classes.pinned="{Binding IsPinned}" Classes.hover="{Binding IsHover}"
+               Background="Transparent" PointerEntered="OnRowEntered" PointerExited="OnRowExited" PointerPressed="OnRowPressed">
+          <Border Classes="rowbg" CornerRadius="7" />
+          <DockPanel Margin="0,1">
+            <Panel DockPanel.Dock="Left" Width="30" Background="Transparent" ToolTip.Tip="{Binding Tip}">
+              <StackPanel Orientation="Horizontal" Spacing="1.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Path Data="{DynamicResource FlagIcon}" Fill="{Binding Flag}" IsVisible="{Binding HasFlag}"
+                      Width="6.5" Height="6.5" Stretch="Uniform" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding WeekText}" Classes="week" Classes.milestone="{Binding HasFlag}" FontSize="10" FontWeight="Bold" />
+              </StackPanel>
+            </Panel>
+            <ItemsControl ItemsSource="{Binding Days}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <UniformGrid Columns="7" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="w:MonthDayModel">
+                  <Panel Width="21" Height="21">
+                    <Ellipse Fill="{DynamicResource Accent}" IsVisible="{Binding IsToday}" />
+                    <TextBlock Text="{Binding Number}" ToolTip.Tip="{Binding Tip}" Classes="daynum" Classes.past="{Binding IsPast}" Classes.out="{Binding OutOfMonth}" Classes.holiday="{Binding IsHoliday}"
+                               Classes.today="{Binding IsToday}" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </Panel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </DockPanel>
+          <!-- A sprint starts this week -->
+          <Border Height="1" Background="{DynamicResource SprintLine}" VerticalAlignment="Top" Margin="30,-2,0,0"
+                  IsVisible="{Binding SprintStart}" />
+        </Panel>
+      </DataTemplate>
+    </ItemsControl.ItemTemplate>
+  </ItemsControl>
+</UserControl>

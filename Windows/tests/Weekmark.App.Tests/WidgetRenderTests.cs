@@ -80,6 +80,33 @@ public sealed class WidgetRenderTests
             }
     }
 
+    sealed class NoPicker : IWeekPicker
+    {
+        public WeekRef? Hover { get; set; }
+        public void Pin(WeekRef r) { }
+    }
+
+    [AvaloniaFact]
+    public void MonthRowBuildForYearHidesOtherMonths()
+    {
+        var state = Demo();
+        var ctx = state.Context;
+        var snap = new WeekSnapshot(ctx.Now, ctx.Cal, ctx.Fmt);
+        var feb = new DateOnly(2026, 2, 1);
+        var s = state.Settings;
+
+        var year = MonthRowModel.Build(snap, feb, ctx, s.Milestones, s.Sprint, new NoPicker(), forYear: true);
+        Assert.Equal(6, year.Count);
+        Assert.True(year[5].IsSpacer); // February 2026 fills five ISO weeks
+        Assert.Equal("", year[0].Days[0].Number); // 26 January
+        Assert.Equal("1", year[0].Days[6].Number);
+        Assert.True(year[0].Days[6].IsPast);
+
+        var widget = MonthRowModel.Build(snap, feb, ctx, s.Milestones, s.Sprint, new NoPicker(), forYear: false);
+        Assert.DoesNotContain(widget, r => r.IsSpacer);
+        Assert.Equal("26", widget[0].Days[0].Number);
+    }
+
     [AvaloniaFact]
     public void WidgetHidesSectionsWhenOff()
     {

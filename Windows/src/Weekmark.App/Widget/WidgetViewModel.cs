@@ -13,11 +13,11 @@ public sealed record ChipModel(string Text, Geometry Icon, string? Tip);
 public sealed record DayModel(string Weekday, string Number, bool IsToday, bool IsWeekend, bool IsPast, bool IsHoliday, string? Tip);
 public sealed record ProgressModel(string Today, string Percent, double FillWidth);
 public sealed record MilestoneModel(string Name, string WeekText, string? Countdown, IBrush Brush, WeekRef Week, bool CanPin, string Tip);
-public sealed record MonthDayModel(string Number, bool IsToday, bool OutOfMonth, bool IsHoliday);
+public sealed record MonthDayModel(string Number, bool IsToday, bool OutOfMonth, bool IsHoliday, bool IsPast = false, string? Tip = null);
 public sealed record DetailsModel(string Title, string Subtitle, bool IsHint, bool IsPinned, bool IsCurrent, bool IsError = false);
 
 public sealed partial class MonthRowModel(WeekRef week, IReadOnlyList<MonthDayModel> days, bool isCurrent, bool sprintStart,
-    IBrush? flag, string? tip) : ObservableObject
+    IBrush? flag, string? tip, IWeekPicker picker, bool isSpacer = false) : ObservableObject
 {
     public WeekRef Week { get; } = week;
     public string WeekText { get; } = week.Week.ToString();
@@ -27,12 +27,36 @@ public sealed partial class MonthRowModel(WeekRef week, IReadOnlyList<MonthDayMo
     public IBrush? Flag { get; } = flag;
     public bool HasFlag => Flag is not null;
     public string? Tip { get; } = tip;
+    public IWeekPicker Picker { get; } = picker;
+    /// <summary>A row with no day in its month, kept (invisible) so every year-view card has six rows.</summary>
+    public bool IsSpacer { get; } = isSpacer;
     [ObservableProperty] private bool isPinned;
     [ObservableProperty] private bool isHover;
+
+    /// <param name="forYear">The year view: other months' days are blank, and past days are dimmed like the 7-day strip.</param>
+    public static IReadOnlyList<MonthRowModel> Build(WeekSnapshot snap, DateOnly month, WeekContext ctx,
+        IReadOnlyList<Milestone> milestones, SprintConfig sprint, IWeekPicker picker, bool forYear)
+    {
+        var byWeek = milestones.GroupBy(m => m.Week).ToDictionary(g => g.Key, g => g.ToList());
+        return snap.MonthRows(month).Select(r =>
+        {
+            var ms = byWeek.GetValueOrDefault(r.Ref);
+            var days = r.Days.Select(d =>
+            {
+                var hol = ctx.Holidays.On(Day.From(d));
+                var inMonth = snap.IsIn(d, month);
+                return new MonthDayModel(forYear && !inMonth ? "" : d.Day.ToString(), snap.IsToday(d), !inMonth, hol.Count > 0,
+                    forYear && snap.IsPast(d), hol.Count > 0 ? string.Join(", ", hol.Select(h => h.Name)) : null);
+            }).ToList();
+            return new MonthRowModel(r.Ref, days, r.IsCurrent, Sprints.StartsSprint(r.Ref, sprint, ctx.Cal),
+                ms is null ? null : WidgetViewModel.BrushFor(ms[0].Color), ms is null ? null : string.Join(", ", ms.Select(m => m.Name)),
+                picker, forYear && days.All(d => d.OutOfMonth));
+        }).ToList();
+    }
 }
 
 /// <summary>Everything the widget shows, port of the Mac's WidgetView + Browser state.</summary>
-public sealed partial class WidgetViewModel : ObservableObject, IDisposable
+public sealed partial class WidgetViewModel : ObservableObject, IWeekPicker, IDisposable
 {
     const double ContentWidth = 264; // 300 wide minus 2 × 18 padding
     static readonly TimeSpan IdleReset = TimeSpan.FromMinutes(2); // as on the Mac
@@ -284,15 +308,7 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         {
             monthKey = key;
             MonthTitle = snap.MonthTitle(month);
-            var byWeek = S.Milestones.GroupBy(m => m.Week).ToDictionary(g => g.Key, g => g.ToList());
-            Rows = snap.MonthRows(month).Select(r =>
-            {
-                var ms = byWeek.GetValueOrDefault(r.Ref);
-                var days = r.Days.Select(d => new MonthDayModel(d.Day.ToString(), snap.IsToday(d), !snap.IsIn(d, month),
-                    Ctx.Holidays.IsHoliday(Day.From(d)))).ToList();
-                return new MonthRowModel(r.Ref, days, r.IsCurrent, Sprints.StartsSprint(r.Ref, S.Sprint, Ctx.Cal),
-                    ms is null ? null : BrushFor(ms[0].Color), ms is null ? null : string.Join(", ", ms.Select(m => m.Name)));
-            }).ToList();
+            Rows = MonthRowModel.Build(snap, month, Ctx, S.Milestones, S.Sprint, this, forYear: false);
         }
         UpdateSelection();
     }

@@ -1,0 +1,139 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:w="using:Weekmark.App.Widget">
+  <!-- Brushes, icons and the styles shared by the widget's month grid and the Year at a Glance window. Sizes are the Mac's points at Medium. -->
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="Accent" Color="#007AFF" />
+          <SolidColorBrush x:Key="Holiday" Color="#FF3B30" />
+          <SolidColorBrush x:Key="PinnedColor" Color="#FF9500" />
+          <SolidColorBrush x:Key="TextPrimary" Color="#D9000000" />
+          <SolidColorBrush x:Key="TextSecondary" Color="#80000000" />
+          <SolidColorBrush x:Key="TextWeekend" Color="#59000000" />
+          <SolidColorBrush x:Key="TextTertiary" Color="#47000000" />
+          <SolidColorBrush x:Key="TextQuaternary" Color="#2E000000" />
+          <SolidColorBrush x:Key="Track" Color="#1F000000" />
+          <SolidColorBrush x:Key="Fill08" Color="#14000000" />
+          <SolidColorBrush x:Key="Fill07" Color="#12000000" />
+          <SolidColorBrush x:Key="Divider" Color="#1A000000" />
+          <SolidColorBrush x:Key="PillHover" Color="#24000000" />
+          <SolidColorBrush x:Key="PillPressed" Color="#2E000000" />
+          <SolidColorBrush x:Key="PanelSolid" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="PanelGlass" Color="#59F3F3F3" />
+          <SolidColorBrush x:Key="BarGap" Color="#99F3F3F3" />
+          <SolidColorBrush x:Key="CurrentRow" Color="#24007AFF" />
+          <SolidColorBrush x:Key="SprintLine" Color="#73007AFF" />
+          <SolidColorBrush x:Key="PinnedRow" Color="#33FF9500" />
+          <SolidColorBrush x:Key="PinnedRowStroke" Color="#D9FF9500" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <SolidColorBrush x:Key="Accent" Color="#0A84FF" />
+          <SolidColorBrush x:Key="Holiday" Color="#FF453A" />
+          <SolidColorBrush x:Key="PinnedColor" Color="#FF9F0A" />
+          <SolidColorBrush x:Key="TextPrimary" Color="#E6FFFFFF" />
+          <SolidColorBrush x:Key="TextSecondary" Color="#8CFFFFFF" />
+          <SolidColorBrush x:Key="TextWeekend" Color="#62FFFFFF" />
+          <SolidColorBrush x:Key="TextTertiary" Color="#47FFFFFF" />
+          <SolidColorBrush x:Key="TextQuaternary" Color="#29FFFFFF" />
+          <SolidColorBrush x:Key="Track" Color="#1FFFFFFF" />
+          <SolidColorBrush x:Key="Fill08" Color="#14FFFFFF" />
+          <SolidColorBrush x:Key="Fill07" Color="#12FFFFFF" />
+          <SolidColorBrush x:Key="Divider" Color="#1AFFFFFF" />
+          <SolidColorBrush x:Key="PillHover" Color="#24FFFFFF" />
+          <SolidColorBrush x:Key="PillPressed" Color="#2EFFFFFF" />
+          <SolidColorBrush x:Key="PanelSolid" Color="#202020" />
+          <SolidColorBrush x:Key="PanelGlass" Color="#59202020" />
+          <SolidColorBrush x:Key="BarGap" Color="#99202020" />
+          <SolidColorBrush x:Key="CurrentRow" Color="#240A84FF" />
+          <SolidColorBrush x:Key="SprintLine" Color="#730A84FF" />
+          <SolidColorBrush x:Key="PinnedRow" Color="#33FF9F0A" />
+          <SolidColorBrush x:Key="PinnedRowStroke" Color="#D9FF9F0A" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+      <StreamGeometry x:Key="FlagIcon">M0,0 H1.4 V10 H0 Z M1.4,0.6 H8.6 L6.9,3.3 L8.6,6 H1.4 Z</StreamGeometry>
+      <StreamGeometry x:Key="ChevronLeft">M4.5,0.5 L0.5,4.5 L4.5,8.5</StreamGeometry>
+      <StreamGeometry x:Key="ChevronRight">M0.5,0.5 L4.5,4.5 L0.5,8.5</StreamGeometry>
+      <StreamGeometry x:Key="Magnifier">M8,4.5 A3.5,3.5 0 1 1 1,4.5 A3.5,3.5 0 1 1 8,4.5 Z M7,7 L10,10</StreamGeometry>
+      <!-- xmark.circle.fill: the cross is a hole (even-odd) -->
+      <StreamGeometry x:Key="CalendarIcon">M1,2.5 H10 V10 H1 Z M1,4.5 H10 M3.5,1 V3.5 M7.5,1 V3.5</StreamGeometry>
+      <StreamGeometry x:Key="ClearIcon">F0 M6,0 A6,6 0 1 1 6,12 A6,6 0 1 1 6,0 Z M3.9,3.2 L6,5.3 L8.1,3.2 L8.8,3.9 L6.7,6 L8.8,8.1 L8.1,8.8 L6,6.7 L3.9,8.8 L3.2,8.1 L5.3,6 L3.2,3.9 Z</StreamGeometry>
+    </ResourceDictionary>
+  </Styles.Resources>
+
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="TextBlock.secondary">
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+  </Style>
+  <Style Selector="TextBlock.tertiary">
+    <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+  </Style>
+
+  <Style Selector="TextBlock.daynum.past">
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+  </Style>
+  <Style Selector="TextBlock.daynum.holiday">
+    <Setter Property="Foreground" Value="{DynamicResource Holiday}" />
+  </Style>
+  <Style Selector="TextBlock.daynum.out">
+    <Setter Property="Foreground" Value="{DynamicResource TextQuaternary}" />
+  </Style>
+  <Style Selector="TextBlock.daynum.today">
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="FontWeight" Value="Bold" />
+  </Style>
+
+  <!-- Month rows: pinned (orange) > current week > hover -->
+  <Style Selector="TextBlock.week">
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+  </Style>
+  <Style Selector="TextBlock.week.milestone" x:DataType="w:MonthRowModel">
+    <Setter Property="Foreground" Value="{Binding Flag}" />
+  </Style>
+  <Style Selector="Panel.row.current TextBlock.week">
+    <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+  </Style>
+  <Style Selector="Panel.row.pinned TextBlock.week">
+    <Setter Property="Foreground" Value="{DynamicResource PinnedColor}" />
+  </Style>
+  <Style Selector="Panel.row.hover > Border.rowbg">
+    <Setter Property="Background" Value="{DynamicResource Fill07}" />
+  </Style>
+  <Style Selector="Panel.row.current > Border.rowbg">
+    <Setter Property="Background" Value="{DynamicResource CurrentRow}" />
+  </Style>
+  <Style Selector="Panel.row.pinned > Border.rowbg">
+    <Setter Property="Background" Value="{DynamicResource PinnedRow}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource PinnedRowStroke}" />
+    <Setter Property="BorderThickness" Value="1.2" />
+  </Style>
+
+  <!-- Pill buttons (Today, ‹ ›) -->
+  <Style Selector="Button.pill">
+    <Setter Property="Background" Value="{DynamicResource Fill08}" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="Height" Value="20" />
+    <Setter Property="Padding" Value="8,0" />
+    <Setter Property="FontSize" Value="10" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.pill.square">
+    <Setter Property="Width" Value="20" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="Button.pill:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PillHover}" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="Button.pill:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PillPressed}" />
+  </Style>
+</Styles>
