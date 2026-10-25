@@ -11,7 +11,9 @@
 		02E08A1D0F02C7833AD40B38 /* WeekmarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9C4A6565D791A91995377A /* WeekmarkApp.swift */; };
 		0A224E54365F12E79473FBA3 /* WatchWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C86EE3996228BBFEAF6E3B1 /* WatchWidgets.swift */; };
 		0A933E6656BDDF04BBE586A9 /* Holidays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */; };
+		161707E0D9A2D1F942095546 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 40E7EB7A6622534EB5F1765A /* PrivacyInfo.xcprivacy */; };
 		18F001395B1656CAA623A142 /* QueryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408579A783BC8BCF0643066D /* QueryEngine.swift */; };
+		19C2F695FD42C1F7ECA794AF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 40E7EB7A6622534EB5F1765A /* PrivacyInfo.xcprivacy */; };
 		21769C3832592B2C34C7439B /* QueryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408579A783BC8BCF0643066D /* QueryEngine.swift */; };
 		22814E1A36BD2B812FA5ABE5 /* Holidays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB28B3F7F1859ADA0BEC188 /* Holidays.swift */; };
 		253F6572D4064938FB77E795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
@@ -28,6 +30,7 @@
 		56DD374D249DECBBCD908B2C /* WeekMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2F338AACB9FFFA7C7A6F3 /* WeekMath.swift */; };
 		62826D1FA115BECE71009EB7 /* WeekmarkWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A66F9C98B2EA05AC71F8CE82 /* WeekmarkWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6315444B42B84ABC2539B1C1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD370C6D5516651EB60FA717 /* Store.swift */; };
+		63935B5BFB329B0BD3D6F37D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 40E7EB7A6622534EB5F1765A /* PrivacyInfo.xcprivacy */; };
 		6804AB3584DB263B1912D7B6 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D2752522AD6E43A582499 /* WidgetSupport.swift */; };
 		69D8FC2D6FB939DE1F3E3CEC /* SettingsSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FDF9FF35682F39E1B83FA /* SettingsSync.swift */; };
 		6CE3679C608398444581CA49 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD370C6D5516651EB60FA717 /* Store.swift */; };
@@ -48,6 +51,7 @@
 		BC12C3204CA5B44C6542F466 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D2752522AD6E43A582499 /* WidgetSupport.swift */; };
 		C246BFF94DBA0B74FA542F64 /* YearTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E2B558E232E4188324F07 /* YearTab.swift */; };
 		C95E4F1AD8F8C5B62FD67A4D /* FindTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A37FC868B4787AC3FA3CF8D /* FindTab.swift */; };
+		CCD95E4F46A8967CFE297A26 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 40E7EB7A6622534EB5F1765A /* PrivacyInfo.xcprivacy */; };
 		CE046A16D409291B7072712D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
 		D63E38606D9093FC2258E441 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418F29628FDE40E379041F66 /* Views.swift */; };
 		DF1C6B0D24BCF620ED9555DB /* Planning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C3945993F385E414D52393 /* Planning.swift */; };
@@ -132,6 +136,7 @@
 		354FA41A4A4536DD230C8069 /* WeekmarkWatchWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeekmarkWatchWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		39EC48626EF29115B68B729D /* Weekmark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Weekmark.entitlements; sourceTree = "<group>"; };
 		408579A783BC8BCF0643066D /* QueryEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryEngine.swift; sourceTree = "<group>"; };
+		40E7EB7A6622534EB5F1765A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		418F29628FDE40E379041F66 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		47D3DED37457C1871B5EF528 /* DebugSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSupport.swift; sourceTree = "<group>"; };
 		5E3D2752522AD6E43A582499 /* WidgetSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSupport.swift; sourceTree = "<group>"; };
@@ -194,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				175E3322223949C72C0C651E /* Assets.xcassets */,
+				40E7EB7A6622534EB5F1765A /* PrivacyInfo.xcprivacy */,
 				AD370C6D5516651EB60FA717 /* Store.swift */,
 				418F29628FDE40E379041F66 /* Views.swift */,
 				5E3D2752522AD6E43A582499 /* WidgetSupport.swift */,
@@ -428,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B320ECC3086E6F6FCDD3E22C /* Assets.xcassets in Resources */,
+				161707E0D9A2D1F942095546 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +443,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C0608347F593CCFFF9C30E8 /* Assets.xcassets in Resources */,
+				CCD95E4F46A8967CFE297A26 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				253F6572D4064938FB77E795 /* Assets.xcassets in Resources */,
+				63935B5BFB329B0BD3D6F37D /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE046A16D409291B7072712D /* Assets.xcassets in Resources */,
+				19C2F695FD42C1F7ECA794AF /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
