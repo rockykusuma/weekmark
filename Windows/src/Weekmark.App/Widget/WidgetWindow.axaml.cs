@@ -94,7 +94,11 @@ public partial class WidgetWindow : Window
     void UpdateGlass() => vm.GlassAvailable = GlassAllowed && (ActualTransparencyLevel == WindowTransparencyLevel.Mica
         || ActualTransparencyLevel == WindowTransparencyLevel.AcrylicBlur || ActualTransparencyLevel == WindowTransparencyLevel.Blur);
 
-    void ApplyLayer() => layering.Apply(this, floating ? WindowLayer.Floating : S.Layer);
+    void ApplyLayer()
+    {
+        if (!IsVisible) return; // not shown yet, or hidden on purpose: layering must not re-show it
+        layering.Apply(this, floating ? WindowLayer.Floating : S.Layer);
+    }
 
     /// <summary>A second launch asks for the widget: float it above windows for a few seconds, then back to its layer.</summary>
     public void BringForward()

@@ -91,8 +91,10 @@ public sealed class WidgetRenderTests
         Assert.True(off.CaptureRenderedFrame()!.PixelSize.Height < on.CaptureRenderedFrame()!.PixelSize.Height - 100);
     }
 
-    [AvaloniaFact]
-    public void DemoNeverTouchesSettingsFile()
+    [AvaloniaTheory]
+    [InlineData("--demo-data", null)]
+    [InlineData("--screenshot", "x.png")] // automatic captures always use sample data
+    public void DemoNeverTouchesSettingsFile(string flag, string? value)
     {
         var dir = Directory.CreateTempSubdirectory("weekmark-demo").FullName;
         try
@@ -101,8 +103,9 @@ public sealed class WidgetRenderTests
             var original = "{\"size\":\"large\",\"milestones\":[],\"screenID\":\"X\",\"offsetX\":5,\"offsetTop\":7}"u8.ToArray();
             File.WriteAllBytes(path, original);
 
-            var state = AppState.FromOptions(Options.Parse(["--demo-data"]), path);
-            Assert.Equal(2, state.Settings.Milestones.Count); // the demo data, not the file
+            var state = AppState.FromOptions(Options.Parse(value is null ? [flag] : [flag, value]), path);
+            Assert.Null(state.Store); // no store on the real path: the file is never read or written
+            Assert.Equal(["Code freeze", "Release 5.0"], state.Settings.Milestones.Select(m => m.Name)); // the demo data, not the file
             var w = new WidgetWindow(state, new FallbackLayering());
             w.Show();
             w.SavePlacement();

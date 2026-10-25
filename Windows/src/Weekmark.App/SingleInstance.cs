@@ -67,7 +67,7 @@ public sealed class SingleInstance : IDisposable
                 ActivationRequested?.Invoke();
             }
             catch (OperationCanceledException) { return; }
-            catch (IOException) { await Task.Delay(200); } // broken connection: keep listening
+            catch (Exception) { await Task.Delay(200); } // anything else: keep listening, so activation never stops
         }
     }
 

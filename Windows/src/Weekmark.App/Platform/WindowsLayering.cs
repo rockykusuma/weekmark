@@ -12,7 +12,7 @@ namespace Weekmark.App.Platform;
 /// window. Show desktop (Win+D) raises the desktop rather than minimising windows the desktop owns, so the widget
 /// comes up together with it instead of disappearing. WS_EX_NOACTIVATE keeps clicks from raising it, and
 /// WS_EX_TOOLWINDOW keeps it out of the taskbar and Alt+Tab.
-/// Recovery: <see cref="Apply"/> is re-run on every 30 s tick, restoring the window if anything minimised it and
+/// Recovery: <see cref="Apply"/> is re-run on every 30 s tick, restoring the window if anything minimised or hid it and
 /// re-attaching it to a new Progman after Explorer restarts. Every failure falls back to a plain non-topmost window.
 /// </summary>
 [SupportedOSPlatform("windows")]
@@ -25,13 +25,16 @@ public sealed partial class WindowsLayering : IWindowLayering
     static readonly nint HWND_BOTTOM = 1;
 
     readonly FallbackLayering fallback = new();
+    bool broken; // after any Win32 failure: plain fallback for the rest of the session, no retrying
 
+    /// <summary>Only called while the app wants the widget visible (an Avalonia-hidden widget is never re-shown here).</summary>
     public void Apply(Window w, WindowLayer layer)
     {
-        if (Handle(w) is not { } h) { fallback.Apply(w, layer); return; }
+        if (broken || Handle(w) is not { } h) { fallback.Apply(w, layer); return; }
         try
         {
-            if (IsIconic(h)) ShowWindow(h, SW_SHOWNOACTIVATE); // minimised by Show desktop / Win+M: bring it back
+            // Minimised (Win+M) or hidden (Show desktop) behind Avalonia's back: bring it back without activating it.
+            if (IsIconic(h) || !IsWindowVisible(h)) ShowWindow(h, SW_SHOWNOACTIVATE);
             if (layer == WindowLayer.Floating)
             {
                 SetWindowLongPtrW(h, GWLP_HWNDPARENT, 0);
@@ -44,8 +47,9 @@ public sealed partial class WindowsLayering : IWindowLayering
             if (GetWindowLongPtrW(h, GWLP_HWNDPARENT) != desktop) SetWindowLongPtrW(h, GWLP_HWNDPARENT, desktop);
             SetWindowPos(h, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
-        catch (Exception e) when (e is DllNotFoundException or EntryPointNotFoundException or MarshalDirectiveException)
+        catch (Exception) // a layering failure must never take the app down
         {
+            broken = true;
             fallback.Apply(w, layer);
         }
     }
@@ -59,7 +63,7 @@ public sealed partial class WindowsLayering : IWindowLayering
             Win32Properties.AddWindowStylesCallback(w, (style, ex) => (style, Fix(ex)));
             if (Handle(w) is { } h) SetWindowLongPtrW(h, GWL_EXSTYLE, (nint)Fix((uint)GetWindowLongPtrW(h, GWL_EXSTYLE)));
         }
-        catch (Exception e) when (e is DllNotFoundException or EntryPointNotFoundException) { }
+        catch (Exception) { } // cosmetic: never worth a crash
     }
 
     /// <summary>Windows 11 rounds the corners of the glass widget (no effect on Windows 10).</summary>
@@ -69,7 +73,7 @@ public sealed partial class WindowsLayering : IWindowLayering
         {
             if (Handle(w) is { } h) DwmSetWindowAttribute(h, DWMWA_WINDOW_CORNER_PREFERENCE, DWMWCP_ROUND, sizeof(int));
         }
-        catch (Exception e) when (e is DllNotFoundException or EntryPointNotFoundException) { }
+        catch (Exception) { } // cosmetic: never worth a crash
     }
 
     static nint? Handle(Window w) => w.TryGetPlatformHandle()?.Handle is { } h && h != 0 ? h : null;
@@ -90,6 +94,10 @@ public sealed partial class WindowsLayering : IWindowLayering
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool IsIconic(nint hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool IsWindowVisible(nint hWnd);
 
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
