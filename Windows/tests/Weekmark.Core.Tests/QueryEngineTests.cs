@@ -44,7 +44,7 @@ public class QueryEngineTests
                 Assert.True(Int(w, "workdays") == got[i].Workdays, $"{label}[{i}] workdays");
             }
         }
-        Assert.True(all.Count == 268, $"only {all.Count} of {all.Count} vectors covered");
+        Assert.True(all.Count == 272, $"only {all.Count} of {all.Count} vectors covered");
     }
 
     [Fact]

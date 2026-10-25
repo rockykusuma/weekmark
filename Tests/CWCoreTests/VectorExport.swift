@@ -289,7 +289,8 @@ final class VectorExportTests: XCTestCase {
                   "freeze", "release", "re", "x",
                   "24 Dec 2026", "Dec 24 2026", "December 24, 2026", "2026-12-24", "24/12/2026", "12/24/2026",
                   "1 January 2027", "Jan 4, 2027",
-                  "hello", "\u{1F642}", "-", "to", "46-", "cw"]
+                  "hello", "\u{1F642}", "-", "to", "46-", "cw",
+                  "kick"] // a past milestone ("done"); last, so every earlier query keeps its sampled context
         let nows = [Day(2026, 1, 6), Day(2026, 7, 15), Day(2026, 10, 7), Day(2026, 12, 29)]
         var plain = SprintConfig(); plain.enabled = true; plain.anchor = Day(2026, 1, 5)
         var pi = SprintConfig(); pi.enabled = true; pi.anchor = Day(2026, 1, 5); pi.sprintsPerPI = 5; pi.firstPI = 3
@@ -304,7 +305,7 @@ final class VectorExportTests: XCTestCase {
                 for n in [WeekNumbering.iso, .us] {
                     let d = nows[(ci + qi) % 4], v = variants[(ci + qi) % 3]; ci += 1
                     let c = cal(n, loc), now = at(d, c), cur = c.weekRef(for: now)
-                    let specs: [(Int, String, Int, MilestoneColor)] = [(1, "Code freeze", 3, .red), (2, "Release 2.0", 10, .blue), (3, "Hotfix", 1, .teal)]
+                    let specs: [(Int, String, Int, MilestoneColor)] = [(1, "Code freeze", 3, .red), (2, "Release 2.0", 10, .blue), (3, "Hotfix", 1, .teal), (4, "Kickoff", -3, .green)]
                     let list: [Milestone] = !v.1 ? [] : specs.map { id, name, off, col in
                         Milestone(id: UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", id))!, name: name,
                                   week: c.weekRef(cur, adding: off)!, color: col)
