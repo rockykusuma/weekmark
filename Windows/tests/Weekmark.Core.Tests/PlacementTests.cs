@@ -75,11 +75,26 @@ public class PlacementTests
     [Fact]
     public void CaptureOffEverywhereUsesLargestOverlapThenPrimary()
     {
-        var a = new ScreenInfo("a", new(0, 0, 100, 100), new(0, 0, 100, 100), false);
-        var b = new ScreenInfo("b", new(200, 0, 100, 100), new(200, 0, 100, 100), true);
-        // centre (150,50) is in the gap; overlaps a by 50x100? widget x 0..300 covers both equally -> first max (a)
-        Assert.Equal("a", PlacementMath.Capture(-10, 0, 320, 100, [a, b]).ScreenId);
+        var a = new ScreenInfo("a", new(0, 0, 200, 100), new(0, 0, 200, 100), false);
+        var b = new ScreenInfo("b", new(300, 0, 100, 100), new(300, 0, 100, 100), true);
+        // centre (160,50) is in the gap; widget x -10..330 overlaps a by 200x100, b by 30x100 -> a
+        Assert.Equal("a", PlacementMath.Capture(-10, 0, 340, 100, [a, b]).ScreenId);
         Assert.Equal("b", PlacementMath.Capture(1000, 1000, 10, 10, [a, b]).ScreenId);
+    }
+
+    [Fact]
+    public void FallbackNearWorkAreaWidthStaysInside()
+    {
+        var (x, _) = PlacementMath.Restore(null, [Main], 1910, 400);
+        Assert.Equal(0, x);
+    }
+
+    [Fact]
+    public void NonFiniteSavedOffsetsAreIgnored()
+    {
+        var def = PlacementMath.Restore(null, Both, 300, 400);
+        Assert.Equal(def, PlacementMath.Restore(new("main", double.NaN, 5), Both, 300, 400));
+        Assert.Equal(def, PlacementMath.Restore(new("main", 5, double.PositiveInfinity), Both, 300, 400));
     }
 
     [Fact]

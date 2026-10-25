@@ -22,10 +22,13 @@ public static class PlacementMath
         double width, double height)
     {
         if (screens.Count == 0) return (0, 0);
-        var match = saved is null ? null : screens.FirstOrDefault(s => s.Id == saved.ScreenId);
+        var valid = saved is not null && double.IsFinite(saved.OffsetX) && double.IsFinite(saved.OffsetTop);
+        var match = !valid ? null : screens.FirstOrDefault(s => s.Id == saved!.ScreenId);
         if (match is not null)
             return Clamp(match.Bounds.X + saved!.OffsetX, match.Bounds.Y + saved.OffsetTop, match.WorkArea, width, height);
-        return Snap(Primary(screens), Corner.TopRight, width, height);
+        var p = Primary(screens);
+        var (sx, sy) = Snap(p, Corner.TopRight, width, height);
+        return Clamp(sx, sy, p.WorkArea, width, height);
     }
 
     public static SavedPlacement Capture(double x, double y, double width, double height,
