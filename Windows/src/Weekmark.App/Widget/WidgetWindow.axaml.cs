@@ -136,16 +136,19 @@ public partial class WidgetWindow : Window
     {
         base.OnPointerPressed(e);
         if (e.Handled || S.Locked || !e.GetCurrentPoint(this).Properties.IsLeftButtonPressed) return;
+        var pressedAt = Position;
         dragging = true;
         BeginMoveDrag(e);
-        if (OperatingSystem.IsWindows()) EndDrag(); // Win32's move loop is modal: the drag is over when it returns
+        if (OperatingSystem.IsWindows()) EndDrag(pressedAt); // Win32's move loop is modal: the drag is over when it returns
     }
 
-    void EndDrag()
+    /// <summary>Saves only if the widget moved: the move loop also returns after a plain click, and saving then would
+    /// replace an unplugged saved monitor with the one the widget was moved to.</summary>
+    internal void EndDrag(PixelPoint pressedAt)
     {
         dragging = false;
         saveDelay.Stop();
-        SavePlacement();
+        if (Position != pressedAt) SavePlacement();
     }
 
     void OnScreensChanged(object? sender, EventArgs e) => Place();

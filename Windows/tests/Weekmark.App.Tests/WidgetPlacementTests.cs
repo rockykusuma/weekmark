@@ -65,6 +65,22 @@ public sealed class WidgetPlacementTests : IDisposable
     }
 
     [AvaloniaFact]
+    public void AClickWithoutMovingNeverSavesThePlacement()
+    {
+        // Windows' modal move loop returns even when the widget was only clicked: with the saved monitor unplugged,
+        // saving then would replace it with the monitor the widget was moved to.
+        var (w, _) = Shown();
+        w.EndDrag(pressedAt: w.Position);
+        Assert.Null(SavedScreen());
+
+        var pressedAt = w.Position;
+        w.Position += new PixelPoint(-40, 30);
+        w.EndDrag(pressedAt);
+        Assert.NotNull(SavedScreen());
+        w.Close();
+    }
+
+    [AvaloniaFact]
     public void SnapSaves()
     {
         var (w, _) = Shown();
