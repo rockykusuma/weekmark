@@ -202,7 +202,7 @@ final class VectorExportTests: XCTestCase {
 
     func format() -> [String: Any] {
         var result: [String: Any] = [:]
-        let templates = ["EEE", "EEEdMMM", "EEEdMMMyyyy", "dMMM", "MMM", "MMMM", "MMMMyyyy", "EEEEMMMMd", "EEEEdMMMM"]
+        let templates = ["EEE", "EEEdMMM", "EEEdMMMyyyy", "dMMM", "MMM", "MMMM", "MMMMyyyy", "EEEEMMMMd", "EEEEdMMMM", "EEEEdMMMMyyyy"]
         let tplDays = days(Day(2024, 2, 25), Day(2024, 3, 5)) + days(Day(2026, 1, 1), Day(2026, 12, 31))
             + days(Day(2027, 1, 1), Day(2027, 1, 10))
         for (tag, loc) in [("en-GB", gb), ("en-US", usL)] {
@@ -276,13 +276,59 @@ final class VectorExportTests: XCTestCase {
         return out
     }
 
+    /// Lookup answers. Only inputs that don't read the real clock: no year-less dates, no relative day words,
+    /// numeric dates only when unambiguous (a component > 12).
+    func queries() -> [[String: Any]] {
+        let qs = ["", "46", "CW46", "KW 46", "w46", "week 46", "calendar week 46", "46 2027", "46/2027", "2027-W3",
+                  "2027 3", "0", "54", "53", "99", "CW53 2027",
+                  "today", "now", "this week", "current", "next week", "last week", "previous week",
+                  "+6", "+6w", "-2w", "+10d", "-3d", "+1d", "in 6 weeks", "3 weeks ago", "6 weeks", "+600w",
+                  "46-50", "46 - 50", "CW52\u{2013}CW2", "52-2", "46 to 48", "2026-W50..2027-W2", "50-46", "46-99",
+                  "until CW52", "till 3 2027", "to 46", "\u{2192} 50", "-> 50", "today -> CW3 2027",
+                  "until 24 December 2026", "to 2027-01-15",
+                  "freeze", "release", "re", "x",
+                  "24 Dec 2026", "Dec 24 2026", "December 24, 2026", "2026-12-24", "24/12/2026", "12/24/2026",
+                  "1 January 2027", "Jan 4, 2027",
+                  "hello", "\u{1F642}", "-", "to", "46-", "cw"]
+        let nows = [Day(2026, 1, 6), Day(2026, 7, 15), Day(2026, 10, 7), Day(2026, 12, 29)]
+        var plain = SprintConfig(); plain.enabled = true; plain.anchor = Day(2026, 1, 5)
+        var pi = SprintConfig(); pi.enabled = true; pi.anchor = Day(2026, 1, 5); pi.sprintsPerPI = 5; pi.firstPI = 3
+        let variants: [([String], Bool, SprintConfig)] = [([], false, SprintConfig()), (["de", "gb"], true, plain), (["us"], true, pi)]
+        var out: [[String: Any]] = []
+        var k = 0
+        for q in qs {
+            // ponytail: contexts are sampled, not the full cross product; every query hits both locales and numberings.
+            for (loc, tag) in [(gb, "en-GB"), (usL, "en-US")] {
+                for n in [WeekNumbering.iso, .us] {
+                    for _ in 0..<1 {
+                        let d = nows[k % 4], v = variants[(k / 4) % 3]; k += 1
+                        let c = cal(n, loc), now = at(d, c), cur = c.weekRef(for: now)
+                        let specs: [(Int, String, Int, MilestoneColor)] = [(1, "Code freeze", 3, .red), (2, "Release 2.0", 10, .blue), (3, "Hotfix", -2, .teal)]
+                        let list: [Milestone] = !v.1 ? [] : specs.map { id, name, off, col in
+                            Milestone(id: UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", id))!, name: name,
+                                      week: c.weekRef(cur, adding: off)!, color: col)
+                        }
+                        let ctx = QueryContext(cal: c, now: now, numbering: n, holidays: store(v.0), milestones: list, sprint: v.2)
+                        let rs = QueryEngine.evaluate(q, ctx).map { r -> [String: Any] in
+                            ["kind": r.kind.rawValue, "title": r.title, "subtitle": r.subtitle, "detail": opt(r.detail),
+                             "copyText": opt(r.copyText), "week": opt(r.week.map(wr)), "weeks": opt(r.weeks), "workdays": opt(r.workdays)]
+                        }
+                        out.append(["locale": tag, "numbering": n.rawValue, "now": ds(d) + "T12:00", "regions": v.0,
+                                    "milestones": list.map { j($0) }, "sprint": j(v.2), "query": q, "results": rs])
+                    }
+                }
+            }
+        }
+        return out
+    }
+
     // MARK: test
 
     func build() -> [String: Any] {
         [
             "version": 1, "weeks": weeks(), "weeksIn": weeksIn(), "holidays": holidays(),
             "workingDays": workingDays(), "ics": ics(), "sprints": sprints(), "quarters": quarters(),
-            "milestones": milestones(), "format": format(), "weekDetails": weekDetails(),
+            "milestones": milestones(), "format": format(), "weekDetails": weekDetails(), "queries": queries(),
         ]
     }
 
