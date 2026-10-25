@@ -160,7 +160,7 @@
             <TextBlock Classes="help" Text="Export your company's holiday calendar from Outlook or Google Calendar as .ics. Festivals like Diwali or Eid can't be calculated, so add them this way." />
             <StackPanel Orientation="Horizontal" Spacing="8">
               <TextBox Watermark="Name" Width="200" Text="{Binding NewHolidayName}" />
-              <DatePicker SelectedDate="{Binding NewHolidayDate}" />
+              <CalendarDatePicker SelectedDate="{Binding NewHolidayDate}" />
               <Button Content="Add" Command="{Binding AddHoliday}" />
             </StackPanel>
             <ItemsControl ItemsSource="{Binding Sources}">

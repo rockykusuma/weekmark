@@ -392,6 +392,14 @@ public sealed class SettingsViewModelTests : IDisposable
         Assert.Equal(3, state.Settings.Sprint.LengthWeeks);
         Assert.Equal(new Day(2026, 3, 2), state.Settings.Sprint.Anchor);
 
+        // The holiday date picker starts on today and writes the picked date back.
+        tabs.SelectedIndex = 3;
+        w.CaptureRenderedFrame();
+        var holidayDate = w.GetVisualDescendants().OfType<CalendarDatePicker>().Single();
+        Assert.Equal(new DateTime(2026, 10, 25), holidayDate.SelectedDate);
+        holidayDate.SelectedDate = new DateTime(2026, 12, 23);
+        Assert.Equal(new DateTime(2026, 12, 23), vm.NewHolidayDate);
+
         // The milestone editor with a rejected week, and an imported calendar in the holiday list.
         vm.ImportIcs(Ics, "Company");
         tabs.SelectedIndex = 3;
