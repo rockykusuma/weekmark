@@ -251,8 +251,9 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
             .Select(g => new SourceItem(g.Key == "custom" ? "Added by you" : g.Key, $"{g.Count()} day{(g.Count() == 1 ? "" : "s")}",
                 new RelayCommand(() => Edit(() => S.CustomHolidays.RemoveAll(h => h.Source == g.Key)))))
             .ToList();
-        UpcomingHolidays = Ctx.Holidays.Upcoming(Ctx.Today, 6).Select(h =>
-            new UpcomingItem(h.Name, $"{Ctx.Fmt.Format(h.Day.ToDate(), DateTemplate.WeekdayDayMonthYear)} · CW{Ctx.Cal.WeekOf(h.Day.ToDate()).Week}")).ToList();
+        UpcomingHolidays = Ctx.Holidays.Upcoming(Ctx.Today, 6)
+            .Select(h => (h, d: h.Day.TryToDate())).Where(x => x.d is not null) // a hand-edited file can hold a day that doesn't exist
+            .Select(x => new UpcomingItem(x.h.Name, $"{Ctx.Fmt.Format(x.d!.Value, DateTemplate.WeekdayDayMonthYear)} · CW{Ctx.Cal.WeekOf(x.d.Value).Week}")).ToList();
         Milestones = S.Milestones.Select(Item).ToList();
         foreach (var r in Regions) r.Notify();
         OnPropertyChanged(string.Empty);

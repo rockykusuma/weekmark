@@ -85,6 +85,13 @@ public sealed class SettingsViewModelTests : IDisposable
     }
 
     [AvaloniaFact]
+    public void ComingUpSkipsDaysThatDontExist()
+    {
+        var vm = Demo(out _, s => s.CustomHolidays.Add(new Holiday(new Day(2026, 2, 30), "Bad", "custom")));
+        Assert.DoesNotContain(vm.UpcomingHolidays, u => u.Name == "Bad");
+    }
+
+    [AvaloniaFact]
     public void EditsSaveImmediately()
     {
         var (vm, state, store) = Real();
