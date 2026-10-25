@@ -4,7 +4,8 @@ using Velopack;
 
 namespace Weekmark.App;
 
-/// <summary>Command line: <c>--demo-data</c>, <c>--screenshot &lt;path&gt;</c> (implies demo data), <c>--exit-after &lt;seconds&gt;</c>,
+/// <summary>Command line: <c>--demo-data</c>, <c>--screenshot &lt;path&gt;</c> (implies demo data), <c>--exit-after &lt;seconds&gt;</c>
+/// (after the screenshot when there is one; prints idle memory, then quits),
 /// <c>--autostart</c>, <c>--settings [tab]</c> (opens Settings, e.g. on <c>planning</c>), <c>--onboarding</c> (shows the welcome window).
 /// With <c>--screenshot</c>, the settings or welcome window is captured instead of the widget when one is open.</summary>
 public sealed record Options(bool DemoData, string? Screenshot, double? ExitAfter, bool Autostart, string? Settings = null, bool Onboarding = false)

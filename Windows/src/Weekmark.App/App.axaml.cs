@@ -64,13 +64,26 @@ public partial class App : Application
             {
                 Screenshot.Save((Control?)settingsWindow ?? (Control?)welcomeWindow ?? Widget!.View, path);
                 Console.WriteLine($"screenshot={Path.GetFullPath(path)}");
+                ExitLater(o.ExitAfter);
             }, DispatcherPriority.Background);
-        if (o.ExitAfter is { } seconds)
-            DispatcherTimer.RunOnce(() =>
-            {
-                Console.WriteLine($"working_set_mb={Math.Round(Environment.WorkingSet / 1048576.0)}");
-                Quit();
-            }, TimeSpan.FromSeconds(seconds));
+        else ExitLater(o.ExitAfter);
+    }
+
+    /// <summary><c>--exit-after</c>: counted from the screenshot when there is one, so the figure is the idle app's.</summary>
+    void ExitLater(double? seconds)
+    {
+        if (seconds is { } s) DispatcherTimer.RunOnce(() => { ReportMemory(); Quit(); }, TimeSpan.FromSeconds(s));
+    }
+
+    /// <summary>Idle memory after a full collection: the working set (the spec's target) and private bytes.</summary>
+    static void ReportMemory()
+    {
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+        using var p = System.Diagnostics.Process.GetCurrentProcess();
+        static double Mb(long bytes) => Math.Round(bytes / 1048576.0);
+        Console.WriteLine($"working_set_mb={Mb(p.WorkingSet64)} private_mb={Mb(p.PrivateMemorySize64)}");
     }
 
     /// <summary>

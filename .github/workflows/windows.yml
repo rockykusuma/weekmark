@@ -60,27 +60,6 @@ jobs:
       - name: Publish
         run: dotnet publish Windows/src/Weekmark.App -c Release -r ${{ matrix.rid }} --self-contained -p:Version=${{ steps.version.outputs.version }} -o publish
 
-      # Signing: switched on by setting the repository variable SIGNPATH_ENABLED to true once the SignPath Foundation
-      # approves the project (needs secret SIGNPATH_API_TOKEN and variable SIGNPATH_ORGANIZATION_ID). Skipped until then.
-      - id: unsigned
-        if: vars.SIGNPATH_ENABLED == 'true'
-        uses: actions/upload-artifact@v7
-        with:
-          name: unsigned-${{ matrix.rid }}
-          path: |
-            publish/Weekmark.exe
-            publish/Weekmark*.dll
-      - if: vars.SIGNPATH_ENABLED == 'true'
-        uses: signpath/github-action-submit-signing-request@v2
-        with:
-          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
-          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
-          project-slug: weekmark
-          signing-policy-slug: release-signing
-          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
-          wait-for-completion: true
-          output-artifact-directory: publish # signed files replace the unsigned ones before packing
-
       - name: Build from source (the command in Windows/README.md)
         if: matrix.rid == 'win-x64'
         run: |
@@ -89,8 +68,67 @@ jobs:
 
       - name: Install vpk
         run: dotnet tool install -g vpk --version $env:VPK_VERSION
+
+      # Signing (SignPath Foundation), only for windows-v* tags and only once the repository variable SIGNPATH_ENABLED
+      # is true (also needs secret SIGNPATH_API_TOKEN and variable SIGNPATH_ORGANIZATION_ID). Skipped until then.
+      # See specs/signpath-application.md. Pass 1, before packing: the app's exe and dlls, and Velopack's Update.exe,
+      # which vpk copies verbatim from its vendor folder into the packages (so it is signed there, before vpk pack).
+      # Staging runs on every build, so a vpk update that moves its vendor folder fails here, not at a signed release.
+      - name: Stage files to sign
+        run: |
+          $vendor = "$env:USERPROFILE\.dotnet\tools\.store\vpk\$env:VPK_VERSION\vpk\$env:VPK_VERSION\vendor"
+          $update = "$vendor\update_$('${{ matrix.rid }}' -replace '^win-', '').exe"
+          if (-not (Test-Path $update)) { throw "$update not found: has vpk's vendor layout changed?" }
+          New-Item -ItemType Directory unsigned/app, unsigned/vpk | Out-Null
+          Copy-Item publish/Weekmark.exe, publish/Weekmark*.dll unsigned/app
+          Copy-Item $update unsigned/vpk
+          "VPK_VENDOR=$vendor" >> $env:GITHUB_ENV
+      - id: unsigned
+        if: vars.SIGNPATH_ENABLED == 'true' && startsWith(github.ref, 'refs/tags/windows-v')
+        uses: actions/upload-artifact@v7
+        with:
+          name: unsigned-${{ matrix.rid }}
+          path: unsigned/
+          if-no-files-found: error
+      - if: vars.SIGNPATH_ENABLED == 'true' && startsWith(github.ref, 'refs/tags/windows-v')
+        uses: signpath/github-action-submit-signing-request@v2
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: weekmark
+          signing-policy-slug: release-signing
+          artifact-configuration-slug: weekmark-files
+          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: signed
+      - name: Use the signed files
+        if: vars.SIGNPATH_ENABLED == 'true' && startsWith(github.ref, 'refs/tags/windows-v')
+        run: |
+          Copy-Item signed/app/* publish -Force
+          Copy-Item signed/vpk/* $env:VPK_VENDOR -Force
+
       - name: Pack
         run: vpk pack --packId Weekmark --packVersion ${{ steps.version.outputs.version }} --packDir publish --mainExe Weekmark.exe --runtime ${{ matrix.rid }} --channel ${{ matrix.rid }} --outputDir releases
+
+      # Signing pass 2, after packing: Setup.exe (vpk builds it while packing; no release metadata hashes it).
+      - id: unsigned-setup
+        if: vars.SIGNPATH_ENABLED == 'true' && startsWith(github.ref, 'refs/tags/windows-v')
+        uses: actions/upload-artifact@v7
+        with:
+          name: unsigned-setup-${{ matrix.rid }}
+          path: releases/*-Setup.exe
+          if-no-files-found: error
+      - if: vars.SIGNPATH_ENABLED == 'true' && startsWith(github.ref, 'refs/tags/windows-v')
+        uses: signpath/github-action-submit-signing-request@v2
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: weekmark
+          signing-policy-slug: release-signing
+          artifact-configuration-slug: weekmark-setup
+          github-artifact-id: ${{ steps.unsigned-setup.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: releases # the signed Setup.exe replaces the unsigned one
       - run: Get-ChildItem releases
       - uses: actions/upload-artifact@v7
         with:
@@ -115,14 +153,17 @@ jobs:
           $exe = (Get-ChildItem app -Recurse -Filter Weekmark.exe | Where-Object { $_.Directory.Name -eq 'current' } | Select-Object -First 1).FullName
           if (-not $exe) { Get-ChildItem app -Recurse | Select-Object FullName; throw 'Weekmark.exe not found in the portable zip' }
           $png = Join-Path $pwd 'widget.png'
-          $p = Start-Process $exe -ArgumentList '--demo-data', '--screenshot', "`"$png`"", '--exit-after', '15' `
+          $p = Start-Process $exe -ArgumentList '--demo-data', '--screenshot', "`"$png`"", '--exit-after', '60' `
             -RedirectStandardOutput out.txt -RedirectStandardError err.txt -Wait -PassThru
           Get-Content out.txt, err.txt
           if ($p.ExitCode -ne 0) { throw "Weekmark exited with $($p.ExitCode)" }
           if (-not (Test-Path $png)) { throw 'widget.png was not written' }
-          $m = Select-String -Path out.txt -Pattern 'working_set_mb=(\d+)'
-          if (-not $m) { throw 'no working_set_mb in the output' }
+          # Idle memory: printed 60 s after the screenshot, after a full GC.
+          $m = Select-String -Path out.txt -Pattern 'working_set_mb=(\d+) private_mb=(\d+)'
+          if (-not $m) { throw 'no working_set_mb/private_mb in the output' }
           $mb = [int]$m.Matches[0].Groups[1].Value
+          $priv = [int]$m.Matches[0].Groups[2].Value
+          "| Idle memory (60 s after the screenshot, full GC) | MB |`n|---|---|`n| Working set | $mb |`n| Private bytes | $priv |" >> $env:GITHUB_STEP_SUMMARY
           if ($mb -gt 100) { "::warning::Working set is $mb MB, above the 100 MB target" }
       - uses: actions/upload-artifact@v7
         with: { name: widget.png, path: widget.png, if-no-files-found: error }
