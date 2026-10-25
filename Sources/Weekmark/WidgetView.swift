@@ -201,22 +201,26 @@ struct WidgetView: View {
         VStack(alignment: .leading, spacing: 5 * s) {
             ForEach(upcoming(snap)) { m in
                 let st = Milestones.status(m, now: snap.now, cal: snap.cal, holidays: settings.holidays)
-                HStack(spacing: 7 * s) {
+                // Long names wrap to a second line; the widget grows to fit.
+                HStack(alignment: .firstTextBaseline, spacing: 7 * s) {
                     Image(systemName: "flag.fill")
                         .font(.system(size: 9 * s))
                         .foregroundStyle(m.color.color)
                     Text(m.name)
                         .font(.system(size: 12 * s, weight: .semibold))
-                        .lineLimit(1)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 4 * s)
                     Text("CW\(m.week.week)")
                         .font(.system(size: 11 * s, weight: .bold, design: .rounded))
                         .foregroundStyle(m.color.color)
+                        .fixedSize()
                     if let st {
                         Text(st.weeksAway == 0 ? "\(st.workdaysLeft)d left" : "\(st.weeksAway)w · \(st.workdaysLeft)d")
                             .font(.system(size: 10.5 * s, weight: .medium, design: .rounded))
                             .monospacedDigit()
                             .foregroundStyle(.secondary)
+                            .fixedSize()
                     }
                 }
                 .contentShape(Rectangle())
