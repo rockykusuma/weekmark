@@ -167,6 +167,27 @@ public sealed class SettingsStoreTests : IDisposable
     }
 
     [Fact]
+    public void FailedWriteReturnsFalseWithoutThrowingOrLeavingTmp()
+    {
+        var store = Store;
+        var s = store.Load();
+        Directory.CreateDirectory(P); // something in the way of the final move, on every OS
+        s.Size = WidgetSize.Large;
+        var saved = 0;
+        store.Saved += _ => saved++;
+
+        Assert.False(store.Save(s));
+        Assert.NotNull(store.LastSaveError);
+        Assert.False(File.Exists(P + ".tmp"));
+        Assert.Equal(0, saved);
+
+        Directory.Delete(P);
+        Assert.True(store.Save(s));
+        Assert.Null(store.LastSaveError);
+        Assert.Equal(WidgetSize.Large, Store.Load().Size);
+    }
+
+    [Fact]
     public void PartialPlanningObjectsKeepDefaultsForMissingKeys()
     {
         File.WriteAllText(P, """{"sprint":{"enabled":true},"quarter":{"mode":"weeks"}}""");

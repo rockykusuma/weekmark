@@ -79,6 +79,119 @@ public sealed class SettingsViewModelTests : IDisposable
     }
 
     [AvaloniaFact]
+    public void FailedSaveShowsAWarningAndKeepsTheChange()
+    {
+        var (vm, state, _) = Real();
+        Directory.CreateDirectory(SettingsPath); // the write fails after a good load (locked file, full disk, ...)
+
+        vm.SizeIndex = (int)WidgetSize.Large; // must not throw into the binding
+
+        Assert.Equal(WidgetSize.Large, state.Settings.Size);
+        Assert.StartsWith("Couldn't save settings: ", vm.SaveWarning);
+        Assert.EndsWith("Your changes will be kept until Weekmark quits.", vm.SaveWarning);
+        Assert.False(File.Exists(SettingsPath + ".tmp"));
+
+        Directory.Delete(SettingsPath);
+        vm.SizeIndex = (int)WidgetSize.Small;
+        Assert.Null(vm.SaveWarning);
+    }
+
+    [AvaloniaFact]
+    public void OpeningTheWindowNeverRewritesStoredValues()
+    {
+        // Values the controls can't represent (and non-default choices everywhere) survive opening every tab untouched.
+        var seed = DemoData.Create(DateOnly.FromDateTime(Now));
+        seed.Numbering = WeekNumbering.Us;
+        seed.Size = WidgetSize.Large;
+        seed.Layer = WindowLayer.Floating;
+        seed.Background = BackgroundStyle.Clear;
+        seed.Appearance = AppearanceMode.Dark;
+        seed.Sprint = seed.Sprint with { FirstNumber = -3, FirstPI = 12000, LengthWeeks = 52 };
+        seed.Quarter = seed.Quarter with { FiscalStartMonth = 12 };
+        seed.Milestones.Add(new Milestone(Guid.NewGuid(), "Broken", new WeekRef(2027, 99)));
+        Assert.True(new SettingsStore(SettingsPath).Save(seed));
+        var before = File.ReadAllBytes(SettingsPath);
+
+        var (vm, _, _) = Real();
+        var w = new SettingsWindow(vm);
+        w.Show();
+        var tabs = w.GetVisualDescendants().OfType<TabControl>().Single();
+        for (var i = 0; i < tabs.ItemCount; i++)
+        {
+            tabs.SelectedIndex = i;
+            w.CaptureRenderedFrame();
+            TabThroughNumbers(w);
+        }
+        // The editor shows a stored week that doesn't exist as invalid instead of changing it.
+        tabs.SelectedIndex = 4;
+        vm.Milestones.Single(m => m.Name == "Broken").Edit.Execute(null);
+        w.CaptureRenderedFrame();
+        var week = w.GetVisualDescendants().OfType<MilestoneEditor>().Single().GetVisualDescendants().OfType<NumericUpDown>().Last();
+        Assert.Equal(99m, week.Value);
+        TabThroughNumbers(w); // a NumericUpDown commits (and clamps) its text when it loses focus
+        Assert.Equal(99m, week.Value);
+        Assert.Equal("2027 has only 52 weeks", vm.Draft!.Error);
+        vm.CancelDraft.Execute(null);
+        // A control echoing back the value it was given is not an edit (and is not clamped into range).
+        vm.SprintFirstNumber = vm.SprintFirstNumber;
+        vm.FirstPI = vm.FirstPI;
+        vm.SprintAnchor = vm.SprintAnchor;
+        w.Close();
+
+        Assert.Equal(before, File.ReadAllBytes(SettingsPath));
+    }
+
+    static void TabThroughNumbers(Window w)
+    {
+        foreach (var n in w.GetVisualDescendants().OfType<NumericUpDown>().Where(n => n.IsEffectivelyVisible).ToList())
+        {
+            n.Focus();
+            w.GetVisualDescendants().OfType<TabItem>().First().Focus();
+        }
+    }
+
+    [AvaloniaFact]
+    public void SprintNameIsSavedWhenTheFieldLosesFocus()
+    {
+        var vm = Demo(out var state);
+        var w = new SettingsWindow(vm, "planning");
+        w.Show();
+        w.CaptureRenderedFrame();
+        var box = w.GetVisualDescendants().OfType<TextBox>().First(t => t.Text == "Sprint");
+        box.Focus();
+        box.Text = "Iteration";
+        Assert.Equal("Sprint", state.Settings.Sprint.Name); // not on every keystroke
+        w.GetVisualDescendants().OfType<CheckBox>().First().Focus();
+        Assert.Equal("Iteration", state.Settings.Sprint.Name);
+        w.Close();
+    }
+
+    [AvaloniaFact]
+    public void WidgetAppearsOnlyAfterTheWelcomeCloses()
+    {
+        var welcome = new Window();
+        var widget = new Window();
+        welcome.Show();
+        App.ShowAfter(welcome, widget, () => false);
+        Assert.False(widget.IsVisible);
+        welcome.Close();
+        Assert.True(widget.IsVisible);
+        widget.Close();
+
+        var other = new Window();
+        App.ShowAfter(null, other, () => false); // no welcome: right away
+        Assert.True(other.IsVisible);
+        other.Close();
+
+        var quitting = new Window();
+        var late = new Window();
+        quitting.Show();
+        App.ShowAfter(quitting, late, () => true); // the app is shutting down: stay hidden
+        quitting.Close();
+        Assert.False(late.IsVisible);
+    }
+
+    [AvaloniaFact]
     public void ImportIcsAddsHolidays()
     {
         var vm = Demo(out var state);
@@ -168,10 +281,14 @@ public sealed class SettingsViewModelTests : IDisposable
         var vm = Demo(out var state);
         vm.SprintLength = 99;
         vm.SprintsPerPI = 500;
-        vm.FiscalMonthIndex = 12; // one past December
+        vm.FiscalMonthIndex = 11;
         Assert.Equal(52, state.Settings.Sprint.LengthWeeks);
         Assert.Equal(100, state.Settings.Sprint.SprintsPerPI);
         Assert.Equal(12, state.Settings.Quarter.FiscalStartMonth);
+        vm.FiscalMonthIndex = -1; // a ComboBox while its list loads
+        vm.SizeIndex = 9;
+        Assert.Equal(12, state.Settings.Quarter.FiscalStartMonth);
+        Assert.Equal(WidgetSize.Medium, state.Settings.Size);
 
         // A bad stored anchor shows as no date and leaves sprints off the preview without throwing.
         state.Settings.Sprint = state.Settings.Sprint with { Anchor = new Day(2026, 2, 30) };

@@ -45,7 +45,7 @@ public partial class App : Application
             startupExe = exe; // the settings and welcome windows re-apply it when the toggle changes
             Startup.Apply(state.Settings.StartWithWindows, exe);
         }
-        ShowWidget();
+        CreateWidget();
         tray = new TrayController(state, Widget!);
         tray.QuitRequested += () => Quit();
         tray.SettingsRequested += () => OpenSettings();
@@ -55,9 +55,10 @@ public partial class App : Application
             welcomeWindow.Closed += (_, _) => welcomeWindow = null;
             welcomeWindow.Show();
         }
+        ShowAfter(welcomeWindow, Widget!, () => quitting); // first run: the widget appears after the welcome
         // Launched by hand, the widget may be hidden behind windows: show it once. A login launch shows nothing extra,
         // and neither does a first run, where the welcome window has the focus.
-        else if (!o.Autostart) Dispatcher.UIThread.Post(() => Widget?.BringForward());
+        if (welcomeWindow is null && !o.Autostart) Dispatcher.UIThread.Post(() => Widget?.BringForward());
         if (o.Settings is { } tab) OpenSettings(tab);
 
         if (Program.Instance is { } instance)
@@ -76,6 +77,13 @@ public partial class App : Application
             }, TimeSpan.FromSeconds(seconds));
     }
 
+    /// <summary>Shows the widget when the welcome window closes (Done or its close button), or now when there is none.</summary>
+    internal static void ShowAfter(Window? welcome, Window widget, Func<bool> quitting)
+    {
+        if (welcome is null) widget.Show();
+        else welcome.Closed += (_, _) => { if (!quitting()) widget.Show(); };
+    }
+
     /// <summary>One settings window at a time: a second request brings the open one forward.</summary>
     void OpenSettings(string? tab = null)
     {
@@ -88,13 +96,18 @@ public partial class App : Application
         settingsWindow.Activate();
     }
 
-    void ShowWidget()
+    void CreateWidget()
     {
         Widget = new WidgetWindow(state!, layering, glassAllowed: Program.Options.Screenshot is null);
         // The widget never closes by itself; if Windows destroys it (Explorer restart takes its owner along), recreate it.
         Widget.Closed += (_, _) => { if (!quitting) Dispatcher.UIThread.Post(ShowWidget); };
-        Widget.Show();
         if (tray is not null) tray.Widget = Widget;
+    }
+
+    void ShowWidget()
+    {
+        CreateWidget();
+        Widget!.Show();
     }
 
     public void Quit(int code = 0)

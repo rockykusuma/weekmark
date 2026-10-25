@@ -73,45 +73,66 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     AppSettings S => state.Settings;
     WeekContext Ctx => state.Context;
 
-    public string? SaveWarning => state.Store is { IsReadOnly: true } ? ReadOnlyWarning : null;
+    public string? SaveWarning => state.Store switch
+    {
+        { IsReadOnly: true } => ReadOnlyWarning,
+        { LastSaveError: { } e } => $"Couldn't save settings: {e.TrimEnd('.')}. Your changes will be kept until Weekmark quits.",
+        _ => null,
+    };
+
+    // Only a real change saves: a control echoing back the value it was given, or a list's -1 while it loads, never
+    // rewrites the file (stored values the controls can't represent stay as they are until the user edits them).
+    void Set<T>(T current, T value, Action<T> apply)
+    {
+        if (!EqualityComparer<T>.Default.Equals(current, value)) Edit(() => apply(value));
+    }
+    void Pick<T>(int index, T current, Action<T> apply) where T : struct, Enum
+    {
+        if (index >= 0 && index < Enum.GetValues<T>().Length) Set(current, (T)(object)index, apply);
+    }
+    void EditSprint(SprintConfig c) => Set(S.Sprint, c, v => S.Sprint = v);
+    void EditQuarter(QuarterConfig c) => Set(S.Quarter, c, v => S.Quarter = v);
 
     // General
-    public int NumberingIndex { get => (int)S.Numbering; set => Edit(() => S.Numbering = (WeekNumbering)Math.Clamp(value, 0, 1)); }
-    public int AppearanceIndex { get => (int)S.Appearance; set => Edit(() => S.Appearance = (AppearanceMode)Math.Clamp(value, 0, 2)); }
-    public bool ShowInTray { get => S.ShowInMenuBar; set => Edit(() => S.ShowInMenuBar = value); }
+    public int NumberingIndex { get => (int)S.Numbering; set => Pick(value, S.Numbering, v => S.Numbering = v); }
+    public int AppearanceIndex { get => (int)S.Appearance; set => Pick(value, S.Appearance, v => S.Appearance = v); }
+    public bool ShowInTray { get => S.ShowInMenuBar; set => Set(S.ShowInMenuBar, value, v => S.ShowInMenuBar = v); }
     public bool StartWithWindows
     {
         get => S.StartWithWindows;
         set
         {
+            if (value == S.StartWithWindows) return;
             Edit(() => S.StartWithWindows = value);
             if (startupExe is not null) Startup.Apply(value, startupExe);
         }
     }
 
     // Widget
-    public int LayerIndex { get => (int)S.Layer; set => Edit(() => S.Layer = (WindowLayer)Math.Clamp(value, 0, 1)); }
-    public bool Locked { get => S.Locked; set => Edit(() => S.Locked = value); }
-    public int SizeIndex { get => (int)S.Size; set => Edit(() => S.Size = (WidgetSize)Math.Clamp(value, 0, 3)); }
-    public int BackgroundIndex { get => (int)S.Background; set => Edit(() => S.Background = (BackgroundStyle)Math.Clamp(value, 0, 2)); }
-    public bool ShowPlanning { get => S.ShowPlanning; set => Edit(() => S.ShowPlanning = value); }
-    public bool ShowProgress { get => S.ShowProgress; set => Edit(() => S.ShowProgress = value); }
-    public bool ShowMilestones { get => S.ShowMilestones; set => Edit(() => S.ShowMilestones = value); }
-    public bool ShowMonth { get => S.ShowMonth; set => Edit(() => S.ShowMonth = value); }
+    public int LayerIndex { get => (int)S.Layer; set => Pick(value, S.Layer, v => S.Layer = v); }
+    public bool Locked { get => S.Locked; set => Set(S.Locked, value, v => S.Locked = v); }
+    public int SizeIndex { get => (int)S.Size; set => Pick(value, S.Size, v => S.Size = v); }
+    public int BackgroundIndex { get => (int)S.Background; set => Pick(value, S.Background, v => S.Background = v); }
+    public bool ShowPlanning { get => S.ShowPlanning; set => Set(S.ShowPlanning, value, v => S.ShowPlanning = v); }
+    public bool ShowProgress { get => S.ShowProgress; set => Set(S.ShowProgress, value, v => S.ShowProgress = v); }
+    public bool ShowMilestones { get => S.ShowMilestones; set => Set(S.ShowMilestones, value, v => S.ShowMilestones = v); }
+    public bool ShowMonth { get => S.ShowMonth; set => Set(S.ShowMonth, value, v => S.ShowMonth = v); }
 
-    // Planning (ranges match SettingsStore's clamps and Sprints' limits)
-    public bool SprintEnabled { get => S.Sprint.Enabled; set => Edit(() => S.Sprint = S.Sprint with { Enabled = value }); }
-    public string SprintName { get => S.Sprint.Name; set => Edit(() => S.Sprint = S.Sprint with { Name = value }); }
-    public int SprintLength { get => S.Sprint.LengthWeeks; set => Edit(() => S.Sprint = S.Sprint with { LengthWeeks = Math.Clamp(value, 1, 52) }); }
-    public int SprintFirstNumber { get => S.Sprint.FirstNumber; set => Edit(() => S.Sprint = S.Sprint with { FirstNumber = Math.Clamp(value, 0, 9999) }); }
-    public int SprintsPerPI { get => S.Sprint.SprintsPerPI; set => Edit(() => S.Sprint = S.Sprint with { SprintsPerPI = Math.Clamp(value, 0, 100) }); }
-    public int FirstPI { get => S.Sprint.FirstPI; set => Edit(() => S.Sprint = S.Sprint with { FirstPI = Math.Clamp(value, 0, 999) }); }
+    // Planning. User edits are clamped (length and sprints per PI match SettingsStore's clamps and Sprints' limits);
+    // an unchanged value is never clamped, so a stored -3 or 12000 stays until the user edits that field.
+    public bool SprintEnabled { get => S.Sprint.Enabled; set => EditSprint(S.Sprint with { Enabled = value }); }
+    /// <summary>Bound with UpdateSourceTrigger=LostFocus: saved when the field is left, not on every keystroke.</summary>
+    public string SprintName { get => S.Sprint.Name; set => EditSprint(S.Sprint with { Name = value }); }
+    public int SprintLength { get => S.Sprint.LengthWeeks; set { if (value != S.Sprint.LengthWeeks) EditSprint(S.Sprint with { LengthWeeks = Math.Clamp(value, 1, 52) }); } }
+    public int SprintFirstNumber { get => S.Sprint.FirstNumber; set { if (value != S.Sprint.FirstNumber) EditSprint(S.Sprint with { FirstNumber = Math.Clamp(value, 0, 9999) }); } }
+    public int SprintsPerPI { get => S.Sprint.SprintsPerPI; set { if (value != S.Sprint.SprintsPerPI) EditSprint(S.Sprint with { SprintsPerPI = Math.Clamp(value, 0, 100) }); } }
+    public int FirstPI { get => S.Sprint.FirstPI; set { if (value != S.Sprint.FirstPI) EditSprint(S.Sprint with { FirstPI = Math.Clamp(value, 0, 999) }); } }
     public bool ShowPI => S.Sprint.Enabled && S.Sprint.SprintsPerPI > 0;
     /// <summary>Null when the stored anchor is not a real date.</summary>
     public DateTime? SprintAnchor
     {
         get => S.Sprint.Anchor.TryToDate()?.ToDateTime(TimeOnly.MinValue);
-        set { if (value is { } d) Edit(() => S.Sprint = S.Sprint with { Anchor = Day.From(DateOnly.FromDateTime(d)) }); }
+        set { if (value is { } d) EditSprint(S.Sprint with { Anchor = Day.From(DateOnly.FromDateTime(d)) }); }
     }
     public string SprintPreview
     {
@@ -123,9 +144,9 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
             return i.Pi is { } pi && i.SprintInPI is { } n ? $"{s} · PI {pi}, sprint {n} of {i.SprintsPerPI}" : s;
         }
     }
-    public bool QuarterEnabled { get => S.Quarter.Enabled; set => Edit(() => S.Quarter = S.Quarter with { Enabled = value }); }
-    public int QuarterModeIndex { get => (int)S.Quarter.Mode; set => Edit(() => S.Quarter = S.Quarter with { Mode = (QuarterMode)Math.Clamp(value, 0, 1) }); }
-    public int FiscalMonthIndex { get => S.Quarter.FiscalStartMonth - 1; set => Edit(() => S.Quarter = S.Quarter with { FiscalStartMonth = Math.Clamp(value + 1, 1, 12) }); }
+    public bool QuarterEnabled { get => S.Quarter.Enabled; set => EditQuarter(S.Quarter with { Enabled = value }); }
+    public int QuarterModeIndex { get => (int)S.Quarter.Mode; set => Pick(value, S.Quarter.Mode, v => S.Quarter = S.Quarter with { Mode = v }); }
+    public int FiscalMonthIndex { get => S.Quarter.FiscalStartMonth - 1; set { if (value is >= 0 and < 12) EditQuarter(S.Quarter with { FiscalStartMonth = value + 1 }); } }
     public bool ShowFiscalMonth => S.Quarter.Enabled && S.Quarter.Mode == QuarterMode.Months;
 
     // Holidays

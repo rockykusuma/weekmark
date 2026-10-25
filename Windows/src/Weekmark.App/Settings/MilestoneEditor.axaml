@@ -4,14 +4,15 @@
              x:Class="Weekmark.App.Settings.MilestoneEditor"
              x:DataType="s:SettingsViewModel">
   <Border BorderThickness="1" BorderBrush="#40808080" CornerRadius="6" Padding="14">
+    <!-- Year and week take any number, so a stored week that doesn't exist shows as it is, with the error below. -->
     <StackPanel Spacing="10">
       <TextBlock Text="{Binding Draft.Title}" FontWeight="SemiBold" />
       <TextBox Text="{Binding Draft.Name}" Watermark="Name (e.g. Release 5.0, Code freeze)" />
       <StackPanel Orientation="Horizontal" Spacing="10">
         <TextBlock Text="Year" VerticalAlignment="Center" />
-        <NumericUpDown Minimum="2" Maximum="9998" Increment="1" FormatString="0" Width="130" Value="{Binding Draft.Year}" />
+        <NumericUpDown Minimum="-2147483648" Maximum="2147483647" Increment="1" FormatString="0" Width="130" Value="{Binding Draft.Year}" />
         <TextBlock Text="Week" VerticalAlignment="Center" Margin="8,0,0,0" />
-        <NumericUpDown Minimum="1" Maximum="53" Increment="1" FormatString="0" Width="110" Value="{Binding Draft.Week}" />
+        <NumericUpDown Minimum="-2147483648" Maximum="2147483647" Increment="1" FormatString="0" Width="110" Value="{Binding Draft.Week}" />
       </StackPanel>
       <Panel> <!-- one line: the dates, or why the week is rejected -->
         <TextBlock Text="{Binding Draft.Dates}" FontSize="12" Opacity="0.7" />

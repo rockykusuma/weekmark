@@ -131,13 +131,14 @@ public sealed class SettingsStore(string path)
         return s;
     }
 
-    /// <summary>Returns false (and leaves the file alone) when the existing file could not be read at Load.</summary>
+    /// <summary>Why the last <see cref="Save"/> failed (a locked file, a full disk, lost permissions); null after a successful one.</summary>
+    public string? LastSaveError { get; private set; }
+
+    /// <summary>Returns false (and leaves the file alone) when the existing file could not be read at Load, or when
+    /// writing fails (see <see cref="LastSaveError"/>). Never throws for file-system errors.</summary>
     public bool Save(AppSettings s)
     {
         if (unreadable) return false;
-        var dir = Path.GetDirectoryName(path);
-        if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
-
         var node = JsonSerializer.SerializeToNode(s, C.AppSettings)!.AsObject();
         // Values we could not read go back unchanged unless the app has replaced them.
         foreach (var (key, r) in s.Rejected)
@@ -146,8 +147,21 @@ public sealed class SettingsStore(string path)
             if (node[key] is JsonArray arr) foreach (var i in items) arr.Add(JsonNode.Parse(i.GetRawText()));
 
         var tmp = path + ".tmp";
-        File.WriteAllText(tmp, node.ToJsonString(C.Options));
-        if (File.Exists(path)) File.Replace(tmp, path, null); else File.Move(tmp, path);
+        try
+        {
+            var dir = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+            File.WriteAllText(tmp, node.ToJsonString(C.Options));
+            if (File.Exists(path)) File.Replace(tmp, path, null); else File.Move(tmp, path);
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+        {
+            try { File.Delete(tmp); }
+            catch (Exception d) when (d is IOException or UnauthorizedAccessException) { }
+            LastSaveError = e.Message;
+            return false;
+        }
+        LastSaveError = null;
         Saved?.Invoke(s);
         return true;
     }

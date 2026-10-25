@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 
@@ -15,10 +16,17 @@ public partial class SettingsWindow : Window
         InitializeComponent();
         DataContext = vm;
         Tabs.SelectedIndex = Math.Max(0, Array.IndexOf(TabNames, tab?.ToLowerInvariant()));
+        Closing += (_, _) => FocusManager?.ClearFocus(); // commits a text field still being edited
         Closed += (_, _) => vm.Dispose();
     }
 
     SettingsViewModel Vm => (SettingsViewModel)DataContext!;
+
+    // Text fields save when they lose focus; Enter commits too.
+    void CommitOnEnter(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter) FocusManager?.ClearFocus();
+    }
 
     // Never throws: a failed pick or read becomes a line under the button.
     async void ImportIcs(object? sender, RoutedEventArgs e)
