@@ -53,8 +53,11 @@ public sealed class WidgetPlacementTests : IDisposable
     }
 
     [AvaloniaFact]
-    public void ADragSavesThePlacement()
+    public void ADragSavesThePlacementWhenTheMoveLoopIsNotModal()
     {
+        // On Windows BeginMoveDrag is modal and the move happens inside it; the headless platform returns at once, so
+        // this sequence can't represent a Windows drag. AClickWithoutMovingNeverSavesThePlacement covers that path.
+        if (OperatingSystem.IsWindows()) return;
         var (w, _) = Shown();
         w.MouseDown(new Point(20, 20), MouseButton.Left); // starts the drag (modal on Windows: it saves on return)
         w.Position += new PixelPoint(-40, 30);
