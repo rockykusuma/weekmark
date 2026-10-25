@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization.Metadata;
 
 namespace Weekmark.Core;
@@ -6,6 +7,9 @@ namespace Weekmark.Core;
 public sealed class SettingsStore(string path)
 {
     static SettingsJsonContext C => SettingsJsonContext.Default;
+
+    // Set when the file exists but could not be read: Save must not overwrite what we could not see.
+    bool unreadable;
 
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Weekmark", "settings.json");
@@ -16,9 +20,19 @@ public sealed class SettingsStore(string path)
     public AppSettings Load()
     {
         byte[] bytes;
-        try { bytes = File.ReadAllBytes(path); }
-        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { return new(); }
-        if (string.IsNullOrWhiteSpace(System.Text.Encoding.UTF8.GetString(bytes).Trim('\uFEFF'))) return new();
+        for (var attempt = 1; ; attempt++)
+        {
+            try { bytes = File.ReadAllBytes(path); break; }
+            catch (Exception e) when (e is FileNotFoundException or DirectoryNotFoundException) { return new(); }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+            {
+                // Briefly locked by antivirus or a sync client: retry, then give up without ever overwriting the file.
+                if (attempt < 3) { Thread.Sleep(100); continue; }
+                unreadable = true;
+                return new();
+            }
+        }
+        if (string.IsNullOrWhiteSpace(System.Text.Encoding.UTF8.GetString(bytes).Trim('﻿'))) return new();
 
         try
         {
@@ -36,63 +50,102 @@ public sealed class SettingsStore(string path)
         catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
     }
 
-    // One bad key falls back to that key's default; the others still load.
-    static T Get<T>(JsonElement e, JsonTypeInfo<T> info, T fallback)
+    // One bad key (or list item) falls back to its default; the others still load.
+    static bool TryGet<T>(JsonElement e, JsonTypeInfo<T> info, out T value)
     {
-        try { return e.Deserialize(info) ?? fallback; }
-        catch (Exception ex) when (ex is JsonException or InvalidOperationException or ArgumentException or FormatException)
-        { return fallback; }
+        try
+        {
+            // RespectNullableAnnotations makes nulls in required places throw instead of reaching consumers.
+            if (e.Deserialize(info) is { } r) { value = r; return true; }
+        }
+        catch (Exception ex) when (ex is JsonException or InvalidOperationException or ArgumentException or FormatException) { }
+        value = default!;
+        return false;
     }
 
     static AppSettings Parse(JsonElement root)
     {
         var s = new AppSettings();
+        void Scalar<T>(string key, JsonElement v, JsonTypeInfo<T> info, Action<T> set)
+        {
+            if (TryGet(v, info, out var r)) set(r); else s.Rejected[key] = new(v.Clone(), null);
+        }
+        void Items<T>(string key, JsonElement v, JsonTypeInfo<T> info, List<T> target)
+        {
+            if (v.ValueKind != JsonValueKind.Array) { s.Rejected[key] = new(v.Clone(), null); return; }
+            foreach (var item in v.EnumerateArray())
+            {
+                if (TryGet(item, info, out var r)) target.Add(r);
+                else
+                {
+                    if (!s.BadItems.TryGetValue(key, out var bad)) s.BadItems[key] = bad = [];
+                    bad.Add(item.Clone());
+                }
+            }
+        }
+
         foreach (var p in root.EnumerateObject())
         {
             var v = p.Value;
             switch (p.Name)
             {
-                case "numbering": s.Numbering = Get(v, C.WeekNumbering, s.Numbering); break;
-                case "size": s.Size = Get(v, C.WidgetSize, s.Size); break;
-                case "layer": s.Layer = Get(v, C.WindowLayer, s.Layer); break;
-                case "background": s.Background = Get(v, C.BackgroundStyle, s.Background); break;
-                case "appearance": s.Appearance = Get(v, C.AppearanceMode, s.Appearance); break;
-                case "showMonth": s.ShowMonth = Get(v, C.Boolean, s.ShowMonth); break;
-                case "showProgress": s.ShowProgress = Get(v, C.Boolean, s.ShowProgress); break;
-                case "showPlanning": s.ShowPlanning = Get(v, C.Boolean, s.ShowPlanning); break;
-                case "showMilestones": s.ShowMilestones = Get(v, C.Boolean, s.ShowMilestones); break;
-                case "showInMenuBar": s.ShowInMenuBar = Get(v, C.Boolean, s.ShowInMenuBar); break;
-                case "locked": s.Locked = Get(v, C.Boolean, s.Locked); break;
-                case "onboardingDone": s.OnboardingDone = Get(v, C.Boolean, s.OnboardingDone); break;
-                case "startWithWindows": s.StartWithWindows = Get(v, C.Boolean, s.StartWithWindows); break;
+                case "numbering": Scalar(p.Name, v, C.WeekNumbering, x => s.Numbering = x); break;
+                case "size": Scalar(p.Name, v, C.WidgetSize, x => s.Size = x); break;
+                case "layer": Scalar(p.Name, v, C.WindowLayer, x => s.Layer = x); break;
+                case "background": Scalar(p.Name, v, C.BackgroundStyle, x => s.Background = x); break;
+                case "appearance": Scalar(p.Name, v, C.AppearanceMode, x => s.Appearance = x); break;
+                case "showMonth": Scalar(p.Name, v, C.Boolean, x => s.ShowMonth = x); break;
+                case "showProgress": Scalar(p.Name, v, C.Boolean, x => s.ShowProgress = x); break;
+                case "showPlanning": Scalar(p.Name, v, C.Boolean, x => s.ShowPlanning = x); break;
+                case "showMilestones": Scalar(p.Name, v, C.Boolean, x => s.ShowMilestones = x); break;
+                case "showInMenuBar": Scalar(p.Name, v, C.Boolean, x => s.ShowInMenuBar = x); break;
+                case "locked": Scalar(p.Name, v, C.Boolean, x => s.Locked = x); break;
+                case "onboardingDone": Scalar(p.Name, v, C.Boolean, x => s.OnboardingDone = x); break;
+                case "startWithWindows": Scalar(p.Name, v, C.Boolean, x => s.StartWithWindows = x); break;
+                // Absurd planning numbers would overflow or stall the working-day loops.
                 case "sprint":
-                    var sp = Get(v, C.SprintConfig, s.Sprint);
-                    // Absurd values would overflow or stall the working-day loops.
-                    s.Sprint = sp with { LengthWeeks = Math.Clamp(sp.LengthWeeks, 1, 520), SprintsPerPI = Math.Clamp(sp.SprintsPerPI, 0, 100) };
+                    Scalar(p.Name, v, C.SprintConfig, x => s.Sprint = x with { LengthWeeks = Math.Clamp(x.LengthWeeks, 1, 520), SprintsPerPI = Math.Clamp(x.SprintsPerPI, 0, 100) });
                     break;
                 case "quarter":
-                    var q = Get(v, C.QuarterConfig, s.Quarter);
-                    s.Quarter = q with { FiscalStartMonth = Math.Clamp(q.FiscalStartMonth, 1, 12) };
+                    Scalar(p.Name, v, C.QuarterConfig, x => s.Quarter = x with { FiscalStartMonth = Math.Clamp(x.FiscalStartMonth, 1, 12) });
                     break;
-                case "milestones": s.Milestones = Get(v, C.ListMilestone, s.Milestones); break;
-                case "regions": s.Regions = Get(v, C.ListHolidayRegion, s.Regions).Distinct().ToList(); break;
-                case "customHolidays": s.CustomHolidays = Get(v, C.ListHoliday, s.CustomHolidays); break;
-                case "screenID": s.ScreenID = Get(v, C.String, null!); break;
+                case "milestones": Items(p.Name, v, C.Milestone, s.Milestones); break;
+                case "regions": Items(p.Name, v, C.HolidayRegion, s.Regions); s.Regions = s.Regions.Distinct().ToList(); break;
+                case "customHolidays": Items(p.Name, v, C.Holiday, s.CustomHolidays); break;
+                case "screenID": Scalar(p.Name, v, C.String, x => s.ScreenID = x); break;
                 case "offsetX": s.OffsetX = v.ValueKind == JsonValueKind.Number && v.TryGetDouble(out var x) ? x : null; break;
                 case "offsetTop": s.OffsetTop = v.ValueKind == JsonValueKind.Number && v.TryGetDouble(out var t) ? t : null; break;
                 default: s.Unknown[p.Name] = v.Clone(); break;
             }
         }
+
+        // Remember what we substituted, so Save can tell whether the app has since set a new value.
+        if (s.Rejected.Count > 0)
+        {
+            var node = JsonSerializer.SerializeToNode(s, C.AppSettings)!.AsObject();
+            foreach (var k in s.Rejected.Keys.ToList()) s.Rejected[k] = s.Rejected[k] with { Substituted = node[k]?.ToJsonString() };
+        }
         return s;
     }
 
-    public void Save(AppSettings s)
+    /// <summary>Returns false (and leaves the file alone) when the existing file could not be read at Load.</summary>
+    public bool Save(AppSettings s)
     {
+        if (unreadable) return false;
         var dir = Path.GetDirectoryName(path);
         if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+
+        var node = JsonSerializer.SerializeToNode(s, C.AppSettings)!.AsObject();
+        // Values we could not read go back unchanged unless the app has replaced them.
+        foreach (var (key, r) in s.Rejected)
+            if (node[key]?.ToJsonString() == r.Substituted) node[key] = JsonNode.Parse(r.Raw.GetRawText());
+        foreach (var (key, items) in s.BadItems)
+            if (node[key] is JsonArray arr) foreach (var i in items) arr.Add(JsonNode.Parse(i.GetRawText()));
+
         var tmp = path + ".tmp";
-        File.WriteAllText(tmp, JsonSerializer.Serialize(s, C.AppSettings));
+        File.WriteAllText(tmp, node.ToJsonString(C.Options));
         if (File.Exists(path)) File.Replace(tmp, path, null); else File.Move(tmp, path);
         Saved?.Invoke(s);
+        return true;
     }
 }

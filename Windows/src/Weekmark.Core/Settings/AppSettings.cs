@@ -66,6 +66,12 @@ public sealed class AppSettings
     /// <summary>Keys this version does not know; written back unchanged on save.</summary>
     [JsonExtensionData] public Dictionary<string, JsonElement> Unknown { get; set; } = [];
 
+    internal sealed record RejectedValue(JsonElement Raw, string? Substituted);
+    /// <summary>Known keys whose value could not be read; written back on Save unless the app replaced them.</summary>
+    internal readonly Dictionary<string, RejectedValue> Rejected = [];
+    /// <summary>List items that could not be read; appended back to their array on Save.</summary>
+    internal readonly Dictionary<string, List<JsonElement>> BadItems = [];
+
     public HolidayStore BuildHolidays() => new(Regions, CustomHolidays);
     public WeekCalendar BuildCalendar() => new(Numbering);
 }

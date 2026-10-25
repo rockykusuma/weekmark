@@ -165,6 +165,87 @@ public sealed class SettingsStoreTests : IDisposable
         Assert.Equal(99, Assert.Single(s.Milestones).Week.Week);
     }
 
+    const string M1 = """{"id":"6F9619FF-8B86-D011-B42D-00C04FC964FF","name":"A","week":{"year":2026,"week":48},"color":"red"}""";
+    const string M2 = """{"id":"7F9619FF-8B86-D011-B42D-00C04FC964FF","name":"B","week":{"year":2026,"week":49},"color":"blue"}""";
+    const string MBad = """{"id":"8F9619FF-8B86-D011-B42D-00C04FC964FF","name":"C","week":{"year":2026,"week":50},"color":"chartreuse"}""";
+
+    JsonElement SavedRoot()
+    {
+        using var d = JsonDocument.Parse(File.ReadAllText(P));
+        return d.RootElement.Clone();
+    }
+
+    [Fact]
+    public void BadMilestoneItemIsPreservedOnSave()
+    {
+        File.WriteAllText(P, $$"""{"milestones":[{{M1}},{{MBad}},{{M2}}]}""");
+        var s = Store.Load();
+        Assert.Equal(2, s.Milestones.Count);
+        Store.Save(s);
+        var arr = SavedRoot().GetProperty("milestones");
+        Assert.Equal(3, arr.GetArrayLength());
+        Assert.Contains(arr.EnumerateArray(), e => e.GetProperty("color").GetString() == "chartreuse" && e.GetProperty("name").GetString() == "C");
+        Assert.Equal(2, Store.Load().Milestones.Count);
+    }
+
+    [Fact]
+    public void UnknownRegionIsPreservedOnSave()
+    {
+        File.WriteAllText(P, """{"regions":["us","xx","de"]}""");
+        var s = Store.Load();
+        Assert.Equal([HolidayRegion.Us, HolidayRegion.De], s.Regions);
+        Store.Save(s);
+        Assert.Equal("us,de,xx", string.Join(",", SavedRoot().GetProperty("regions").EnumerateArray().Select(e => e.GetString())));
+    }
+
+    [Fact]
+    public void UnreadableSprintIsKeptUntilTheAppReplacesIt()
+    {
+        File.WriteAllText(P, """{"sprint":{"enabled":true,"lengthWeeks":99999999999,"name":"Keep"}}""");
+        var store = Store;
+        var s = store.Load();
+        Assert.False(s.Sprint.Enabled);
+        store.Save(s);
+        Assert.Equal(99999999999, SavedRoot().GetProperty("sprint").GetProperty("lengthWeeks").GetInt64());
+        Assert.Equal("Keep", SavedRoot().GetProperty("sprint").GetProperty("name").GetString());
+
+        s.Sprint = new SprintConfig { Enabled = true, Name = "New" };
+        store.Save(s);
+        Assert.Equal("New", SavedRoot().GetProperty("sprint").GetProperty("name").GetString());
+    }
+
+    [Fact]
+    public void NullsNeverReachConsumers()
+    {
+        File.WriteAllText(P, $$$"""
+        {"milestones":[null,{{{M1}}}],"regions":[null,"us"],"customHolidays":[null],
+         "sprint":{"enabled":true,"anchor":null}}
+        """);
+        var s = Store.Load();
+        Assert.DoesNotContain(null!, s.Milestones);
+        Assert.Single(s.Milestones);
+        Assert.Equal([HolidayRegion.Us], s.Regions);
+        Assert.Empty(s.CustomHolidays);
+        Assert.Equal(new SprintConfig(), s.Sprint);
+        Store.Save(s);
+        Assert.Equal(JsonValueKind.Null, SavedRoot().GetProperty("sprint").GetProperty("anchor").ValueKind);
+        Assert.Equal(2, SavedRoot().GetProperty("milestones").GetArrayLength());
+    }
+
+    [Fact]
+    public void UnreadableFileGivesDefaultsAndIsNeverOverwritten()
+    {
+        File.WriteAllText(P, """{"size":"large"}""");
+        var store = Store;
+        AppSettings s;
+        using (new FileStream(P, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            s = store.Load();
+        Assert.Equal(WidgetSize.Medium, s.Size);
+        Assert.False(store.Save(s));
+        Assert.Equal("""{"size":"large"}""", File.ReadAllText(P));
+        Assert.Empty(Directory.GetFiles(dir, "*.tmp"));
+    }
+
     [Fact]
     public void SaveIsAtomic()
     {

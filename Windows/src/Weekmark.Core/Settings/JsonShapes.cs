@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Weekmark.Core;
 
-[JsonSourceGenerationOptions(WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull)]
+[JsonSourceGenerationOptions(WriteIndented = true, RespectNullableAnnotations = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull)]
 [JsonSerializable(typeof(AppSettings))]
 [JsonSerializable(typeof(bool))]
 [JsonSerializable(typeof(string))]
@@ -14,9 +14,9 @@ namespace Weekmark.Core;
 [JsonSerializable(typeof(AppearanceMode))]
 [JsonSerializable(typeof(SprintConfig))]
 [JsonSerializable(typeof(QuarterConfig))]
-[JsonSerializable(typeof(List<Milestone>))]
-[JsonSerializable(typeof(List<HolidayRegion>))]
-[JsonSerializable(typeof(List<Holiday>))]
+[JsonSerializable(typeof(Milestone))]
+[JsonSerializable(typeof(HolidayRegion))]
+[JsonSerializable(typeof(Holiday))]
 internal sealed partial class SettingsJsonContext : JsonSerializerContext;
 
 public static class JsonShapes
