@@ -9,3 +9,4 @@ xcuserdata/
 .vscode/
 .env.local
 .env
+.claude/worktrees/
