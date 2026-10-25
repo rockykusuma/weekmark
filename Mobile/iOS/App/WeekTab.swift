@@ -51,6 +51,9 @@ struct WeekTab: View {
             .sheet(item: $detail) { ref in
                 WeekDetailSheet(ref: ref).presentationDetents([.medium, .large])
             }
+            #if DEBUG
+            .task { if DebugLaunch.weekDetail { detail = store.context().current } }
+            #endif
         }
     }
 
@@ -109,11 +112,14 @@ struct WeekTab: View {
     }
 }
 
+/// A week's details. ‹ › or a sideways swipe step to the previous/next week without closing the sheet.
 struct WeekDetailSheet: View {
     @EnvironmentObject private var store: PlanStore
-    let ref: WeekRef
+    @State private var ref: WeekRef
     @State private var addingMilestone = false
     @State private var copied = false
+
+    init(ref: WeekRef) { _ref = State(initialValue: ref) }
 
     var body: some View {
         let ctx = store.context()
@@ -122,11 +128,20 @@ struct WeekDetailSheet: View {
         NavigationStack {
             List {
                 Section {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("CW\(ref.week)").font(.system(size: 44, weight: .bold, design: .rounded)).foregroundStyle(Color.accentColor)
-                        Text(fmt.longRange(ref)).font(.headline)
-                        Text(r.subtitle).font(.subheadline).foregroundStyle(.secondary)
-                        if let d = r.detail { Text(d).font(.footnote).foregroundStyle(.secondary) }
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("CW\(ref.week)").font(.system(size: 44, weight: .bold, design: .rounded))
+                                .foregroundStyle(ref == ctx.current ? Color.accentColor : Color.primary)
+                                .contentTransition(.numericText())
+                            Text(fmt.longRange(ref)).font(.headline)
+                            Text(r.subtitle).font(.subheadline).foregroundStyle(.secondary)
+                            if let d = r.detail { Text(d).font(.footnote).foregroundStyle(.secondary) }
+                        }
+                        Spacer()
+                        if ref != ctx.current {
+                            Button("This Week") { step(to: ctx.current) }
+                                .buttonStyle(.bordered).buttonBorderShape(.capsule).controlSize(.small)
+                        }
                     }
                     .padding(.vertical, 4)
                 }
@@ -151,8 +166,32 @@ struct WeekDetailSheet: View {
             }
             .navigationTitle("Week \(ref.week), \(String(ref.year))")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button { step(by: -1, ctx.cal) } label: { Image(systemName: "chevron.left") }
+                        .accessibilityLabel("Previous week")
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { step(by: 1, ctx.cal) } label: { Image(systemName: "chevron.right") }
+                        .accessibilityLabel("Next week")
+                }
+            }
+            .simultaneousGesture(DragGesture(minimumDistance: 30).onEnded { v in
+                guard abs(v.translation.width) > abs(v.translation.height) * 2 else { return }
+                step(by: v.translation.width < 0 ? 1 : -1, ctx.cal)
+            })
+            .sensoryFeedback(.selection, trigger: ref)
             .sheet(isPresented: $addingMilestone) { MilestoneEditor(prefill: ref) }
         }
+    }
+
+    private func step(by weeks: Int, _ cal: Calendar) {
+        if let next = cal.weekRef(ref, adding: weeks) { step(to: next) }
+    }
+
+    private func step(to next: WeekRef) {
+        withAnimation(.snappy) { ref = next }
+        copied = false
     }
 
     private func copy(_ text: String) {

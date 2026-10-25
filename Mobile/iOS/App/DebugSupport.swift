@@ -5,9 +5,11 @@ import WidgetKit
 /// Debug-only launch options:
 ///   -demoData       seed sample milestones and sprints (for screenshots)
 ///   -widgetGallery  show every widget size on one screen
+///   -weekDetail     open this week's detail sheet on the Week tab
 enum DebugLaunch {
     static var args: [String] { ProcessInfo.processInfo.arguments }
     static var widgetGallery: Bool { args.contains("-widgetGallery") }
+    static var weekDetail: Bool { args.contains("-weekDetail") }
     static var tab: Int? { args.firstIndex(of: "-tab").flatMap { i in i + 1 < args.count ? Int(args[i + 1]) : nil } }
 
     @MainActor static func applyDemoData(_ store: PlanStore) {
