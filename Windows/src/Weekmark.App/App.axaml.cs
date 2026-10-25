@@ -8,6 +8,7 @@ using Weekmark.App.Platform;
 using Weekmark.App.Settings;
 using Weekmark.App.Tray;
 using Weekmark.App.Widget;
+using Weekmark.App.Year;
 using Weekmark.Core;
 
 namespace Weekmark.App;
@@ -19,6 +20,7 @@ public partial class App : Application
     IWindowLayering layering = new FallbackLayering();
     TrayController? tray;
     SettingsWindow? settingsWindow;
+    YearWindow? yearWindow;
     WelcomeWindow? welcomeWindow;
     string? startupExe;
     bool quitting;
@@ -45,6 +47,7 @@ public partial class App : Application
         tray = new TrayController(state, Widget!);
         tray.QuitRequested += () => Quit();
         tray.SettingsRequested += () => OpenSettings();
+        tray.YearRequested += OpenYear;
         if (o.Onboarding || (!o.DemoData && !state.Settings.OnboardingDone))
         {
             welcomeWindow = new WelcomeWindow(new WelcomeViewModel(state, WelcomeViewModel.CurrentRegion(), startupExe));
@@ -56,13 +59,14 @@ public partial class App : Application
         // and neither does a first run, where the welcome window has the focus.
         if (welcomeWindow is null && !o.Autostart) Dispatcher.UIThread.Post(() => Widget?.BringForward());
         if (o.Settings is { } tab) OpenSettings(tab);
+        if (o.Year) OpenYear();
 
         if (Program.Instance is { } instance)
             instance.ActivationRequested += () => Dispatcher.UIThread.Post(() => Widget?.BringForward());
         if (o.Screenshot is { } path)
             Dispatcher.UIThread.Post(() => // Background priority: runs after the shown widget's first layout pass
             {
-                Screenshot.Save((Control?)settingsWindow ?? (Control?)welcomeWindow ?? Widget!.View, path);
+                Screenshot.Save((Control?)yearWindow ?? (Control?)settingsWindow ?? (Control?)welcomeWindow ?? Widget!.View, path);
                 Console.WriteLine($"screenshot={Path.GetFullPath(path)}");
                 ExitLater(o.ExitAfter);
             }, DispatcherPriority.Background);
@@ -119,11 +123,24 @@ public partial class App : Application
         settingsWindow.Activate();
     }
 
+    /// <summary>One Year at a Glance window at a time: a second request brings the open one forward.</summary>
+    void OpenYear()
+    {
+        if (yearWindow is null)
+        {
+            yearWindow = new YearWindow(state!);
+            yearWindow.Closed += (_, _) => yearWindow = null;
+            yearWindow.Show();
+        }
+        yearWindow.Activate();
+    }
+
     void CreateWidget()
     {
         Widget = new WidgetWindow(state!, layering, glassAllowed: Program.Options.Screenshot is null);
         // The widget never closes by itself; if Windows destroys it (Explorer restart takes its owner along), recreate it.
         Widget.Closed += (_, _) => { if (!quitting) Dispatcher.UIThread.Post(ShowWidget); };
+        Widget.YearRequested += OpenYear;
         if (tray is not null) tray.Widget = Widget;
     }
 

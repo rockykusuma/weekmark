@@ -88,6 +88,11 @@ public sealed partial class WidgetViewModel : ObservableObject, IWeekPicker, IDi
     /// </summary>
     public event Action<bool>? WasReset;
 
+    /// <summary>The calendar button: the app opens the Year at a Glance window.</summary>
+    public event Action? YearRequested;
+
+    [RelayCommand] void ShowYear() => YearRequested?.Invoke();
+
     /// <summary>The lookup; tests swap it for one that throws.</summary>
     internal Func<string, WeekContext, IReadOnlyList<QueryResult>> Evaluate { get; set; } = QueryEngine.Evaluate;
 

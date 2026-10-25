@@ -25,6 +25,8 @@ public partial class WidgetWindow : Window
     readonly DispatcherTimer floatEnd = new() { Interval = TimeSpan.FromSeconds(8) };
     bool placing, floating, hooked, dragging, typing;
 
+    public event Action? YearRequested;
+
     /// <summary>For the XAML designer only.</summary>
     public WidgetWindow() => InitializeComponent();
 
@@ -42,6 +44,7 @@ public partial class WidgetWindow : Window
         View.Field.GotFocus += (_, _) => BeginTyping();
         View.Field.LostFocus += (_, _) => EndTyping(clearFocus: false); // focus is already leaving
         View.Field.AddHandler(KeyDownEvent, OnFieldKey, RoutingStrategies.Tunnel);
+        vm.YearRequested += () => YearRequested?.Invoke();
         vm.WasReset += handBack => EndTyping(handBack: handBack);
         state.Changed += ApplySettings;
         Screens.Changed += OnScreensChanged;

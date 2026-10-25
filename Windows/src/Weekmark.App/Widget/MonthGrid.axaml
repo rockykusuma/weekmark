@@ -10,6 +10,11 @@
       <TextBlock Text="{Binding MonthTitle}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
       <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
         <Button Classes="pill" Content="Today" Command="{Binding ResetCommand}" IsVisible="{Binding IsBrowsing}" />
+        <Button Classes="pill square" Command="{Binding ShowYearCommand}" AutomationProperties.Name="Year at a Glance"
+                ToolTip.Tip="Year at a Glance">
+          <Path Data="{DynamicResource CalendarIcon}" Stroke="{DynamicResource TextPrimary}" StrokeThickness="1.2"
+                StrokeLineCap="Round" StrokeJoin="Round" Width="10" Height="10" Stretch="Uniform" />
+        </Button>
         <Button Classes="pill square" Command="{Binding PreviousCommand}" AutomationProperties.Name="Previous month">
           <Path Data="{DynamicResource ChevronLeft}" Stroke="{DynamicResource TextPrimary}" StrokeThickness="1.6"
                 StrokeLineCap="Round" StrokeJoin="Round" Width="5" Height="9" Stretch="Uniform" />

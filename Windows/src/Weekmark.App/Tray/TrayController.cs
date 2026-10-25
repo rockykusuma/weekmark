@@ -41,6 +41,7 @@ public sealed class TrayController : IDisposable
 
     /// <summary>"Settings…" was chosen; the settings window (Task 11) listens.</summary>
     public event Action? SettingsRequested;
+    public event Action? YearRequested;
     public event Action? QuitRequested;
 
     public TrayIcon Icon => icon;
@@ -104,6 +105,7 @@ public sealed class TrayController : IDisposable
         menu.Add(Label($"Week {week.Week} of {snap.WeeksInYear} · {snap.RangeText}, {week.Year}"));
         if (PlanningLine(ctx, s) is { } planning) menu.Add(Label(planning));
         menu.Add(Item($"Copy “{copy}”", () => _ = Widget.CopyAsync(copy)));
+        menu.Add(Item("Year at a Glance…", () => YearRequested?.Invoke()));
         menu.Add(new NativeMenuItemSeparator());
         menu.Add(Item(widget.IsVisible ? "Hide Widget" : "Show Widget", () =>
         {

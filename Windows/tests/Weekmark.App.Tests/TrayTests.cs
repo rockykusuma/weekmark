@@ -89,7 +89,7 @@ public sealed class TrayTests
         Assert.Equal("Q4 2026 · Sprint 21, day 10 of 10", top[1].Header);
         Assert.False(top[1].IsEnabled);
         Assert.Equal("Copy “CW43 (19–25 Oct)”", top[2].Header);
-        Assert.Equal(["-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"], top.Skip(3).Select(i => i.Header));
+        Assert.Equal(["Year at a Glance…", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"], top.Skip(3).Select(i => i.Header));
         Assert.Equal("CW 43 · 19–25 Oct 2026", tray.Icon.ToolTipText);
 
         var position = Item(tray.Menu, "Position").Menu!;
