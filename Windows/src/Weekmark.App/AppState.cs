@@ -37,6 +37,8 @@ public sealed class AppState : IDisposable
     public AppSettings Settings { get; }
     public SettingsStore? Store { get; }
     public WeekContext Context { get; private set; }
+    /// <summary>The clock right now (tests inject theirs); <see cref="Context"/> holds the last tick's time.</summary>
+    public DateTime Now => clock();
     /// <summary>Bumped on every settings change, so views can tell a settings change from a clock tick.</summary>
     public int Version { get; private set; }
     public event Action? Changed;

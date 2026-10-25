@@ -1,5 +1,6 @@
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Weekmark.Core;
@@ -13,7 +14,7 @@ public sealed record DayModel(string Weekday, string Number, bool IsToday, bool 
 public sealed record ProgressModel(string Today, string Percent, double FillWidth);
 public sealed record MilestoneModel(string Name, string WeekText, string? Countdown, IBrush Brush, WeekRef Week, bool CanPin, string Tip);
 public sealed record MonthDayModel(string Number, bool IsToday, bool OutOfMonth, bool IsHoliday);
-public sealed record DetailsModel(string Title, string Subtitle, bool IsHint, bool IsPinned, bool IsCurrent);
+public sealed record DetailsModel(string Title, string Subtitle, bool IsHint, bool IsPinned, bool IsCurrent, bool IsError = false);
 
 public sealed partial class MonthRowModel(WeekRef week, IReadOnlyList<MonthDayModel> days, bool isCurrent, bool sprintStart,
     IBrush? flag, string? tip) : ObservableObject
@@ -41,16 +42,24 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
     (DateOnly, int)? fullKey;
     (DateOnly, DateOnly, int)? monthKey;
     WeekNumbering? numbering;
-    DateTime lastInteraction = DateTime.UtcNow;
+    // ponytail: evaluated on the UI thread once typing pauses; a huge range (2000 w1-9998 w52) blocks ~0.5 s once.
+    // Off-thread evaluation needs a thread-safe HolidayStore cache first.
+    readonly DispatcherTimer debounce = new() { Interval = TimeSpan.FromMilliseconds(150) };
+    DateTime lastInteraction;
     WeekRef? hover;
-    bool glassAvailable;
+    bool glassAvailable, silent;
 
     public WidgetViewModel(AppState state)
     {
         this.state = state;
+        lastInteraction = Now;
+        debounce.Tick += (_, _) => FlushSearch();
         state.Changed += Refresh;
         Refresh();
     }
+
+    /// <summary>Raised by <see cref="Reset"/> (Esc, ×, Today, idle): the window gives keyboard focus back.</summary>
+    public event Action? WasReset;
 
     AppSettings S => state.Settings;
     WeekContext Ctx => state.Context;
@@ -75,6 +84,10 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
     [ObservableProperty] private bool isClear;
     [ObservableProperty] private int monthOffset;
     [ObservableProperty] private WeekRef? pinned;
+    /// <summary>The search field's text; evaluated 150 ms after the last keystroke.</summary>
+    [ObservableProperty] private string query = "";
+    /// <summary>The first lookup result for <see cref="Query"/>; its week is pinned (orange) and shown in the month grid.</summary>
+    [ObservableProperty] private QueryResult? result;
 
     /// <summary>Set by the window: true when the OS gave it Mica/acrylic/blur. Glass falls back to Solid otherwise.</summary>
     public bool GlassAvailable
@@ -95,9 +108,11 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         }
     }
 
+    /// <summary>A click on a week or milestone: pins it and clears the query, as the Mac's <c>select</c>.</summary>
     public void Pin(WeekRef r)
     {
         if (!IsValid(r)) return; // stored or computed weeks that don't exist
+        ClearSearch();
         Pinned = r;
         MonthOffset = snap.MonthOffsetFor(r);
         Touch();
@@ -114,17 +129,64 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
     [RelayCommand] void Previous() => Step(-1);
     [RelayCommand] void Next() => Step(1);
 
+    /// <summary>Clears the query, the pin and the month offset (Esc, ×, Today, 2 minutes idle).</summary>
     [RelayCommand]
     public void Reset()
     {
+        ClearSearch();
         Pinned = null;
         hover = null;
         OnPropertyChanged(nameof(Hover));
         MonthOffset = 0;
         RebuildMonth();
+        WasReset?.Invoke();
     }
 
-    void Touch() => lastInteraction = DateTime.UtcNow;
+    partial void OnQueryChanged(string value)
+    {
+        if (silent) return;
+        Touch();
+        debounce.Stop();
+        if (value.Trim().Length > 0) { debounce.Start(); UpdateSelection(); return; }
+        Result = null; // emptied by hand: back to today at once
+        Pinned = null;
+        MonthOffset = 0;
+        RebuildMonth();
+    }
+
+    /// <summary>Evaluates a pending query now (Enter, tests); no-op when nothing is pending.</summary>
+    public void FlushSearch()
+    {
+        if (!debounce.IsEnabled) return;
+        debounce.Stop();
+        Search();
+    }
+
+    void Search()
+    {
+        if (Query.Trim().Length == 0) return;
+        Result = QueryEngine.Evaluate(Query, Ctx).FirstOrDefault();
+        if (Result?.Week is { } w && IsValid(w)) // settings may make a week invalid: never pin or scroll to it
+        {
+            Pinned = w;
+            MonthOffset = snap.MonthOffsetFor(w);
+        }
+        else Pinned = null;
+        RebuildMonth();
+    }
+
+    void ClearSearch()
+    {
+        debounce.Stop();
+        Result = null;
+        silent = true;
+        Query = "";
+        silent = false;
+    }
+
+    // UTC: a DST change never makes the idle time negative.
+    DateTime Now => state.Now.ToUniversalTime();
+    void Touch() => lastInteraction = Now;
 
     bool IsValid(WeekRef r) => r.Year is >= 2 and <= 9998 && r.Week >= 1 && r.Week <= Ctx.Cal.WeeksIn(r.Year);
 
@@ -134,7 +196,7 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         var key = (Ctx.Today, state.Version);
         if (key != fullKey) { fullKey = key; RebuildAll(); }
         else Progress = BuildProgress(); // a plain 30 s tick: only the week progress moves
-        if (IsBrowsing && DateTime.UtcNow - lastInteraction > IdleReset) Reset();
+        if (IsBrowsing && Now - lastInteraction > IdleReset) Reset();
     }
 
     void RebuildAll()
@@ -163,6 +225,7 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         Weekdays = snap.Days.Select(d => fmt.Format(d, DateTemplate.Weekday)[..1]).ToList();
         UpdateBackground();
         RebuildMonth();
+        if (!debounce.IsEnabled) Search(); // a new day or new settings: "+1w" or "51" may mean another week now
     }
 
     List<ChipModel> BuildChips()
@@ -220,7 +283,13 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
             r.IsPinned = r.Week == Pinned;
             r.IsHover = r.Week == hover;
         }
-        IsBrowsing = MonthOffset != 0 || Pinned is not null;
+        IsBrowsing = MonthOffset != 0 || Pinned is not null || Query.Length > 0;
+        if (hover is null && Result is { } q) // hover wins over the lookup result, as on the Mac
+        {
+            Details = new(q.Title, q.Detail is { } qd ? $"{q.Subtitle} · {qd}" : q.Subtitle, false,
+                q.Week is { } qw && qw == Pinned, q.Week == Ctx.Current, q.Kind == QueryKind.Error);
+            return;
+        }
         var shown = hover ?? Pinned;
         if (shown is not { } w || !IsValid(w)) { Details = Hint; return; }
         var d = WeekDetails.For(w, Ctx);
@@ -249,7 +318,11 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         _ => "#FF9500",
     }));
 
-    public void Dispose() => state.Changed -= Refresh;
+    public void Dispose()
+    {
+        state.Changed -= Refresh;
+        debounce.Stop();
+    }
 
     // Created on first use, after Avalonia's platform is up (geometry parsing needs it).
     static class Icons

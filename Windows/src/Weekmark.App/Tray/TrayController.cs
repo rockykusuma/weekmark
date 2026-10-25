@@ -103,7 +103,7 @@ public sealed class TrayController : IDisposable
         var menu = new List<NativeMenuItemBase>();
         menu.Add(Label($"Week {week.Week} of {snap.WeeksInYear} · {snap.RangeText}, {week.Year}"));
         if (PlanningLine(ctx, s) is { } planning) menu.Add(Label(planning));
-        menu.Add(Item($"Copy “{copy}”", () => _ = CopyAsync(copy)));
+        menu.Add(Item($"Copy “{copy}”", () => _ = Widget.CopyAsync(copy)));
         menu.Add(new NativeMenuItemSeparator());
         menu.Add(Item(widget.IsVisible ? "Hide Widget" : "Show Widget", () =>
         {
@@ -150,16 +150,6 @@ public sealed class TrayController : IDisposable
         return Sprints.Info(ctx.Today, s.Sprint, ctx.Cal, ctx.Holidays) is { } sp
             ? $"{q.Label} · {s.Sprint.Name} {sp.Number}, day {Math.Max(sp.Workday, 1)} of {sp.WorkdaysTotal}"
             : q.Label;
-    }
-
-    async Task CopyAsync(string text)
-    {
-        // Another app holding the clipboard just means nothing is copied this time.
-        try
-        {
-            if (Widget.Clipboard is { } clipboard) await clipboard.SetTextAsync(text);
-        }
-        catch (Exception e) when (e is InvalidOperationException or System.Runtime.InteropServices.COMException or TimeoutException) { }
     }
 
     static NativeMenuItem Label(string text) => new(text) { IsEnabled = false };

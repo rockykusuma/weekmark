@@ -26,6 +26,8 @@ public sealed partial class WindowsLayering : IWindowLayering
 
     readonly FallbackLayering fallback = new();
     bool broken; // after any Win32 failure: plain fallback for the rest of the session, no retrying
+    bool activatable; // the search field is in use: WS_EX_NOACTIVATE is off
+    nint previous; // the foreground window before the field took focus
 
     /// <summary>Only called while the app wants the widget visible (an Avalonia-hidden widget is never re-shown here).</summary>
     public void Apply(Window w, WindowLayer layer)
@@ -54,9 +56,10 @@ public sealed partial class WindowsLayering : IWindowLayering
         }
     }
 
+    uint Fix(uint ex) => ((activatable ? ex & ~WS_EX_NOACTIVATE : ex | WS_EX_NOACTIVATE) | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW;
+
     public void HideFromTaskSwitcher(Window w)
     {
-        static uint Fix(uint ex) => (ex | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE) & ~WS_EX_APPWINDOW;
         try
         {
             // The callback keeps the styles whenever Avalonia recomputes them; the direct call applies them now.
@@ -64,6 +67,28 @@ public sealed partial class WindowsLayering : IWindowLayering
             if (Handle(w) is { } h) SetWindowLongPtrW(h, GWL_EXSTYLE, (nint)Fix((uint)GetWindowLongPtrW(h, GWL_EXSTYLE)));
         }
         catch (Exception) { } // cosmetic: never worth a crash
+    }
+
+    /// <summary>
+    /// Typing needs keyboard focus, which WS_EX_NOACTIVATE refuses: it is off while the field is in use. Giving focus
+    /// back restores it and returns the foreground to the window that had it, unless the user already moved on.
+    /// </summary>
+    public void AllowActivation(Window w, bool allow)
+    {
+        activatable = allow; // first: a widget window re-created after a close gets the right style too
+        if (broken || Handle(w) is not { } h) return; // broken: the widget may stay activatable, which is harmless
+        try
+        {
+            if (allow) previous = GetForegroundWindow();
+            SetWindowLongPtrW(h, GWL_EXSTYLE, (nint)Fix((uint)GetWindowLongPtrW(h, GWL_EXSTYLE)));
+            if (allow) SetForegroundWindow(h); // the click just went to this process, so Windows lets it take the keys
+            else
+            {
+                if (previous != 0 && previous != h && GetForegroundWindow() == h && IsWindow(previous)) SetForegroundWindow(previous);
+                previous = 0;
+            }
+        }
+        catch (Exception) { broken = true; } // a layering failure must never take the app down
     }
 
     /// <summary>Windows 11 rounds the corners of the glass widget (no effect on Windows 10).</summary>
@@ -94,6 +119,17 @@ public sealed partial class WindowsLayering : IWindowLayering
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool IsIconic(nint hWnd);
+
+    [LibraryImport("user32.dll")]
+    private static partial nint GetForegroundWindow();
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetForegroundWindow(nint hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool IsWindow(nint hWnd);
 
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]

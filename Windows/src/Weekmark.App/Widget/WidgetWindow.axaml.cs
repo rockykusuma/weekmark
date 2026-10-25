@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Styling;
 using Avalonia.Threading;
@@ -22,7 +23,7 @@ public partial class WidgetWindow : Window
     readonly WidgetViewModel vm = null!;
     readonly DispatcherTimer saveDelay = new() { Interval = TimeSpan.FromMilliseconds(400) };
     readonly DispatcherTimer floatEnd = new() { Interval = TimeSpan.FromSeconds(8) };
-    bool placing, floating, hooked, dragging;
+    bool placing, floating, hooked, dragging, typing;
 
     /// <summary>For the XAML designer only.</summary>
     public WidgetWindow() => InitializeComponent();
@@ -37,7 +38,11 @@ public partial class WidgetWindow : Window
 
         saveDelay.Tick += (_, _) => { saveDelay.Stop(); dragging = false; SavePlacement(); };
         floatEnd.Tick += (_, _) => { floatEnd.Stop(); if (!IsActive) EndFloat(); }; // focused: Deactivated ends it
-        Deactivated += (_, _) => { if (floating) EndFloat(); };
+        Deactivated += (_, _) => { EndTyping(); if (floating) EndFloat(); }; // clicking away keeps the query
+        View.Field.GotFocus += (_, _) => BeginTyping();
+        View.Field.LostFocus += (_, _) => EndTyping();
+        View.Field.AddHandler(KeyDownEvent, OnFieldKey, RoutingStrategies.Tunnel);
+        vm.WasReset += EndTyping;
         state.Changed += ApplySettings;
         Screens.Changed += OnScreensChanged;
         ScalingChanged += (_, _) => KeepOnScreen(); // another monitor's scale: same size in DIPs, new size in pixels
@@ -58,6 +63,7 @@ public partial class WidgetWindow : Window
         };
         Closed += (_, _) =>
         {
+            EndTyping();
             state.Changed -= ApplySettings;
             Screens.Changed -= OnScreensChanged;
             saveDelay.Stop();
@@ -123,6 +129,57 @@ public partial class WidgetWindow : Window
         floatEnd.Stop();
         floating = false;
         ApplyLayer();
+    }
+
+    /// <summary>A click in the search field: the widget may take keyboard focus and floats so what is typed stays in view.</summary>
+    void BeginTyping()
+    {
+        if (typing) return;
+        typing = true;
+        floatEnd.Stop();
+        floating = true;
+        layering.AllowActivation(this, true);
+        ApplyLayer();
+        Activate();
+    }
+
+    /// <summary>Esc, Enter, a click elsewhere or the idle reset: focus goes back and the widget returns to its layer.</summary>
+    void EndTyping()
+    {
+        if (!typing) return;
+        typing = false;
+        layering.AllowActivation(this, false);
+        FocusManager?.ClearFocus();
+        EndFloat();
+    }
+
+    async void OnFieldKey(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape) { e.Handled = true; vm.Reset(); } // Reset raises WasReset → EndTyping
+        else if (e.Key == Key.Enter)
+        {
+            e.Handled = true;
+            var copy = CopyResult();
+            EndTyping();
+            await copy; // never throws
+        }
+    }
+
+    /// <summary>Copies the lookup result's copy text; an error (or no result) copies nothing.</summary>
+    internal Task CopyResult()
+    {
+        vm.FlushSearch(); // Enter right after a keystroke answers the latest text
+        return vm.Result is { Kind: not QueryKind.Error, CopyText: { } t } ? CopyAsync(t) : Task.CompletedTask;
+    }
+
+    internal async Task CopyAsync(string text)
+    {
+        // Another app holding the clipboard just means nothing is copied this time.
+        try
+        {
+            if (Clipboard is { } clipboard) await clipboard.SetTextAsync(text);
+        }
+        catch (Exception e) when (e is InvalidOperationException or System.Runtime.InteropServices.COMException or TimeoutException) { }
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

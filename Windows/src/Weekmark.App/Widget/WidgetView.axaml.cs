@@ -34,4 +34,11 @@ public partial class WidgetView : UserControl
         e.Handled = true;
         if (m.CanPin) vm?.Pin(m.Week);
     }
+
+    // A click on the field's padding (the text box handles its own) focuses the field instead of dragging the widget.
+    void OnFieldPressed(object? sender, PointerPressedEventArgs e)
+    {
+        e.Handled = true;
+        Field.Focus();
+    }
 }
