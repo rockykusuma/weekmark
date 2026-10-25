@@ -36,7 +36,8 @@ public partial class WidgetWindow : Window
         DataContext = vm = new WidgetViewModel(state);
 
         saveDelay.Tick += (_, _) => { saveDelay.Stop(); SavePlacement(); };
-        floatEnd.Tick += (_, _) => { floatEnd.Stop(); floating = false; ApplyLayer(); };
+        floatEnd.Tick += (_, _) => { floatEnd.Stop(); if (!IsActive) EndFloat(); }; // focused: Deactivated ends it
+        Deactivated += (_, _) => { if (floating) EndFloat(); };
         state.Changed += ApplySettings;
         Screens.Changed += OnScreensChanged;
         PositionChanged += (_, _) => { if (!placing) { saveDelay.Stop(); saveDelay.Start(); } }; // save once the drag settles
@@ -100,15 +101,25 @@ public partial class WidgetWindow : Window
         layering.Apply(this, floating ? WindowLayer.Floating : S.Layer);
     }
 
-    /// <summary>A second launch asks for the widget: float it above windows for a few seconds, then back to its layer.</summary>
+    /// <summary>
+    /// The tray's left click, a second launch, or a manual launch: shows the widget above other windows and focuses it.
+    /// It goes back to its layer when it loses focus, or after 8 s if Windows never gave it focus.
+    /// </summary>
     public void BringForward()
     {
-        // ponytail: fixed 8 s float; the tray (Task 10) can end it on focus loss instead.
         Show();
         floating = true;
         ApplyLayer();
+        Activate();
         floatEnd.Stop();
         floatEnd.Start();
+    }
+
+    void EndFloat()
+    {
+        floatEnd.Stop();
+        floating = false;
+        ApplyLayer();
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -162,7 +173,32 @@ public partial class WidgetWindow : Window
         state.Save();
     }
 
-    List<ScreenInfo> ScreenInfos()
+    /// <summary>The monitor that owns the widget (by its centre), as its saved placement records it.</summary>
+    internal string? CurrentMonitor()
+    {
+        var screens = ScreenInfos();
+        if (screens.Count == 0) return null;
+        var (w, h) = PhysicalSize();
+        return PlacementMath.Capture(Position.X, Position.Y, w, h, screens).ScreenId;
+    }
+
+    /// <summary>Moves the widget to a corner of a monitor (the current one when <paramref name="screenId"/> is null) and saves it.</summary>
+    internal void SnapTo(Corner corner, string? screenId = null)
+    {
+        var id = screenId ?? CurrentMonitor();
+        if (ScreenInfos().FirstOrDefault(s => s.Id == id) is not { } screen) return;
+        // ponytail: sized at the current monitor's scale; moving to a monitor with another scale resizes the widget
+        // afterwards, and Place() then clamps it on-screen (the margin may shrink). Re-snap on ScalingChanged if it shows.
+        var (w, h) = PhysicalSize();
+        var (x, y) = PlacementMath.Snap(screen, corner, w, h);
+        placing = true;
+        Position = new PixelPoint((int)Math.Round(x), (int)Math.Round(y));
+        placing = false;
+        SavePlacement();
+    }
+
+    /// <summary>Connected monitors, left to right, with the ids used for saved placement.</summary>
+    internal List<ScreenInfo> ScreenInfos()
     {
         var all = Screens.All.OrderBy(s => s.Bounds.X).ThenBy(s => s.Bounds.Y).ToList();
         static RectD R(PixelRect r) => new(r.X, r.Y, r.Width, r.Height);

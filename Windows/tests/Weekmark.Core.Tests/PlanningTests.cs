@@ -103,6 +103,21 @@ public class PlanningTests
     }
 
     [Fact]
+    public void ImpossibleSprintLengthReturnsNothing()
+    {
+        var cal = new WeekCalendar(WeekNumbering.Iso);
+        foreach (var length in new[] { 53, int.MaxValue / 7, int.MaxValue })
+        {
+            var cfg = new SprintConfig { Enabled = true, LengthWeeks = length };
+            Assert.Null(Sprints.Index(new(2026, 3, 1), cfg, cal));
+            Assert.Null(Sprints.Info(new(2026, 3, 1), cfg, cal, HolidayStore.Empty));
+            Assert.False(Sprints.StartsSprint(new(2026, 10), cfg, cal));
+        }
+        var year = new SprintConfig { Enabled = true, LengthWeeks = 52 };
+        Assert.NotNull(Sprints.Info(new(9998, 12, 31), year, cal, HolidayStore.Empty)); // the last browsable week stays in range
+    }
+
+    [Fact]
     public void ImpossibleMilestoneWeekReturnsNull()
     {
         foreach (var n in new[] { WeekNumbering.Iso, WeekNumbering.Us })

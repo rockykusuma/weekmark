@@ -25,8 +25,9 @@ public static class Sprints
 {
     static int FloorDiv(int a, int b) => (int)Math.Floor((double)a / b);
 
+    // Lengths are 1–6 weeks in the Mac's settings; up to a year keeps every sprint's dates inside DateOnly for years 2–9998.
     static DateOnly? AnchorStart(SprintConfig c, WeekCalendar cal) =>
-        c.Enabled && c.LengthWeeks > 0 && c.Anchor.Y is >= 2 and <= 9998 && c.Anchor.TryToDate() is { } a
+        c.Enabled && c.LengthWeeks is > 0 and <= 52 && c.Anchor.Y is >= 2 and <= 9998 && c.Anchor.TryToDate() is { } a
             ? cal.StartOfWeek(a) : null;
 
     public static int? Index(DateOnly d, SprintConfig c, WeekCalendar cal) =>
