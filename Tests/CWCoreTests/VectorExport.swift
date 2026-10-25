@@ -100,6 +100,8 @@ final class VectorExportTests: XCTestCase {
             ("leading UTF-8 BOM", "\u{FEFF}" + ev("DTSTART;VALUE=DATE:20260317", "SUMMARY:St Patrick's Day")),
             ("no SUMMARY", ev("DTSTART;VALUE=DATE:20260909", "DTEND;VALUE=DATE:20260910")),
             ("DTEND equal to DTSTART", ev("DTSTART;VALUE=DATE:20260612", "DTEND;VALUE=DATE:20260612", "SUMMARY:Zero Length")),
+            ("impossible DTSTART rolls over", ev("DTSTART;VALUE=DATE:20260230", "DTEND;VALUE=DATE:20260303", "SUMMARY:Feb 30")),
+            ("month 13 single day", ev("DTSTART;VALUE=DATE:20261301", "SUMMARY:Month 13")),
             ("two events and escaped semicolon",
              ev("DTSTART;VALUE=DATE:20260102", "SUMMARY:A\\;B") + ev("DTSTART:20260103T000000Z", "SUMMARY:Second")),
         ]

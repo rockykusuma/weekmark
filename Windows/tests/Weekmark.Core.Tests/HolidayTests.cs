@@ -47,10 +47,25 @@ public class HolidayTests
         foreach (var s in samples)
         {
             var source = s.GetProperty("source").GetString()!;
-            var expected = s.GetProperty("holidays").EnumerateArray().Select(h => (Date(h[0]), h[1].GetString()!, h[2].GetString()!)).ToList();
-            var actual = IcsParser.Parse(s.GetProperty("text").GetString()!, source).Select(h => (h.Day.ToDate(), h.Name, h.Source)).ToList();
+            // Compared as raw strings: the Mac keeps impossible dates (2026-02-30) unvalidated.
+            var expected = s.GetProperty("holidays").EnumerateArray().Select(h => (h[0].GetString()!, h[1].GetString()!, h[2].GetString()!)).ToList();
+            var actual = IcsParser.Parse(s.GetProperty("text").GetString()!, source)
+                .Select(h => ($"{h.Day.Y:0000}-{h.Day.M:00}-{h.Day.D:00}", h.Name, h.Source)).ToList();
             Assert.True(expected.SequenceEqual(actual), s.GetProperty("name").GetString());
         }
+    }
+
+    [Fact]
+    public void IcsStopsAtYear9999()
+    {
+        string Ev(string start, string? end) =>
+            $"BEGIN:VEVENT\nDTSTART;VALUE=DATE:{start}\n" + (end is null ? "" : $"DTEND;VALUE=DATE:{end}\n") + "SUMMARY:X\nEND:VEVENT\n";
+        // DTEND month 13 rolls to 10000-01-15, beyond what .NET can represent.
+        var days = IcsParser.Parse(Ev("99991215", "99991315"), "Company").Select(h => h.Day).ToList();
+        Assert.Equal(new Day(9999, 12, 15), days[0]);
+        Assert.Equal(new Day(9999, 12, 31), days[^1]);
+        Assert.Equal(17, days.Count);
+        Assert.Single(IcsParser.Parse(Ev("99991231", null), "Company"));
     }
 
     [Fact]

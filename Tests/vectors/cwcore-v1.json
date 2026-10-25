@@ -45645,6 +45645,30 @@
     {
       "holidays" : [
         [
+          "2026-02-30",
+          "Feb 30",
+          "Company"
+        ]
+      ],
+      "name" : "impossible DTSTART rolls over",
+      "source" : "Company",
+      "text" : "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:20260230\nDTEND;VALUE=DATE:20260303\nSUMMARY:Feb 30\nEND:VEVENT\nEND:VCALENDAR\n"
+    },
+    {
+      "holidays" : [
+        [
+          "2026-13-01",
+          "Month 13",
+          "Company"
+        ]
+      ],
+      "name" : "month 13 single day",
+      "source" : "Company",
+      "text" : "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:20261301\nSUMMARY:Month 13\nEND:VEVENT\nEND:VCALENDAR\n"
+    },
+    {
+      "holidays" : [
+        [
           "2026-01-02",
           "A;B",
           "Company"

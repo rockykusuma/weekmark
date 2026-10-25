@@ -7,7 +7,7 @@ public static class IcsParser
 {
     public static IReadOnlyList<Holiday> Parse(string text, string source)
     {
-        text = text.TrimStart('﻿');
+        text = text.TrimStart((char)0xFEFF);
         var raw = text.Replace("\r\n", "\n").Replace("\r", "\n");
         var lines = new List<string>();
         foreach (var l in raw.Split('\n'))
@@ -43,21 +43,29 @@ public static class IcsParser
         return o;
     }
 
+    // Raw (unvalidated) days roll over like Foundation's Gregorian calendar: 2026-02-30 is 2026-03-02, month 13 is January.
+    // The one accepted divergence: .NET ends at 9999-12-31 (the Mac goes further), so Add returns null past the ends.
+    static Day? Add(Day d, int n)
+    {
+        try { return Day.From(new DateOnly(d.Y, 1, 1).AddMonths(d.M - 1).AddDays(d.D - 1 + n)); }
+        catch (ArgumentOutOfRangeException) { return null; }
+    }
+
     static void AddRange(List<Holiday> o, Day s, Day? end, string summary, string source)
     {
         // DTEND is exclusive; at most 31 days per event.
-        var first = s.ToDate();
-        var last = end is { } e && e.CompareTo(s) > 0 ? e.ToDate().AddDays(-1) : first;
+        var last = end is { } e && e.CompareTo(s) > 0 ? Add(e, -1) ?? new Day(9999, 12, 31) : s;
         var name = summary.Length == 0 ? "Holiday" : summary;
-        for (var d = first; d <= last && d.DayNumber - first.DayNumber < 31; d = d.AddDays(1))
-            o.Add(new Holiday(Day.From(d), name, source));
+        Day? d = s;
+        for (var count = 0; d is { } cur && cur.CompareTo(last) <= 0 && count < 31; count++)
+        {
+            o.Add(new Holiday(cur, name, source));
+            d = Add(cur, 1);
+        }
     }
 
-    static Day? ParseDay(string v)
-    {
-        // Out-of-range dates (e.g. month 13) are skipped; Swift would roll them over.
-        if (v.Length < 8 || !int.TryParse(v.AsSpan(0, 8), NumberStyles.None, CultureInfo.InvariantCulture, out var n)) return null;
-        var (y, m, d) = (n / 10000, n / 100 % 100, n % 100);
-        return y is >= 1 and <= 9999 && m is >= 1 and <= 12 && d >= 1 && d <= DateTime.DaysInMonth(y, m) ? new Day(y, m, d) : null;
-    }
+    static Day? ParseDay(string v) =>
+        v.Length >= 8 && int.TryParse(v.AsSpan(0, 8), NumberStyles.None, CultureInfo.InvariantCulture, out var n)
+            ? new Day(n / 10000, n / 100 % 100, n % 100)
+            : null;
 }
