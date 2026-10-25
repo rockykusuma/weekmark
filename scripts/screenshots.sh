@@ -14,13 +14,16 @@ APP="${1:-build/Weekmark.app}"
 DOMAIN="com.rockykusuma.weekmark"
 OUT="docs/assets"
 [ -d "$APP" ] || { echo "✗ No app at $APP (run ./build.sh first)"; exit 1; }
+APP=$(cd "$APP" && pwd)
+# Match the Mac app only: the iPhone app running on this Mac is also called "Weekmark".
+MAC_APP="Weekmark.app/Contents/MacOS/Weekmark"
 
 TMP=$(mktemp -d)
-WAS_RUNNING=0; pgrep -x Weekmark >/dev/null && WAS_RUNNING=1
+WAS_RUNNING=0; pgrep -f "$MAC_APP" >/dev/null && WAS_RUNNING=1
 HAD_PREFS=0; defaults export "$DOMAIN" "$TMP/prefs.plist" 2>/dev/null && HAD_PREFS=1
 
 restore() {
-  pkill -x Weekmark 2>/dev/null || true
+  pkill -f "$MAC_APP" 2>/dev/null || true
   sleep 0.5
   defaults delete "$DOMAIN" >/dev/null 2>&1 || true
   [ "$HAD_PREFS" = 1 ] && defaults import "$DOMAIN" "$TMP/prefs.plist"
@@ -29,7 +32,7 @@ restore() {
 }
 trap restore EXIT
 
-pkill -x Weekmark 2>/dev/null || true
+pkill -f "$MAC_APP" 2>/dev/null || true
 sleep 0.5
 
 # Sample data: code freeze in 3 weeks, release in 5 weeks (ISO weeks).
@@ -44,26 +47,27 @@ for k in showMonth showProgress showPlanning showMilestones; do defaults write "
 defaults write "$DOMAIN" milestones -string "[{\"id\":\"00000000-0000-4000-8000-000000000001\",\"name\":\"Code freeze\",\"week\":{\"year\":$Y1,\"week\":$W1},\"color\":\"purple\"},{\"id\":\"00000000-0000-4000-8000-000000000002\",\"name\":\"Release 5.0\",\"week\":{\"year\":$Y2,\"week\":$W2},\"color\":\"orange\"}]"
 defaults write "$DOMAIN" sprint -string '{"enabled":true,"lengthWeeks":2,"anchor":{"y":2026,"m":1,"d":5},"firstNumber":1,"name":"Sprint","sprintsPerPI":5,"firstPI":1}'
 
-list_windows() {
-  swift -e '
+list_windows() {  # list_windows <pid> → "id width height" for that process's windows
+  swift -e "
 import CoreGraphics
 let l = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as! [[String: Any]]
-for w in l where (w[kCGWindowOwnerName as String] as? String) == "Weekmark" {
+for w in l where (w[kCGWindowOwnerPID as String] as? Int) == $1 {
   let b = w[kCGWindowBounds as String] as! [String: Any]
-  let wd = Int(b["Width"] as! Double), ht = Int(b["Height"] as! Double)
+  let wd = Int(b[\"Width\"] as! Double), ht = Int(b[\"Height\"] as! Double)
   if ht > 100 { print(w[kCGWindowNumber as String]!, wd, ht) }
-}' 2>/dev/null
+}" 2>/dev/null
 }
 
 # Launch with the Quick Finder open; wait until both windows are on screen (relaunch once if needed).
 WINDOWS=""
 for attempt in 1 2; do
-  pkill -x Weekmark 2>/dev/null || true
+  pkill -f "$MAC_APP" 2>/dev/null || true
   sleep 0.5
   open -n "$APP" --args --find ""
   for _ in 1 2 3 4 5 6; do
     sleep 1
-    WINDOWS=$(list_windows)
+    PID=$(pgrep -f "$APP/Contents/MacOS/Weekmark" | head -1) || continue
+    WINDOWS=$(list_windows "$PID")
     if echo "$WINDOWS" | grep -q ' 640 ' && [ "$(echo "$WINDOWS" | grep -c .)" -ge 2 ]; then break 2; fi
   done
 done
