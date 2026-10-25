@@ -50,7 +50,7 @@ public class QueryEngineTests
                 Assert.True(Int(w, "workdays") == got[i].Workdays, $"{label}[{i}] workdays");
             }
         }
-        Console.WriteLine($"non-date query vectors covered: {vectors.Count} of {all.Count}");
+        Assert.True(vectors.Count >= 220, $"only {vectors.Count} of {all.Count} vectors covered");
     }
 
     [Fact]
@@ -69,11 +69,21 @@ public class QueryEngineTests
         string[] atoms = ["0", "1", "5", "46", "53", "99", "2027", "9999", "99999999999999999999", "cw", "kw", "w", "week", "+", "-", "..", "–", "—", "→", "->",
             " to ", "until ", "in ", " ago", "d", "weeks", " ", "/", "launch", "🙂", "é", "٣", "²", "today", "next week", "dec", "12"];
         var rng = new Random(12345);
-        var inputs = new List<string> { "🙂🙂", new string('9', 200), "CW99999", "-", "to", "46-", "+520w", "-520w", "+0", "cw0", "0-0", "2-9998", "1 9999", "9998 w53" };
+        var inputs = new List<string> { "🙂🙂", new string('9', 200), "CW99999", "-", "to", "46-", "+520w", "-520w", "+0", "cw0", "0-0", "2-9998", "1 9999", "9998 w53", "9998 w52", "until 9998 w52", "2000 w1-9998 w52" };
         for (var i = 0; i < 2000; i++)
             inputs.Add(string.Concat(Enumerable.Range(0, rng.Next(1, 7)).Select(_ => atoms[rng.Next(atoms.Length)])));
         foreach (var s in inputs)
             foreach (var ctx in ctxs)
                 Assert.NotEmpty(QueryEngine.Evaluate(s, ctx));
+    }
+
+    [Fact]
+    public void ThrowingDetectorAndImpossibleMilestone()
+    {
+        var c = Ctx(Vectors.Root.GetProperty("queries")[0]);
+        var ctx = c with { DateDetector = (_, _) => throw new InvalidOperationException(), Milestones = [new(Guid.NewGuid(), "ghostly", new(2026, 99))] };
+        Assert.Equal(QueryKind.Error, Assert.Single(QueryEngine.Evaluate("24 Dec 2026", ctx)).Kind);
+        Assert.Equal(QueryKind.Error, Assert.Single(QueryEngine.Evaluate("ghostly", ctx)).Kind);
+        Assert.NotEmpty(QueryEngine.Evaluate("until 24 Dec 2026", ctx));
     }
 }

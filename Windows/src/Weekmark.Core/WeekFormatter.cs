@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace Weekmark.Core;
 
-// Swift template names: EEE, EEEdMMM, EEEdMMMyyyy, dMMM, MMM, MMMM, MMMMyyyy, EEEEMMMMd, EEEEdMMMM.
+// Swift template names: EEE, EEEdMMM, EEEdMMMyyyy, dMMM, MMM, MMMM, MMMMyyyy, EEEEMMMMd, EEEEdMMMM, EEEEdMMMMyyyy.
 public enum DateTemplate { Weekday, WeekdayDayMonth, WeekdayDayMonthYear, DayMonth, Month, MonthLong, MonthYear, WeekdayLongMonthDay, WeekdayLongDayMonth, WeekdayLongDayMonthYear }
 
 /// <summary>English strings matching the Mac's ICU output for en-GB (dayFirst) and en-US.</summary>

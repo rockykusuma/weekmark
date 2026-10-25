@@ -20,8 +20,12 @@ public static class QueryEngine
 {
     public const string Examples = "Try 46 · CW3 2027 · Dec 12 · +6w · 46-50 · until CW52";
 
-    /// <summary>Free-form date detection (the Mac's NSDataDetector); null = not a date. Replaced by the date grammar.</summary>
-    public static Func<string, WeekContext, DateOnly?> DateDetector { get; set; } = (_, _) => null;
+    // A detector that throws reads as "not a date": nothing on the query path may throw.
+    static DateOnly? Detect(string s, WeekContext ctx)
+    {
+        try { return ctx.DateDetector(s, ctx); }
+        catch (Exception) { return null; }
+    }
 
     // ---- Entry point ----
 
@@ -41,7 +45,7 @@ public static class QueryEngine
             case WeekParse.Invalid i: return [new(QueryKind.Error, i.Message, Examples)];
         }
         var ms = MilestoneMatches(lower, ctx);
-        if (DateDetector(q, ctx) is { } d) return [DateResult(d, ctx), .. ms];
+        if (Detect(q, ctx) is { } d) return [DateResult(d, ctx), .. ms];
         if (ms.Count > 0) return ms;
         return [new(QueryKind.Error, $"No match for “{q}”", Examples)];
     }
@@ -287,7 +291,7 @@ public static class QueryEngine
                 $"{toStart} working days until it starts · {toEnd} through its end · {f.ShortRange(r)}",
                 CopyText: $"{weeks} weeks / {toEnd} working days until end of CW{r.Week}", Week: r, Weeks: weeks, Workdays: toEnd);
         }
-        if (DateDetector(s, ctx) is { } d)
+        if (Detect(s, ctx) is { } d)
         {
             var days = d.DayNumber - today.DayNumber;
             var wd = ctx.Holidays.WorkingDays(today, d);
