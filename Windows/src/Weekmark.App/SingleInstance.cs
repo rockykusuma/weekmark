@@ -20,8 +20,14 @@ public sealed class SingleInstance : IDisposable
     {
         this.mutex = mutex;
         pipeName = PipeName(name);
-        _ = Task.Run(Listen);
+        // The first server exists before TryAcquire returns, so a launch right after this one finds it listening.
+        NamedPipeServerStream? first = null;
+        try { first = NewServer(); } catch (Exception) { } // Listen retries
+        _ = Task.Run(() => Listen(first));
     }
+
+    NamedPipeServerStream NewServer() => new(pipeName, PipeDirection.In, 1,
+        PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
 
     // macOS limits socket paths (where .NET puts pipes) to 104 characters: hash long names down.
     static string PipeName(string name) =>
@@ -53,14 +59,14 @@ public sealed class SingleInstance : IDisposable
         catch (Exception e) when (e is TimeoutException or IOException or UnauthorizedAccessException) { return false; }
     }
 
-    async Task Listen()
+    async Task Listen(NamedPipeServerStream? next)
     {
         while (!stop.IsCancellationRequested)
         {
             try
             {
-                await using var server = new NamedPipeServerStream(pipeName, PipeDirection.In, 1,
-                    PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+                await using var server = next ?? NewServer();
+                next = null;
                 await server.WaitForConnectionAsync(stop.Token);
                 var buf = new byte[1];
                 _ = await server.ReadAsync(buf, stop.Token);
@@ -69,6 +75,7 @@ public sealed class SingleInstance : IDisposable
             catch (OperationCanceledException) { return; }
             catch (Exception) { await Task.Delay(200); } // anything else: keep listening, so activation never stops
         }
+        next?.Dispose(); // stopped before the first server was used
     }
 
     public void Dispose()
