@@ -27,11 +27,11 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with: { dotnet-version: 10.0.x }
       - run: dotnet test Windows/Weekmark.sln -c Release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: renders-${{ matrix.os }}
@@ -49,8 +49,8 @@ jobs:
     defaults:
       run: { shell: pwsh }
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with: { dotnet-version: 10.0.x }
       - id: version
         run: |
@@ -64,7 +64,7 @@ jobs:
       # approves the project (needs secret SIGNPATH_API_TOKEN and variable SIGNPATH_ORGANIZATION_ID). Skipped until then.
       - id: unsigned
         if: vars.SIGNPATH_ENABLED == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: unsigned-${{ matrix.rid }}
           path: |
@@ -86,7 +86,7 @@ jobs:
       - name: Pack
         run: vpk pack --packId Weekmark --packVersion ${{ steps.version.outputs.version }} --packDir publish --mainExe Weekmark.exe --runtime ${{ matrix.rid }} --channel ${{ matrix.rid }} --outputDir releases
       - run: Get-ChildItem releases
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: weekmark-${{ matrix.rid }}
           path: |
@@ -101,7 +101,7 @@ jobs:
     defaults:
       run: { shell: pwsh }
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with: { name: weekmark-win-x64, path: pkg }
       - name: Screenshot and measure
         run: |
@@ -118,7 +118,7 @@ jobs:
           if (-not $m) { throw 'no working_set_mb in the output' }
           $mb = [int]$m.Matches[0].Groups[1].Value
           if ($mb -gt 100) { "::warning::Working set is $mb MB, above the 100 MB target" }
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with: { name: widget.png, path: widget.png, if-no-files-found: error }
 
   release:
@@ -130,8 +130,8 @@ jobs:
     env:
       VERSION: ${{ needs.package.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
         with: { pattern: weekmark-win-*, path: pkg }
       - name: Name the assets
         run: |
