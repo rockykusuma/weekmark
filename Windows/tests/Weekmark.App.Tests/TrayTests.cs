@@ -215,4 +215,33 @@ public sealed class TrayTests
         Assert.False(widget.Topmost);
         Assert.True(widget.IsVisible);
     }
+
+    static List<MenuItem> MenuItems(ContextMenu m) => m.Items.OfType<MenuItem>().ToList(); // separators are Separator controls
+
+    [AvaloniaFact]
+    public void RightClickShowsTheTrayMenuOnTheWidget()
+    {
+        var (_, widget, _) = Demo();
+        var menu = widget.ShowContextMenu()!;
+        var items = MenuItems(menu);
+        Assert.Equal("Copy “CW43 (19–25 Oct)”", (string?)items[2].Header);
+        Assert.DoesNotContain(items, i => ((string?)i.Header)!.StartsWith("Add Milestone"));
+        var size = items.Single(i => (string?)i.Header == "Size");
+        Assert.True(size.Items.OfType<MenuItem>().Single(i => (string?)i.Header == "Medium").IsChecked);
+        Assert.False(items[0].IsEnabled);
+        Assert.Contains(menu.Items, x => x is Separator);
+    }
+
+    [AvaloniaFact]
+    public void RightClickOnAWeekOffersAddMilestoneForThatWeek()
+    {
+        var (_, widget, tray) = Demo();
+        WeekRef? asked = null;
+        tray.AddMilestoneRequested += w => asked = w;
+        widget.ViewModel.Hover = new WeekRef(2026, 45);
+        var add = MenuItems(widget.ShowContextMenu()!).Single(i => (string?)i.Header == "Add Milestone in CW45…");
+        widget.ViewModel.Hover = null; // the pointer left the row before the click
+        add.Command!.Execute(null);
+        Assert.Equal(new WeekRef(2026, 45), asked);
+    }
 }

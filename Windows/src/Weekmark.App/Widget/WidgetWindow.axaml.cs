@@ -44,6 +44,7 @@ public partial class WidgetWindow : Window
         View.Field.GotFocus += (_, _) => BeginTyping();
         View.Field.LostFocus += (_, _) => EndTyping(clearFocus: false); // focus is already leaving
         View.Field.AddHandler(KeyDownEvent, OnFieldKey, RoutingStrategies.Tunnel);
+        ContextRequested += (_, e) => { if (ShowContextMenu() is not null) e.Handled = true; };
         vm.YearRequested += () => YearRequested?.Invoke();
         vm.WasReset += handBack => EndTyping(handBack: handBack);
         state.Changed += ApplySettings;
@@ -109,6 +110,18 @@ public partial class WidgetWindow : Window
         layering.Apply(this, floating ? WindowLayer.Floating : S.Layer);
     }
     internal WidgetViewModel ViewModel => vm;
+
+    /// <summary>The tray sets this: the app menu, with "Add Milestone" for the hovered week.</summary>
+    internal Func<WeekRef?, IReadOnlyList<Control>>? MenuFor { get; set; }
+
+    /// <summary>Right click: the tray's menu on the widget. Null when no tray is attached.</summary>
+    internal ContextMenu? ShowContextMenu()
+    {
+        if (MenuFor is not { } build) return null;
+        var menu = new ContextMenu { ItemsSource = build(vm.Hover) };
+        menu.Open(View);
+        return menu;
+    }
 
     /// <summary>The tray's "Weeks in YYYY": floats the widget and pins that week.</summary>
     public void ShowWeek(WeekRef r)

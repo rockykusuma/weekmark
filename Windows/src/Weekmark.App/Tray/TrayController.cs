@@ -54,6 +54,7 @@ public sealed class TrayController : IDisposable
         set
         {
             widget = value;
+            value.MenuFor = hover => ToMenuItems(BuildMenu(Snapshot(), hover));
             value.ScalingChanged += (_, _) => Refresh(); // DPI change
             value.Screens.Changed += (_, _) => Refresh(); // monitors for "Move to", primary DPI
             value.PropertyChanged += (_, e) => { if (e.Property == Visual.IsVisibleProperty) Refresh(); }; // Show/Hide label
@@ -195,6 +196,19 @@ public sealed class TrayController : IDisposable
             ? $"{q.Label} · {s.Sprint.Name} {sp.Number}, day {Math.Max(sp.Workday, 1)} of {sp.WorkdaysTotal}"
             : q.Label;
     }
+
+    /// <summary>The tray's items as Avalonia controls, for the widget's right-click menu.</summary>
+    internal static List<Control> ToMenuItems(IEnumerable<NativeMenuItemBase> items) => items.Select(i => i switch
+    {
+        NativeMenuItemSeparator => (Control)new Separator(), // before NativeMenuItem: separators are items with the header "-"
+        NativeMenuItem n => new MenuItem
+        {
+            Header = n.Header, IsEnabled = n.IsEnabled, Command = n.Command, IsChecked = n.IsChecked,
+            ToggleType = Enum.Parse<MenuItemToggleType>(n.ToggleType.ToString()),
+            ItemsSource = n.Menu is { } sub ? ToMenuItems(sub.Items) : null,
+        },
+        _ => throw new NotSupportedException(),
+    }).ToList();
 
     static NativeMenuItem Label(string text) => new(text) { IsEnabled = false };
     static NativeMenuItem Item(string text, Action action) => new(text) { Command = new RelayCommand(action) };
