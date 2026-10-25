@@ -3,7 +3,7 @@ using System.Globalization;
 namespace Weekmark.Core;
 
 // Swift template names: EEE, EEEdMMM, EEEdMMMyyyy, dMMM, MMM, MMMM, MMMMyyyy, EEEEMMMMd, EEEEdMMMM.
-public enum DateTemplate { Weekday, WeekdayDayMonth, WeekdayDayMonthYear, DayMonth, Month, MonthLong, MonthYear, WeekdayLongMonthDay, WeekdayLongDayMonth }
+public enum DateTemplate { Weekday, WeekdayDayMonth, WeekdayDayMonthYear, DayMonth, Month, MonthLong, MonthYear, WeekdayLongMonthDay, WeekdayLongDayMonth, WeekdayLongDayMonthYear }
 
 /// <summary>English strings matching the Mac's ICU output for en-GB (dayFirst) and en-US.</summary>
 public sealed class WeekFormatter(WeekCalendar cal, bool dayFirst)
@@ -30,6 +30,8 @@ public sealed class WeekFormatter(WeekCalendar cal, bool dayFirst)
             DateTemplate.MonthYear => $"{MonthNames[d.Month - 1]} {d.Year}",
             DateTemplate.WeekdayLongMonthDay or DateTemplate.WeekdayLongDayMonth =>
                 dayFirst ? $"{wd} {d.Day} {MonthNames[d.Month - 1]}" : $"{wd}, {MonthNames[d.Month - 1]} {d.Day}",
+            DateTemplate.WeekdayLongDayMonthYear =>
+                dayFirst ? $"{wd}, {d.Day} {MonthNames[d.Month - 1]} {d.Year}" : $"{wd}, {MonthNames[d.Month - 1]} {d.Day}, {d.Year}",
             _ => throw new ArgumentOutOfRangeException(nameof(t)),
         };
     }
@@ -38,7 +40,11 @@ public sealed class WeekFormatter(WeekCalendar cal, bool dayFirst)
     public string LongRange(WeekRef r)
     {
         var days = cal.DaysOf(r);
-        DateOnly s = days[0], e = days[^1];
+        return LongRange(days[0], days[^1]);
+    }
+
+    public string LongRange(DateOnly s, DateOnly e)
+    {
         return s.Year == e.Year
             ? $"{Format(s, DateTemplate.WeekdayDayMonth)} – {Format(e, DateTemplate.WeekdayDayMonth)} {e.Year}"
             : $"{Format(s, DateTemplate.WeekdayDayMonthYear)} – {Format(e, DateTemplate.WeekdayDayMonthYear)}";
