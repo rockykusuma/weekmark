@@ -7,7 +7,7 @@
     <!-- Year and week take any number, so a stored week that doesn't exist shows as it is, with the error below. -->
     <StackPanel Spacing="10">
       <TextBlock Text="{Binding Draft.Title}" FontWeight="SemiBold" />
-      <TextBox Text="{Binding Draft.Name}" Watermark="Name (e.g. Release 5.0, Code freeze)" />
+      <TextBox x:Name="NameBox" Text="{Binding Draft.Name}" Watermark="Name (e.g. Release 5.0, Code freeze)" />
       <StackPanel Orientation="Horizontal" Spacing="10">
         <TextBlock Text="Year" VerticalAlignment="Center" />
         <NumericUpDown Minimum="-2147483648" Maximum="2147483647" Increment="1" FormatString="0" Width="130" Value="{Binding Draft.Year}" />

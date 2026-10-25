@@ -362,4 +362,39 @@ public sealed class SettingsViewModelTests : IDisposable
         Assert.NotNull(welcome.CaptureRenderedFrame());
         welcome.Close();
     }
+
+    [AvaloniaFact]
+    public void AddMilestoneInAWeekStartsANewMilestoneThere()
+    {
+        var vm = Demo(out _);
+        vm.NewMilestoneIn(new WeekRef(2026, 46));
+        Assert.Equal(("New milestone", 2026, 46, ""), (vm.Draft!.Title, vm.Draft.Year, vm.Draft.Week, vm.Draft.Name));
+        vm.Draft.Name = "Launch";
+        vm.NewMilestoneIn(new WeekRef(2027, 3)); // again before saving: the typed name stays
+        Assert.Equal(("Launch", 2027, 3), (vm.Draft.Name, vm.Draft.Year, vm.Draft.Week));
+    }
+
+    [AvaloniaFact]
+    public void AddMilestoneOpensTheMilestonesTabWithTheNameFocused()
+    {
+        var vm = Demo(out _);
+        var w = new SettingsWindow(vm, "general");
+        w.Show();
+        w.AddMilestone(new WeekRef(2026, 46));
+        Avalonia.Threading.Dispatcher.UIThread.RunJobs();
+        Assert.Equal(Array.IndexOf(SettingsWindow.TabNames, "milestones"), w.Tabs.SelectedIndex);
+        Assert.Equal(46, vm.Draft!.Week);
+        Assert.True(w.Editor.NameBox.IsFocused);
+        w.Close();
+    }
+
+    [AvaloniaFact]
+    public void ShowWelcomeAsksTheAppToOpenIt()
+    {
+        var vm = Demo(out _);
+        var asked = 0;
+        vm.WelcomeRequested += () => asked++;
+        vm.ShowWelcomeCommand.Execute(null);
+        Assert.Equal(1, asked);
+    }
 }

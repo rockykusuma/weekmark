@@ -182,6 +182,16 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     public IRelayCommand SaveDraft { get; }
     public IRelayCommand CancelDraft { get; }
 
+    /// <summary>"Add Milestone in CWn…" from the widget: a new milestone in that week. A new draft keeps its name; an edit is replaced (one editor slot).</summary>
+    public void NewMilestoneIn(WeekRef week)
+    {
+        if (Draft is { Id: null } d) { d.Year = week.Year; d.Week = week.Week; }
+        else Draft = NewDraft(null, week, "");
+    }
+
+    public event Action? WelcomeRequested;
+    [RelayCommand] void ShowWelcome() => WelcomeRequested?.Invoke();
+
     MilestoneDraft NewDraft(Milestone? m, WeekRef week, string name) => new(m?.Id, Ctx.Cal, Ctx.Fmt)
     {
         Name = name, Year = week.Year, Week = week.Week, ColorIndex = (int)(m?.Color ?? MilestoneColor.Orange),

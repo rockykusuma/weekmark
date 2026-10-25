@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Weekmark.Core;
 
 namespace Weekmark.App.Settings;
 
@@ -18,6 +19,13 @@ public partial class SettingsWindow : Window
         Tabs.SelectedIndex = Math.Max(0, Array.IndexOf(TabNames, tab?.ToLowerInvariant()));
         Closing += (_, _) => FocusManager?.ClearFocus(); // commits a text field still being edited
         Closed += (_, _) => vm.Dispose();
+    }
+
+    public void AddMilestone(WeekRef week)
+    {
+        Tabs.SelectedIndex = Array.IndexOf(TabNames, "milestones");
+        Vm.NewMilestoneIn(week);
+        Editor.FocusName();
     }
 
     SettingsViewModel Vm => (SettingsViewModel)DataContext!;

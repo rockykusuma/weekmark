@@ -48,11 +48,10 @@ public partial class App : Application
         tray.QuitRequested += () => Quit();
         tray.SettingsRequested += () => OpenSettings();
         tray.YearRequested += OpenYear;
+        tray.AddMilestoneRequested += AddMilestone;
         if (o.Onboarding || (!o.DemoData && !state.Settings.OnboardingDone))
         {
-            welcomeWindow = new WelcomeWindow(new WelcomeViewModel(state, WelcomeViewModel.CurrentRegion(), startupExe));
-            welcomeWindow.Closed += (_, _) => welcomeWindow = null;
-            welcomeWindow.Show();
+            OpenWelcome();
         }
         ShowAfter(welcomeWindow, Widget!, () => quitting); // first run: the widget appears after the welcome
         // Launched by hand, the widget may be hidden behind windows: show it once. A login launch shows nothing extra,
@@ -116,11 +115,32 @@ public partial class App : Application
     {
         if (settingsWindow is null)
         {
-            settingsWindow = new SettingsWindow(new SettingsViewModel(state!, startupExe), tab);
+            var vm = new SettingsViewModel(state!, startupExe);
+            vm.WelcomeRequested += OpenWelcome;
+            settingsWindow = new SettingsWindow(vm, tab);
             settingsWindow.Closed += (_, _) => settingsWindow = null;
             settingsWindow.Show();
         }
         settingsWindow.Activate();
+    }
+
+    void AddMilestone(WeekRef w)
+    {
+        OpenSettings("milestones");
+        settingsWindow!.AddMilestone(w);
+    }
+
+    /// <summary>One welcome window at a time, like the year window.</summary>
+    void OpenWelcome()
+    {
+        if (welcomeWindow is null)
+        {
+            welcomeWindow = new WelcomeWindow(new WelcomeViewModel(state!, WelcomeViewModel.CurrentRegion(), startupExe));
+            welcomeWindow.Closed += (_, _) => welcomeWindow = null;
+            welcomeWindow.Show();
+        }
+        if (welcomeWindow.WindowState == WindowState.Minimized) welcomeWindow.WindowState = WindowState.Normal;
+        welcomeWindow.Activate();
     }
 
     /// <summary>One Year at a Glance window at a time: a second request brings the open one forward.</summary>
