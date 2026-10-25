@@ -49,6 +49,12 @@ Strict company policies can still block them.
 The same `dotnet run` command runs the app on a Mac (without the Windows-only parts: desktop layering, tray icon,
 start with Windows).
 
+## Year at a Glance
+
+The calendar button in the widget's month header, or "Year at a Glance…" in the tray menu, opens all 12 months with
+their week numbers. Hover a week for its details, click to pin it, ← → change the year, Ctrl+C copies the pinned
+week, Esc closes. The window remembers its size and position.
+
 ## Search field
 
 The field at the bottom of the widget, under the month, answers questions about weeks and dates. Click it and type.
@@ -70,7 +76,7 @@ means next year.
 
 ## Command-line flags
 
-`--demo-data` (sample data, settings untouched), `--settings [tab]`, `--onboarding`, `--screenshot <path>`,
+`--demo-data` (sample data, settings untouched), `--settings [tab]`, `--onboarding`, `--year`, `--screenshot <path>`,
 `--exit-after <seconds>`, `--autostart`.
 
 ## Test it

@@ -43,6 +43,12 @@ Don't paste anything private (for example the contents of your company `.ics`).
     should copy the result (paste to check); Esc or × should clear the field. Paste a week number with Ctrl+V, and again with right-click → Paste: does
     each give an answer? Click somewhere else: does the widget go
     back behind your windows? Does typing ever freeze the widget?
-17. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
+17. **Year at a Glance.** Open it from the calendar button in the widget's month header, and again from the tray menu
+    (the second time it should bring the same window forward, not open another). Hover a week: does it show its
+    details? Click a week to pin it, then Ctrl+C and paste: does it give the week, e.g. `CW43 (19–25 Oct)`? Do ←, →
+    and This Year change the year? Does Esc close it? Resize the window: do the months reflow into more or fewer
+    columns? Close it and open it again: does it keep its size and position? Move it to a second monitor, close it,
+    unplug that monitor and open it again: does it open centred?
+18. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.
