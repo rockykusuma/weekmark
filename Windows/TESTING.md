@@ -34,6 +34,10 @@ Don't paste anything private (for example the contents of your company `.ics`).
 13. **Company calendar.** Import your company `.ics` file. Do its entries show up? Any errors?
 14. **Overnight.** Leave the PC asleep overnight. Does the widget show the new day, and the new week after a Sunday night?
 15. **Restart Windows.** Does Weekmark start by itself after you sign in? (Settings lets you turn this off.)
-16. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
+16. **Search field.** Click the field at the top of the widget (it works even though the widget sits behind your
+    windows) and type `51`, then `Dec 12`, `+6w`, `46-50` and `until CW52`. Does each give a sensible answer? Enter
+    should copy the result (paste to check); Esc or × should clear the field. Click somewhere else: does the widget go
+    back behind your windows? Does typing ever freeze the widget?
+17. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.

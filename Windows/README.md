@@ -45,6 +45,25 @@ Strict company policies can still block them.
 The same `dotnet run` command runs the app on a Mac (without the Windows-only parts: desktop layering, tray icon,
 start with Windows).
 
+## Search field
+
+The field at the top of the widget answers questions about weeks and dates. Click it and type.
+
+| Type | Example | Result |
+|---|---|---|
+| Week | `46`, `CW46`, `KW 46`, `3 2027`, `2027-W3` | Dates, how far away, working days, holidays, milestones, sprint |
+| Date | `Dec 12`, `12 Dec`, `24/12/2026`, `2026-12-24`, `tomorrow`, `friday`, `next friday` | Which CW it falls in |
+| Offset | `+6w`, `-2w`, `+10d`, `in 6 weeks`, `3 weeks ago` | Target week or date |
+| Range | `46-50`, `CW52–CW2`, `46 to 48` | Number of weeks and working days, holidays included |
+| Countdown | `until CW52`, `to dec 24` | Weeks and working days left |
+| Milestone | `release` | Matching milestones |
+| Keywords | `today`, `next week`, `last week` | |
+
+Enter copies the result · Esc or × clears the field · it clears itself after 2 minutes idle.
+Dates without a year mean the next one (`Dec 12` in late December is next year). Numeric dates like `03/04/2026`
+follow your Windows region's order (day first or month first). From week 40 onward, a week number of 12 or lower
+means next year.
+
 ## Command-line flags
 
 `--demo-data` (sample data, settings untouched), `--settings [tab]`, `--onboarding`, `--screenshot <path>`,
