@@ -2,9 +2,13 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Avalonia.Input.Platform;
+using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
+using Avalonia.VisualTree;
 using Weekmark.App.Platform;
 using Weekmark.App.Tray;
 using Weekmark.App.Widget;
@@ -255,5 +259,23 @@ public sealed class TrayTests
         });
         var weeks = MenuItems(widget.ShowContextMenu()!).Single(i => (string?)i.Header == "Weeks in 2026");
         Assert.Contains(weeks.Items.OfType<MenuItem>(), i => (string?)i.Header == "CW 46    9–15 Nov   ⚑ v2__launch"); // "_" alone marks an access key
+    }
+
+    [AvaloniaFact]
+    public void RightClickOnAWeekRowOpensTheMenuWithoutPinning()
+    {
+        var (_, widget, tray) = Demo();
+        widget.CaptureRenderedFrame();
+        var handled = new List<bool>();
+        widget.AddHandler(Control.ContextRequestedEvent, (_, e) => handled.Add(e.Handled), RoutingStrategies.Bubble, handledEventsToo: true);
+        var row = widget.GetVisualDescendants().OfType<Panel>().First(p => p.Classes.Contains("row") && p.DataContext is MonthRowModel { IsSpacer: false });
+        var pt = row.TranslatePoint(new Point(40, 5), widget)!.Value;
+        widget.MouseMove(pt);
+        Assert.NotNull(widget.ViewModel.Hover);
+        widget.MouseDown(pt, MouseButton.Right);
+        widget.MouseUp(pt, MouseButton.Right);
+        Assert.Null(widget.ViewModel.Pinned);
+        Assert.Equal([true], handled); // the widget's menu took the request
+        tray.Dispose();
     }
 }
