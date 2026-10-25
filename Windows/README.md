@@ -6,8 +6,12 @@ The calendar week number on your Windows desktop, same content and look as the M
 
 - Until the first `windows-v0.1.0` pre-release exists: open the latest successful **Windows** run on the
   [Actions page](https://github.com/rockykusuma/weekmark/actions/workflows/windows.yml) and download the artifact
-  `weekmark-win-x64` (most PCs) or `weekmark-win-arm64` (Snapdragon / ARM laptops).
+  `weekmark-win-x64` or `weekmark-win-arm64`. It downloads as a zip: right-click it, **Extract all**, then run the
+  `…-Setup.exe` from the extracted folder (not from inside the zip view).
 - After that: [Releases](https://github.com/rockykusuma/weekmark/releases) (Windows builds are marked pre-release).
+- x64 or ARM64? Check Settings → System → About → "System type". "x64-based processor" (almost all laptops) → the
+  x64 download; "ARM-based processor" (Snapdragon / Copilot+ PCs) → ARM64. The wrong one says "This app can't run on
+  your PC".
 - Setup installs per user, without admin rights. The Portable zip runs from any folder.
 - The builds are **unsigned** until the SignPath Foundation application is approved. If SmartScreen says "Windows
   protected your PC", click **More info**, then **Run anyway**. If your laptop doesn't allow that, build from source.

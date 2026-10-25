@@ -16,8 +16,12 @@ Don't paste anything private (for example the contents of your company `.ics`).
 
 ## Checklist
 
-1. **Install.** Run the Setup (or unzip the Portable zip and run `Weekmark.exe`). If SmartScreen shows "Windows
-   protected your PC", click More info, then Run anyway. Did it install without asking for admin rights?
+1. **Install.** Pick the download that fits your PC: Settings → System → About → "System type".
+   "x64-based processor" (almost all laptops) → the x64 download; "ARM-based processor" (Snapdragon / Copilot+ PCs)
+   → ARM64. The wrong one says "This app can't run on your PC". A zip (the Actions download or the Portable zip):
+   right-click it, **Extract all**, then run the `…-Setup.exe` (or `Weekmark.exe`) from the extracted folder, not
+   from inside the zip view. If SmartScreen shows "Windows protected your PC", click More info, then Run anyway.
+   Did it install without asking for admin rights?
 2. **Widget appears** at the top right of your main screen, behind your windows.
 3. **Drag and restart.** Drag the widget elsewhere, quit it from the tray menu, start it again. Is it where you left it?
 4. **Two monitors** (if you have them). Move it to the second screen, restart, then unplug and re-plug the monitor.
