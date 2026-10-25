@@ -295,27 +295,27 @@ final class VectorExportTests: XCTestCase {
         var pi = SprintConfig(); pi.enabled = true; pi.anchor = Day(2026, 1, 5); pi.sprintsPerPI = 5; pi.firstPI = 3
         let variants: [([String], Bool, SprintConfig)] = [([], false, SprintConfig()), (["de", "gb"], true, plain), (["us"], true, pi)]
         var out: [[String: Any]] = []
-        var k = 0
-        for q in qs {
-            // ponytail: contexts are sampled, not the full cross product; every query hits both locales and numberings.
+        for (qi, q) in qs.enumerated() {
+            // ponytail: contexts are sampled, not the full cross product. Each query runs in all four (locale, numbering)
+            // combos; now and the holidays/milestones/sprint variant both shift with (combo + query index), so every
+            // combo sees every now and every variant across the query set, and every query sees every variant.
+            var ci = 0
             for (loc, tag) in [(gb, "en-GB"), (usL, "en-US")] {
                 for n in [WeekNumbering.iso, .us] {
-                    for _ in 0..<1 {
-                        let d = nows[k % 4], v = variants[(k / 4) % 3]; k += 1
-                        let c = cal(n, loc), now = at(d, c), cur = c.weekRef(for: now)
-                        let specs: [(Int, String, Int, MilestoneColor)] = [(1, "Code freeze", 3, .red), (2, "Release 2.0", 10, .blue), (3, "Hotfix", -2, .teal)]
-                        let list: [Milestone] = !v.1 ? [] : specs.map { id, name, off, col in
-                            Milestone(id: UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", id))!, name: name,
-                                      week: c.weekRef(cur, adding: off)!, color: col)
-                        }
-                        let ctx = QueryContext(cal: c, now: now, numbering: n, holidays: store(v.0), milestones: list, sprint: v.2)
-                        let rs = QueryEngine.evaluate(q, ctx).map { r -> [String: Any] in
-                            ["kind": r.kind.rawValue, "title": r.title, "subtitle": r.subtitle, "detail": opt(r.detail),
-                             "copyText": opt(r.copyText), "week": opt(r.week.map(wr)), "weeks": opt(r.weeks), "workdays": opt(r.workdays)]
-                        }
-                        out.append(["locale": tag, "numbering": n.rawValue, "now": ds(d) + "T12:00", "regions": v.0,
-                                    "milestones": list.map { j($0) }, "sprint": j(v.2), "query": q, "results": rs])
+                    let d = nows[(ci + qi) % 4], v = variants[(ci + qi) % 3]; ci += 1
+                    let c = cal(n, loc), now = at(d, c), cur = c.weekRef(for: now)
+                    let specs: [(Int, String, Int, MilestoneColor)] = [(1, "Code freeze", 3, .red), (2, "Release 2.0", 10, .blue), (3, "Hotfix", 1, .teal)]
+                    let list: [Milestone] = !v.1 ? [] : specs.map { id, name, off, col in
+                        Milestone(id: UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", id))!, name: name,
+                                  week: c.weekRef(cur, adding: off)!, color: col)
                     }
+                    let ctx = QueryContext(cal: c, now: now, numbering: n, holidays: store(v.0), milestones: list, sprint: v.2)
+                    let rs = QueryEngine.evaluate(q, ctx).map { r -> [String: Any] in
+                        ["kind": r.kind.rawValue, "title": r.title, "subtitle": r.subtitle, "detail": opt(r.detail),
+                         "copyText": opt(r.copyText), "week": opt(r.week.map(wr)), "weeks": opt(r.weeks), "workdays": opt(r.workdays)]
+                    }
+                    out.append(["locale": tag, "numbering": n.rawValue, "now": ds(d) + "T12:00", "regions": v.0,
+                                "milestones": list.map { j($0) }, "sprint": j(v.2), "query": q, "results": rs])
                 }
             }
         }
