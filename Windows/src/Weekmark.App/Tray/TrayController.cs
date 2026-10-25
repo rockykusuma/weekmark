@@ -203,7 +203,7 @@ public sealed class TrayController : IDisposable
         NativeMenuItemSeparator => (Control)new Separator(), // before NativeMenuItem: separators are items with the header "-"
         NativeMenuItem n => new MenuItem
         {
-            Header = n.Header, IsEnabled = n.IsEnabled, Command = n.Command, IsChecked = n.IsChecked,
+            Header = n.Header?.Replace("_", "__"), IsEnabled = n.IsEnabled, Command = n.Command, IsChecked = n.IsChecked,
             ToggleType = Enum.Parse<MenuItemToggleType>(n.ToggleType.ToString()),
             ItemsSource = n.Menu is { } sub ? ToMenuItems(sub.Items) : null,
         },

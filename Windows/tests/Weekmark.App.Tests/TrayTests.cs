@@ -244,4 +244,16 @@ public sealed class TrayTests
         add.Command!.Execute(null);
         Assert.Equal(new WeekRef(2026, 45), asked);
     }
+
+    [AvaloniaFact]
+    public void UnderscoresInMenuTextShowAsTyped()
+    {
+        var (_, widget, _) = Demo(s =>
+        {
+            var i = s.Milestones.FindIndex(m => m.Name == "Code freeze");
+            s.Milestones[i] = s.Milestones[i] with { Name = "v2_launch" };
+        });
+        var weeks = MenuItems(widget.ShowContextMenu()!).Single(i => (string?)i.Header == "Weeks in 2026");
+        Assert.Contains(weeks.Items.OfType<MenuItem>(), i => (string?)i.Header == "CW 46    9–15 Nov   ⚑ v2__launch"); // "_" alone marks an access key
+    }
 }
