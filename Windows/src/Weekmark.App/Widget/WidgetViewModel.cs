@@ -64,6 +64,9 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
     /// </summary>
     public event Action<bool>? WasReset;
 
+    /// <summary>The lookup; tests swap it for one that throws.</summary>
+    internal Func<string, WeekContext, IReadOnlyList<QueryResult>> Evaluate { get; set; } = QueryEngine.Evaluate;
+
     AppSettings S => state.Settings;
     WeekContext Ctx => state.Context;
 
@@ -167,16 +170,29 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         Search();
     }
 
-    void Search()
+    /// <summary>
+    /// Runs from the debounce, Enter and every clock tick or settings save (via <see cref="RebuildAll"/>), so it never
+    /// throws. <paramref name="keepMonth"/>: a re-search after a new day or a settings save keeps the month the user
+    /// browsed to.
+    /// </summary>
+    void Search(bool keepMonth = false)
     {
         if (Query.Trim().Length == 0) return;
-        Result = QueryEngine.Evaluate(Query, Ctx).FirstOrDefault();
-        if (Result?.Week is { } w && IsValid(w)) // settings may make a week invalid: never pin or scroll to it
+        try
         {
-            Pinned = w;
-            MonthOffset = snap.MonthOffsetFor(w);
+            Result = Evaluate(Query, Ctx).FirstOrDefault();
+            if (Result?.Week is { } w && IsValid(w)) // settings may make a week invalid: never pin or scroll to it
+            {
+                Pinned = w;
+                if (!keepMonth) MonthOffset = snap.MonthOffsetFor(w);
+            }
+            else Pinned = null;
         }
-        else Pinned = null;
+        catch (Exception) // a lookup bug must not take the widget down: say so like any other non-answer
+        {
+            Result = new(QueryKind.Error, $"No match for “{Query.Trim()}”", QueryEngine.Examples);
+            Pinned = null;
+        }
         RebuildMonth();
     }
 
@@ -230,7 +246,7 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         Weekdays = snap.Days.Select(d => fmt.Format(d, DateTemplate.Weekday)[..1]).ToList();
         UpdateBackground();
         RebuildMonth();
-        if (!debounce.IsEnabled) Search(); // a new day or new settings: "+1w" or "51" may mean another week now
+        if (!debounce.IsEnabled) Search(keepMonth: true); // a new day or new settings: "+1w" or "51" may mean another week now
     }
 
     List<ChipModel> BuildChips()

@@ -249,6 +249,46 @@ public sealed class WidgetSearchTests
     }
 
     [AvaloniaFact]
+    public void FailingLookupShowsNoMatch()
+    {
+        var (w, vm, state, _) = Shown();
+        vm.Evaluate = (_, _) => throw new InvalidOperationException("bug");
+        Type(w, vm, " 51 ");
+        Assert.Equal(QueryKind.Error, vm.Result!.Kind);
+        Assert.Equal("No match for “51”", vm.Result.Title);
+        Assert.Equal(QueryEngine.Examples, vm.Result.Subtitle);
+        Assert.Null(vm.Pinned);
+        Assert.True(vm.Details.IsError);
+
+        // The re-search on every tick and settings save doesn't throw either.
+        state.Tick();
+        state.Save();
+        Assert.Equal("No match for “51”", vm.Result!.Title);
+        w.Close();
+    }
+
+    [AvaloniaFact]
+    public void NewDayKeepsTheBrowsedMonth()
+    {
+        now = new DateTime(2026, 10, 25, 23, 59, 0);
+        var (w, vm, state, _) = Shown();
+        Type(w, vm, "51");
+        Assert.Equal("December 2026", vm.MonthTitle);
+        vm.Step(-1); // ‹ to November
+        Assert.Equal("November 2026", vm.MonthTitle);
+
+        now = now.AddMinutes(1); // midnight: a new day re-searches
+        state.Tick();
+        Assert.Equal(new WeekRef(2026, 51), vm.Pinned);
+        Assert.StartsWith("CW51 ·", vm.Result!.Title);
+        Assert.Equal("November 2026", vm.MonthTitle);
+
+        state.Save(); // so does a settings save
+        Assert.Equal("November 2026", vm.MonthTitle);
+        w.Close();
+    }
+
+    [AvaloniaFact]
     public void WidgetRendersWithSearchField()
     {
         var dir = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "renders")).FullName;
