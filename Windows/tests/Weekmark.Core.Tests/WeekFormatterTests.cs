@@ -12,7 +12,7 @@ public class WeekFormatterTests
     [
         ("EEE", DateTemplate.Weekday), ("EEEdMMM", DateTemplate.WeekdayDayMonth), ("EEEdMMMyyyy", DateTemplate.WeekdayDayMonthYear),
         ("dMMM", DateTemplate.DayMonth), ("MMM", DateTemplate.Month), ("MMMM", DateTemplate.MonthLong), ("MMMMyyyy", DateTemplate.MonthYear),
-        ("EEEEMMMMd", DateTemplate.WeekdayLongMonthDay), ("EEEEdMMMM", DateTemplate.WeekdayLongDayMonth),
+        ("EEEEMMMMd", DateTemplate.WeekdayLongMonthDay), ("EEEEdMMMM", DateTemplate.WeekdayLongDayMonth), ("EEEEdMMMMyyyy", DateTemplate.WeekdayLongDayMonthYear),
     ];
 
     [Theory]

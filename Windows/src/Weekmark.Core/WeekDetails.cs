@@ -3,8 +3,8 @@ namespace Weekmark.Core;
 public sealed record WeekContext(WeekCalendar Cal, WeekFormatter Fmt, DateTime Now, HolidayStore Holidays,
     IReadOnlyList<Milestone> Milestones, SprintConfig Sprint)
 {
-    /// <summary>Free-form date detection (the Mac's NSDataDetector); null = not a date. Plugged in by the date grammar.</summary>
-    public Func<string, WeekContext, DateOnly?> DateDetector { get; init; } = (_, _) => null;
+    /// <summary>Free-form date detection (the Mac's NSDataDetector); null = not a date. Defaults to the date grammar.</summary>
+    public Func<string, WeekContext, DateOnly?> DateDetector { get; init; } = (q, ctx) => DateGrammar.Parse(q, ctx.Today, ctx.Fmt.DayFirst);
     public DateOnly Today => DateOnly.FromDateTime(Now);
     public WeekRef Current => Cal.WeekOf(Today);
 }

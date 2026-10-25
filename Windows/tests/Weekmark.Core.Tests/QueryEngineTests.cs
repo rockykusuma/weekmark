@@ -17,16 +17,11 @@ public class QueryEngineTests
     static string? Str(JsonElement e, string k) => e.GetProperty(k).ValueKind == JsonValueKind.Null ? null : e.GetProperty(k).GetString();
     static int? Int(JsonElement e, string k) => e.GetProperty(k).ValueKind == JsonValueKind.Null ? null : e.GetProperty(k).GetInt32();
 
-    // Date and countdown-to-date answers need the date grammar (the next task).
-    static bool NeedsDates(JsonElement v) => v.GetProperty("results").EnumerateArray().Any(r =>
-        r.GetProperty("kind").GetString() == "date" ||
-        (r.GetProperty("kind").GetString() == "countdown" && r.GetProperty("title").GetString()!.Contains(" day")));
-
     [Fact]
-    public void QueriesMatchSwift_NonDate()
+    public void QueriesMatchSwift_All()
     {
         var all = Vectors.Root.GetProperty("queries").EnumerateArray().ToList();
-        var vectors = all.Where(v => !NeedsDates(v)).ToList();
+        var vectors = all;
         Assert.NotEmpty(vectors);
         foreach (var v in vectors)
         {
@@ -50,7 +45,7 @@ public class QueryEngineTests
                 Assert.True(Int(w, "workdays") == got[i].Workdays, $"{label}[{i}] workdays");
             }
         }
-        Assert.True(vectors.Count >= 220, $"only {vectors.Count} of {all.Count} vectors covered");
+        Assert.True(vectors.Count == 268, $"only {vectors.Count} of {all.Count} vectors covered");
     }
 
     [Fact]

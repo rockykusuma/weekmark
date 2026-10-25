@@ -11,6 +11,8 @@ public sealed class WeekFormatter(WeekCalendar cal, bool dayFirst)
     static readonly string[] MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     static readonly string[] Days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
+    public bool DayFirst => dayFirst;
+
     public static bool DayFirstFor(CultureInfo c) => c.Name != "en-US";
 
     static string Mon(DateOnly d) => MonthNames[d.Month - 1][..3];
