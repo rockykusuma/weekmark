@@ -80,6 +80,51 @@ public sealed class TrayTests
     }
 
     [AvaloniaFact]
+    public void MenuListsTheWeeksOfThisYearAndNext()
+    {
+        var (_, _, tray) = Demo();
+        var top = Items(tray.Menu);
+        Assert.Equal(["-", "Year at a Glance…", "Weeks in 2026", "Weeks in 2027", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"],
+            top.Skip(3).Select(i => i.Header));
+        var weeks = Items(Item(tray.Menu, "Weeks in 2026").Menu!);
+        Assert.Equal("January", weeks[0].Header);
+        Assert.False(weeks[0].IsEnabled);
+        Assert.Equal(53, weeks.Count(i => i.Header!.StartsWith("CW")));
+        Assert.Equal(12, weeks.Count(i => !i.IsEnabled && i.Header != "-"));
+        var current = Item(Item(tray.Menu, "Weeks in 2026").Menu!, "CW 43    19–25 Oct");
+        Assert.True(current.IsChecked);
+        Assert.Contains(weeks, i => i.Header == "CW 46    9–15 Nov   ⚑ Code freeze");
+        Assert.Contains(weeks, i => i.Header == "CW 52    21–27 Dec   · 4d");
+        Assert.False(weeks.Single(i => i.Header!.StartsWith("CW 44")).IsChecked);
+        Assert.Equal(52, Items(Item(tray.Menu, "Weeks in 2027").Menu!).Count(i => i.Header!.StartsWith("CW")));
+    }
+
+    [AvaloniaFact]
+    public void ChoosingAWeekBringsTheWidgetForwardAndPinsIt()
+    {
+        var (_, widget, tray) = Demo();
+        widget.ViewModel.Query = "50";
+        Item(Item(tray.Menu, "Weeks in 2026").Menu!, "CW 46    9–15 Nov   ⚑ Code freeze").Command!.Execute(null);
+        Assert.True(widget.Topmost);
+        Assert.Equal(new WeekRef(2026, 46), widget.ViewModel.Pinned);
+        Assert.Equal("", widget.ViewModel.Query);
+    }
+
+    [AvaloniaFact]
+    public void AddMilestoneItemAppearsOnlyForAWeek()
+    {
+        var (state, _, tray) = Demo();
+        var snap = new WeekSnapshot(state.Context.Now, state.Context.Cal, state.Context.Fmt);
+        var with = tray.BuildMenu(snap, new WeekRef(2026, 46)).OfType<NativeMenuItem>().Select(i => i.Header).ToList();
+        Assert.Equal(["-", "Add Milestone in CW46…", "-", "Year at a Glance…"], with.Skip(3).Take(4));
+        WeekRef? asked = null;
+        tray.AddMilestoneRequested += w => asked = w;
+        tray.BuildMenu(snap, new WeekRef(2026, 46)).OfType<NativeMenuItem>().Single(i => i.Header == "Add Milestone in CW46…").Command!.Execute(null);
+        Assert.Equal(new WeekRef(2026, 46), asked);
+        Assert.DoesNotContain(tray.BuildMenu(snap).OfType<NativeMenuItem>(), i => i.Header!.StartsWith("Add Milestone"));
+    }
+
+    [AvaloniaFact]
     public void MenuLabels()
     {
         var (state, widget, tray) = Demo();
@@ -89,7 +134,7 @@ public sealed class TrayTests
         Assert.Equal("Q4 2026 · Sprint 21, day 10 of 10", top[1].Header);
         Assert.False(top[1].IsEnabled);
         Assert.Equal("Copy “CW43 (19–25 Oct)”", top[2].Header);
-        Assert.Equal(["Year at a Glance…", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"], top.Skip(3).Select(i => i.Header));
+        Assert.Equal(["-", "Year at a Glance…", "Weeks in 2026", "Weeks in 2027", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"], top.Skip(3).Select(i => i.Header));
         Assert.Equal("CW 43 · 19–25 Oct 2026", tray.Icon.ToolTipText);
 
         var position = Item(tray.Menu, "Position").Menu!;

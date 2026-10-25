@@ -108,6 +108,15 @@ public partial class WidgetWindow : Window
         if (!IsVisible) return; // not shown yet, or hidden on purpose: layering must not re-show it
         layering.Apply(this, floating ? WindowLayer.Floating : S.Layer);
     }
+    internal WidgetViewModel ViewModel => vm;
+
+    /// <summary>The tray's "Weeks in YYYY": floats the widget and pins that week.</summary>
+    public void ShowWeek(WeekRef r)
+    {
+        BringForward();
+        vm.Pin(r);
+    }
+
     /// <summary>
     /// The tray's left click, a second launch, or a manual launch: shows the widget above other windows and focuses it.
     /// It goes back to its layer when it loses focus, or after 8 s if Windows never gave it focus.

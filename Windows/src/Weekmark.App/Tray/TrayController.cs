@@ -66,7 +66,7 @@ public sealed class TrayController : IDisposable
     void Refresh()
     {
         if (disposed) return; // quitting hides the widget after the icon is gone
-        var snap = new WeekSnapshot(state.Context.Now, state.Context.Cal, state.Context.Fmt);
+        var snap = Snapshot();
         var week = snap.Current;
 
         // ponytail: one bitmap at the primary monitor's tray size (16 px × scale); the taskbar lives there by default.
@@ -94,7 +94,12 @@ public sealed class TrayController : IDisposable
         }
     }
 
-    List<NativeMenuItemBase> BuildMenu(WeekSnapshot snap)
+    WeekSnapshot Snapshot() => new(state.Context.Now, state.Context.Cal, state.Context.Fmt);
+
+    /// <summary>"Add Milestone…" was chosen; <see cref="BuildMenu"/> offers it for the week under the widget's right click.</summary>
+    public event Action<WeekRef>? AddMilestoneRequested;
+
+    internal List<NativeMenuItemBase> BuildMenu(WeekSnapshot snap, WeekRef? addMilestone = null)
     {
         var s = state.Settings;
         var ctx = state.Context;
@@ -105,7 +110,15 @@ public sealed class TrayController : IDisposable
         menu.Add(Label($"Week {week.Week} of {snap.WeeksInYear} · {snap.RangeText}, {week.Year}"));
         if (PlanningLine(ctx, s) is { } planning) menu.Add(Label(planning));
         menu.Add(Item($"Copy “{copy}”", () => _ = Widget.CopyAsync(copy)));
+        menu.Add(new NativeMenuItemSeparator());
+        if (addMilestone is { } w)
+        {
+            menu.Add(Item($"Add Milestone in CW{w.Week}…", () => AddMilestoneRequested?.Invoke(w)));
+            menu.Add(new NativeMenuItemSeparator());
+        }
         menu.Add(Item("Year at a Glance…", () => YearRequested?.Invoke()));
+        menu.Add(WeeksMenu(snap, week.Year));
+        menu.Add(WeeksMenu(snap, week.Year + 1));
         menu.Add(new NativeMenuItemSeparator());
         menu.Add(Item(widget.IsVisible ? "Hide Widget" : "Show Widget", () =>
         {
@@ -142,6 +155,35 @@ public sealed class TrayController : IDisposable
         menu.Add(Item("Settings…", () => SettingsRequested?.Invoke()));
         menu.Add(Item("Quit Weekmark", () => QuitRequested?.Invoke()));
         return menu;
+    }
+
+    /// <summary>"Weeks in YYYY", a port of the Mac's <c>weeksMenu</c>: month labels, "CW n  range", "· 4d" short weeks and
+    /// "⚑ milestones". The current week is ticked, not bold: a NativeMenu can't do bold.</summary>
+    NativeMenuItem WeeksMenu(WeekSnapshot snap, int year)
+    {
+        var ctx = state.Context;
+        var sub = new NativeMenu();
+        var last = 0;
+        for (var w = 1; w <= ctx.Cal.WeeksIn(year); w++)
+        {
+            var r = new WeekRef(year, w);
+            var thu = ctx.Cal.StartOfWeek(r).AddDays(3);
+            if (thu.Month != last)
+            {
+                if (last != 0) sub.Add(new NativeMenuItemSeparator());
+                sub.Add(Label(ctx.Fmt.Format(thu, DateTemplate.MonthLong)));
+                last = thu.Month;
+            }
+            var title = $"CW {w,2}    {ctx.Fmt.ShortRange(r)}";
+            var wd = ctx.Holidays.WorkingDays(r, ctx.Cal);
+            if (wd < 5) title += $"   · {wd}d";
+            var names = ctx.Milestones.Where(m => m.Week == r).Select(m => m.Name).ToList();
+            if (names.Count > 0) title += $"   ⚑ {string.Join(", ", names)}";
+            var item = Item(title, () => Widget.ShowWeek(r));
+            if (r == snap.Current) (item.ToggleType, item.IsChecked) = (NativeMenuItemToggleType.CheckBox, true);
+            sub.Add(item);
+        }
+        return new NativeMenuItem($"Weeks in {year}") { Menu = sub };
     }
 
     /// <summary>"Q4 2026 · Sprint 21, day 10 of 10", as on the Mac: no line without quarters, and the sprint part only when
