@@ -37,12 +37,12 @@ public partial class WidgetWindow : Window
         DataContext = vm = new WidgetViewModel(state);
 
         saveDelay.Tick += (_, _) => { saveDelay.Stop(); dragging = false; SavePlacement(); };
-        floatEnd.Tick += (_, _) => { floatEnd.Stop(); if (!IsActive) EndFloat(); }; // focused: Deactivated ends it
+        floatEnd.Tick += (_, _) => FloatTimeout();
         Deactivated += (_, _) => { EndTyping(); if (floating) EndFloat(); }; // clicking away keeps the query
         View.Field.GotFocus += (_, _) => BeginTyping();
-        View.Field.LostFocus += (_, _) => EndTyping();
+        View.Field.LostFocus += (_, _) => EndTyping(clearFocus: false); // focus is already leaving
         View.Field.AddHandler(KeyDownEvent, OnFieldKey, RoutingStrategies.Tunnel);
-        vm.WasReset += EndTyping;
+        vm.WasReset += handBack => EndTyping(handBack: handBack);
         state.Changed += ApplySettings;
         Screens.Changed += OnScreensChanged;
         ScalingChanged += (_, _) => KeepOnScreen(); // another monitor's scale: same size in DIPs, new size in pixels
@@ -124,6 +124,18 @@ public partial class WidgetWindow : Window
         floatEnd.Start();
     }
 
+    /// <summary>
+    /// 8 s after floating began. Focused: Deactivated ends it later. Never focused (Windows refused the foreground, or
+    /// the layering broke): no Deactivated or LostFocus will come, so typing and floating end here.
+    /// </summary>
+    internal void FloatTimeout()
+    {
+        floatEnd.Stop();
+        if (!IsActive) { EndTyping(); if (floating) EndFloat(); } // the tray's BringForward floats without typing
+    }
+
+    internal bool FloatPending => floatEnd.IsEnabled;
+
     void EndFloat()
     {
         floatEnd.Stop();
@@ -136,20 +148,25 @@ public partial class WidgetWindow : Window
     {
         if (typing) return;
         typing = true;
-        floatEnd.Stop();
         floating = true;
+        floatEnd.Stop();
+        floatEnd.Start(); // if Windows never activates the widget, FloatTimeout ends typing
         layering.AllowActivation(this, true);
         ApplyLayer();
         Activate();
     }
 
-    /// <summary>Esc, Enter, a click elsewhere or the idle reset: focus goes back and the widget returns to its layer.</summary>
-    void EndTyping()
+    /// <summary>
+    /// Esc, Enter, a click elsewhere or the idle reset: focus goes back and the widget returns to its layer.
+    /// <paramref name="handBack"/> false (idle reset) never hands the foreground to the previous app: the user may be
+    /// typing somewhere else by then, or still in the field, and keystrokes must not land in another app.
+    /// </summary>
+    void EndTyping(bool clearFocus = true, bool handBack = true)
     {
         if (!typing) return;
         typing = false;
-        layering.AllowActivation(this, false);
-        FocusManager?.ClearFocus();
+        layering.AllowActivation(this, false, handBack);
+        if (clearFocus) FocusManager?.ClearFocus();
         EndFloat();
     }
 

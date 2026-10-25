@@ -71,9 +71,10 @@ public sealed partial class WindowsLayering : IWindowLayering
 
     /// <summary>
     /// Typing needs keyboard focus, which WS_EX_NOACTIVATE refuses: it is off while the field is in use. Giving focus
-    /// back restores it and returns the foreground to the window that had it, unless the user already moved on.
+    /// back restores it and, with <paramref name="handBack"/>, returns the foreground to the window that had it, unless
+    /// the user already moved on.
     /// </summary>
-    public void AllowActivation(Window w, bool allow)
+    public void AllowActivation(Window w, bool allow, bool handBack = true)
     {
         activatable = allow; // first: a widget window re-created after a close gets the right style too
         if (broken || Handle(w) is not { } h) return; // broken: the widget may stay activatable, which is harmless
@@ -84,7 +85,7 @@ public sealed partial class WindowsLayering : IWindowLayering
             if (allow) SetForegroundWindow(h); // the click just went to this process, so Windows lets it take the keys
             else
             {
-                if (previous != 0 && previous != h && GetForegroundWindow() == h && IsWindow(previous)) SetForegroundWindow(previous);
+                if (handBack && previous != 0 && previous != h && GetForegroundWindow() == h && IsWindow(previous)) SetForegroundWindow(previous);
                 previous = 0;
             }
         }

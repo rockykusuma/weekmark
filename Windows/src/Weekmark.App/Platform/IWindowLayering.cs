@@ -8,8 +8,11 @@ public interface IWindowLayering
 {
     void Apply(Window w, WindowLayer layer);
     void HideFromTaskSwitcher(Window w);
-    /// <summary>True while the search field is in use: the widget may take keyboard focus. False gives it back.</summary>
-    void AllowActivation(Window w, bool allow);
+    /// <summary>
+    /// True while the search field is in use: the widget may take keyboard focus. False gives it back, and with
+    /// <paramref name="handBack"/> also returns the foreground to the window that had it before.
+    /// </summary>
+    void AllowActivation(Window w, bool allow, bool handBack = true);
 
     static IWindowLayering ForCurrentPlatform() =>
         OperatingSystem.IsWindows() ? new WindowsLayering() : new FallbackLayering();
@@ -20,5 +23,5 @@ public sealed class FallbackLayering : IWindowLayering
 {
     public void Apply(Window w, WindowLayer layer) => w.Topmost = layer == WindowLayer.Floating;
     public void HideFromTaskSwitcher(Window w) { } // ShowInTaskbar=false is all Avalonia offers here
-    public void AllowActivation(Window w, bool allow) { } // nothing blocks activation here
+    public void AllowActivation(Window w, bool allow, bool handBack = true) { } // nothing blocks activation here
 }

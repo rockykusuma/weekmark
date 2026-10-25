@@ -121,7 +121,7 @@ public sealed class TrayTests
         public List<WindowLayer> Applied { get; } = [];
         public void Apply(Window w, WindowLayer layer) => Applied.Add(layer);
         public void HideFromTaskSwitcher(Window w) { }
-        public void AllowActivation(Window w, bool allow) { }
+        public void AllowActivation(Window w, bool allow, bool handBack = true) { }
     }
 
     [AvaloniaFact]

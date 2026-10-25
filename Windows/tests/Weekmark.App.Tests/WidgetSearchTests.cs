@@ -21,9 +21,15 @@ public sealed class WidgetSearchTests
     {
         public List<WindowLayer> Applied { get; } = [];
         public List<bool> Activation { get; } = [];
+        /// <summary>For each give-back (allow false): whether the foreground goes back to the previous app.</summary>
+        public List<bool> HandBack { get; } = [];
         public void Apply(Window w, WindowLayer layer) { Applied.Add(layer); w.Topmost = layer == WindowLayer.Floating; }
         public void HideFromTaskSwitcher(Window w) { }
-        public void AllowActivation(Window w, bool allow) => Activation.Add(allow);
+        public void AllowActivation(Window w, bool allow, bool handBack = true)
+        {
+            Activation.Add(allow);
+            if (!allow) HandBack.Add(handBack);
+        }
     }
 
     (WidgetWindow W, WidgetViewModel Vm, AppState State, RecordingLayering Layering) Shown(Action<AppSettings>? edit = null)
@@ -147,6 +153,7 @@ public sealed class WidgetSearchTests
         Assert.Null(vm.Pinned);
         Assert.Equal(0, vm.MonthOffset);
         Assert.Equal([true, false], layering.Activation); // the reset also gives focus back
+        Assert.Equal([false], layering.HandBack); // but never hands the foreground to another app
         Assert.False(w.Topmost);
         w.Close();
     }
@@ -189,6 +196,7 @@ public sealed class WidgetSearchTests
         layering.Applied.Clear();
         Press(w, Key.Escape);
         Assert.Equal([true, false], layering.Activation);
+        Assert.Equal([true], layering.HandBack); // Esc hands the foreground back
         Assert.Equal([WindowLayer.Desktop], layering.Applied); // back on its layer
         Assert.False(Field(w).IsFocused);
         Assert.False(w.Topmost);
@@ -202,6 +210,41 @@ public sealed class WidgetSearchTests
         Assert.Equal([true, false, true, false], layering.Activation);
         Assert.Equal(WindowLayer.Desktop, layering.Applied[^1]);
         Assert.Equal("46", vm.Query);
+
+        ClickField(w);
+        Press(w, Key.Enter);
+        Assert.Equal([true, true, true], layering.HandBack); // so does Enter
+        w.Close();
+    }
+
+    /// <summary>Windows may refuse the foreground (foreground lock) or the layering may be broken: no Deactivated comes.</summary>
+    [AvaloniaFact]
+    public void FieldWithoutActivationStopsFloating()
+    {
+        var (w, _, _, layering) = Shown();
+        ClickField(w);
+        Assert.True(w.Topmost);
+        Assert.True(w.FloatPending);
+        typeof(WindowBase).GetProperty(nameof(WindowBase.IsActive))!.SetValue(w, false); // headless Activate() always succeeds
+        layering.Applied.Clear();
+        w.FloatTimeout(); // floatEnd's 8 s tick
+        Assert.Equal([true, false], layering.Activation);
+        Assert.False(w.Topmost);
+        Assert.Equal([WindowLayer.Desktop], layering.Applied);
+        Assert.False(Field(w).IsFocused);
+        Assert.False(w.FloatPending);
+        w.Close();
+    }
+
+    [AvaloniaFact]
+    public void FocusMovingOnStaysWhereItWent()
+    {
+        var (w, _, _, layering) = Shown();
+        ClickField(w);
+        var other = w.GetVisualDescendants().OfType<Button>().First(b => b.Focusable && b.IsEffectivelyVisible);
+        Assert.True(other.Focus());
+        Assert.Equal([true, false], layering.Activation);
+        Assert.True(other.IsFocused); // the field's LostFocus doesn't clear the new focus
         w.Close();
     }
 

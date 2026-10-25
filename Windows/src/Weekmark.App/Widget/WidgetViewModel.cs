@@ -58,8 +58,11 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         Refresh();
     }
 
-    /// <summary>Raised by <see cref="Reset"/> (Esc, ×, Today, idle): the window gives keyboard focus back.</summary>
-    public event Action? WasReset;
+    /// <summary>
+    /// Raised by <see cref="Reset"/> (Esc, ×, Today, idle): the window gives keyboard focus back. The argument is false
+    /// for the idle reset, which must not hand the foreground to another app.
+    /// </summary>
+    public event Action<bool>? WasReset;
 
     AppSettings S => state.Settings;
     WeekContext Ctx => state.Context;
@@ -131,7 +134,9 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
 
     /// <summary>Clears the query, the pin and the month offset (Esc, ×, Today, 2 minutes idle).</summary>
     [RelayCommand]
-    public void Reset()
+    public void Reset() => Reset(handBack: true);
+
+    void Reset(bool handBack)
     {
         ClearSearch();
         Pinned = null;
@@ -139,7 +144,7 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(Hover));
         MonthOffset = 0;
         RebuildMonth();
-        WasReset?.Invoke();
+        WasReset?.Invoke(handBack);
     }
 
     partial void OnQueryChanged(string value)
@@ -196,7 +201,7 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
         var key = (Ctx.Today, state.Version);
         if (key != fullKey) { fullKey = key; RebuildAll(); }
         else Progress = BuildProgress(); // a plain 30 s tick: only the week progress moves
-        if (IsBrowsing && Now - lastInteraction > IdleReset) Reset();
+        if (IsBrowsing && Now - lastInteraction > IdleReset) Reset(handBack: false);
     }
 
     void RebuildAll()
