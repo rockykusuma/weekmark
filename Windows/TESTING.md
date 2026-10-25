@@ -51,6 +51,14 @@ Don't paste anything private (for example the contents of your company `.ics`).
     unplug that monitor and open it again: does it open centred?
     With monitors at different scales (125% and 100%): move the window to the other one, close and reopen: same size and
     place? On a 1080p laptop at 125% or 150%, does the first open fit the screen, with the Copy button visible?
-18. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
+18. **Menus and holidays.** Right-click the widget while it sits on the Desktop layer: does the menu open above your
+    windows? Right-click a week in the month grid and choose Add Milestone in CW…: does Settings open on that week,
+    with the Name field focused? Open Weeks in YYYY from the tray menu and from the widget's menu on a 1080p laptop at
+    125%: does the list scroll in both? Choose a week: does the widget come forward on that month? Right-click
+    repeatedly: do menus stack up? In Settings → General click Show Welcome Screen Again: does it open, and does a
+    second click bring the same window forward? In Settings → Holidays add a holiday with a name and date (and one
+    without a name): do they appear under "Added by you" and in Coming up? Does Remove All clear them? With no
+    country selected, does Coming up say "No holidays selected"?
+19. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.

@@ -55,6 +55,16 @@ The calendar button in the widget's month header, or "Year at a Glance…" in th
 their week numbers. Hover a week for its details, click to pin it, ← → change the year, Ctrl+C copies the week shown at
 the bottom (the hovered one, else the pinned one, else this week), This Year jumps back, Esc closes. The window remembers its size and position.
 
+## Menus and holidays
+
+- **Right-click the widget** for the app menu (Year at a Glance, Settings and so on). Right-click a week in the month
+  grid for **Add Milestone in CW…**: Settings opens on the Milestones tab with that week filled in and the Name field ready.
+- **Weeks in YYYY** lists every week of the year, in the tray menu and the widget's menu. Choosing a week brings the
+  widget forward on that month.
+- **Settings → Holidays:** add a holiday of your own (name and date), **Remove All** your company holidays, and see the
+  next six under **Coming up**.
+- **Settings → General → Show Welcome Screen Again** reopens the first-run welcome.
+
 ## Search field
 
 The field at the bottom of the widget, under the month, answers questions about weeks and dates. Click it and type.
