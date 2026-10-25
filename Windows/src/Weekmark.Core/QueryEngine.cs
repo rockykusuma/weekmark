@@ -45,7 +45,7 @@ public static class QueryEngine
             case WeekParse.Invalid i: return [new(QueryKind.Error, i.Message, Examples)];
         }
         var ms = MilestoneMatches(lower, ctx);
-        if (Detect(q, ctx) is { } d) return [DateResult(d, ctx), .. ms];
+        if (Detect(q, ctx) is { } d && DateResult(d, ctx) is { } dr) return [dr, .. ms];
         if (ms.Count > 0) return ms;
         return [new(QueryKind.Error, $"No match for “{q}”", Examples)];
     }
@@ -154,7 +154,14 @@ public static class QueryEngine
         ctx.Milestones.Where(m => Valid(m.Week, ctx) && m.Name.ToLowerInvariant().Contains(lower, StringComparison.Ordinal))
             .Select(m => MilestoneResult(m, ctx)).ToList();
 
-    static QueryResult DateResult(DateOnly date, WeekContext ctx)
+    // An edge date (year 1 or 9999) can fall outside the week domain: read as "not a date".
+    static QueryResult? DateResult(DateOnly date, WeekContext ctx)
+    {
+        try { return BuildDateResult(date, ctx); }
+        catch (Exception e) when (e is ArgumentException or InvalidOperationException) { return null; }
+    }
+
+    static QueryResult BuildDateResult(DateOnly date, WeekContext ctx)
     {
         var wr = ctx.Cal.WeekOf(date);
         var b = WeekResult(wr, ctx);
@@ -291,7 +298,15 @@ public static class QueryEngine
                 $"{toStart} working days until it starts · {toEnd} through its end · {f.ShortRange(r)}",
                 CopyText: $"{weeks} weeks / {toEnd} working days until end of CW{r.Week}", Week: r, Weeks: weeks, Workdays: toEnd);
         }
-        if (Detect(s, ctx) is { } d)
+        if (Detect(s, ctx) is { } d && CountdownToDate(d, ctx) is { } cd) return cd;
+        return null;
+    }
+
+    static QueryResult? CountdownToDate(DateOnly d, WeekContext ctx)
+    {
+        var f = ctx.Fmt;
+        var today = ctx.Today;
+        try
         {
             var days = d.DayNumber - today.DayNumber;
             var wd = ctx.Holidays.WorkingDays(today, d);
@@ -300,6 +315,6 @@ public static class QueryEngine
                 $"{wd} working days · CW{wr.Week} · {f.Relative(ctx.Cal.WeeksBetween(ctx.Current, wr))}",
                 CopyText: $"{days} days / {wd} working days until {f.Format(d, DateTemplate.DayMonth)}", Week: wr, Workdays: wd);
         }
-        return null;
+        catch (Exception e) when (e is ArgumentException or InvalidOperationException) { return null; }
     }
 }

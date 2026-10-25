@@ -21,9 +21,8 @@ public class QueryEngineTests
     public void QueriesMatchSwift_All()
     {
         var all = Vectors.Root.GetProperty("queries").EnumerateArray().ToList();
-        var vectors = all;
-        Assert.NotEmpty(vectors);
-        foreach (var v in vectors)
+        Assert.NotEmpty(all);
+        foreach (var v in all)
         {
             var q = v.GetProperty("query").GetString()!;
             var got = QueryEngine.Evaluate(q, Ctx(v));
@@ -45,7 +44,7 @@ public class QueryEngineTests
                 Assert.True(Int(w, "workdays") == got[i].Workdays, $"{label}[{i}] workdays");
             }
         }
-        Assert.True(vectors.Count == 268, $"only {vectors.Count} of {all.Count} vectors covered");
+        Assert.True(all.Count == 268, $"only {all.Count} of {all.Count} vectors covered");
     }
 
     [Fact]
@@ -80,5 +79,24 @@ public class QueryEngineTests
         Assert.Equal(QueryKind.Error, Assert.Single(QueryEngine.Evaluate("24 Dec 2026", ctx)).Kind);
         Assert.Equal(QueryKind.Error, Assert.Single(QueryEngine.Evaluate("ghostly", ctx)).Kind);
         Assert.NotEmpty(QueryEngine.Evaluate("until 24 Dec 2026", ctx));
+    }
+
+    [Fact]
+    public void EdgeDatesNeverThrow()
+    {
+        var c = Ctx(Vectors.Root.GetProperty("queries")[0]);
+        foreach (var num in new[] { WeekNumbering.Iso, WeekNumbering.Us })
+        {
+            var cal = new WeekCalendar(num);
+            var ctx = c with { Cal = cal, Fmt = new WeekFormatter(cal, true), Now = new DateTime(2026, 10, 25, 9, 0, 0) };
+            foreach (var q in new[] { "31 Dec 9999", "1 Jan 0001", "1/1/0001", "until 31 Dec 9999", "until 1 jan 0001" })
+                Assert.NotEmpty(QueryEngine.Evaluate(q, ctx));
+            foreach (var q in new[] { "24/12/26", "12-24-26" })
+            {
+                var r = Assert.Single(QueryEngine.Evaluate(q, ctx));
+                Assert.Equal(QueryKind.Date, r.Kind);
+                Assert.StartsWith("Thursday, 24 December 2026", r.Title);
+            }
+        }
     }
 }

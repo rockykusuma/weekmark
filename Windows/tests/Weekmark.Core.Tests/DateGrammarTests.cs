@@ -22,6 +22,9 @@ public class DateGrammarTests
     [InlineData("24.12.26", 2026, 12, 24)]
     [InlineData("2026-12-24", 2026, 12, 24)]
     [InlineData("today", 2026, 10, 25)]
+    [InlineData("Feb 29", 2028, 2, 29)]
+    [InlineData("29 Feb", 2028, 2, 29)]
+    [InlineData("29 Feb 2028", 2028, 2, 29)]
     public void RelativeAndYearlessRules(string s, int y, int m, int d) => Assert.Equal(new DateOnly(y, m, d), P(s));
 
     [Fact]
@@ -38,6 +41,6 @@ public class DateGrammarTests
 
     [Theory]
     [InlineData("31 Feb 2027")] [InlineData("00/00/0000")] [InlineData("99/99/9999")] [InlineData("1 Jan 0")] [InlineData("0000-01-01")]
-    [InlineData("12/12")] [InlineData("")] [InlineData("hello")] [InlineData("32 Jan")] [InlineData("Feb 29")] [InlineData("٣ Jan")]
+    [InlineData("12/12")] [InlineData("")] [InlineData("hello")] [InlineData("32 Jan")] [InlineData("29 Feb 2027")] [InlineData("1 Jan 0001")] [InlineData("31 Dec 9999")] [InlineData("٣ Jan")]
     public void InvalidDatesAreNull(string s) => Assert.Null(P(s));
 }

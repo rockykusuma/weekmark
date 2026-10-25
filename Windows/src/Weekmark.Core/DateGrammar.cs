@@ -51,13 +51,14 @@ public static partial class DateGrammar
 
     static DateOnly? WithYear(Match m, int monthGroup, int day, int yearGroup, DateOnly today)
     {
-        var name = m.Groups[monthGroup].Value;
         var month = Array.IndexOf(Abbr, m.Groups[monthGroup].Value[..3]) + 1;
         if (m.Groups[yearGroup].Success) return Make(Int(m, yearGroup), month, day);
-        // Year-less: this year if on/after today, else next.
-        return Make(today.Year, month, day) is { } d && d >= today ? d : Make(today.Year + 1, month, day);
+        // Year-less: the first such date on/after today (up to 4 years ahead, so 29 Feb finds the next leap year).
+        for (var y = today.Year; y <= today.Year + 4; y++)
+            if (Make(y, month, day) is { } d && d >= today) return d;
+        return null;
     }
 
     static DateOnly? Make(int y, int m, int d) =>
-        y is >= 1 and <= 9999 && m is >= 1 and <= 12 && d >= 1 && d <= DateTime.DaysInMonth(y, m) ? new DateOnly(y, m, d) : null;
+        y is >= 2 and <= 9998 && m is >= 1 and <= 12 && d >= 1 && d <= DateTime.DaysInMonth(y, m) ? new DateOnly(y, m, d) : null;
 }
