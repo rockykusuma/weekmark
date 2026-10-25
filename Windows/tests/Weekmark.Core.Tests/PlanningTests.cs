@@ -72,6 +72,7 @@ public class PlanningTests
             var m = new Milestone(Guid.NewGuid(), "M", Ref(e.GetProperty("week")), MilestoneColor.Orange);
             var s = Milestones.Status(m, Date(e.GetProperty("now")), Cal(e.GetProperty("numbering")), Store(e.GetProperty("regions")));
             var x = e.GetProperty("status");
+            Assert.NotNull(s);
             Assert.Equal(x.GetProperty("weeksAway").GetInt32(), s.WeeksAway);
             Assert.Equal(x.GetProperty("workdaysLeft").GetInt32(), s.WorkdaysLeft);
             Assert.Equal(s.WeeksAway < 0, s.IsPast);
@@ -86,6 +87,34 @@ public class PlanningTests
         Assert.Equal(-1, Sprints.Index(new(2026, 1, 4), cfg, cal));
         Assert.Equal(-2, Sprints.Index(new(2025, 12, 21), cfg, cal));
         Assert.Equal(0, Sprints.Index(new(2026, 1, 5), cfg, cal));
+    }
+
+    [Fact]
+    public void InvalidSprintAnchorReturnsNothing()
+    {
+        var cal = new WeekCalendar(WeekNumbering.Iso);
+        foreach (var anchor in new[] { new Day(2026, 13, 40), new Day(0, 1, 1), new Day(2026, 2, 30) })
+        {
+            var cfg = new SprintConfig { Enabled = true, Anchor = anchor };
+            Assert.Null(Sprints.Index(new(2026, 3, 1), cfg, cal));
+            Assert.Null(Sprints.Info(new(2026, 3, 1), cfg, cal, HolidayStore.Empty));
+            Assert.False(Sprints.StartsSprint(new(2026, 10), cfg, cal));
+        }
+    }
+
+    [Fact]
+    public void ImpossibleMilestoneWeekReturnsNull()
+    {
+        foreach (var n in new[] { WeekNumbering.Iso, WeekNumbering.Us })
+        {
+            var cal = new WeekCalendar(n);
+            foreach (var w in new WeekRef[] { new(2026, 99), new(2026, 0), new(0, 5), new(2026, 54) })
+            {
+                var m = new Milestone(Guid.NewGuid(), "x", w, MilestoneColor.Red);
+                Assert.Null(Milestones.Status(m, new(2026, 10, 25), cal, HolidayStore.Empty));
+                Milestones.Upcoming([m], new(2026, 10, 25), cal);
+            }
+        }
     }
 
     [Fact]

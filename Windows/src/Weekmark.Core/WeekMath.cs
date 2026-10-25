@@ -37,6 +37,9 @@ public readonly record struct Day(
     [property: JsonPropertyName("d")] int D) : IComparable<Day>
 {
     public DateOnly ToDate() => new(Y, M, D);
+    /// <summary>Null when the fields are not a real date (hand-edited settings).</summary>
+    public DateOnly? TryToDate() =>
+        Y is >= 1 and <= 9999 && M is >= 1 and <= 12 && D >= 1 && D <= DateTime.DaysInMonth(Y, M) ? new DateOnly(Y, M, D) : null;
     public static Day From(DateOnly d) => new(d.Year, d.Month, d.Day);
     public int CompareTo(Day o) => (Y, M, D).CompareTo((o.Y, o.M, o.D));
 }

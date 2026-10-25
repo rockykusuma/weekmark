@@ -26,7 +26,8 @@ public static class Sprints
     static int FloorDiv(int a, int b) => (int)Math.Floor((double)a / b);
 
     static DateOnly? AnchorStart(SprintConfig c, WeekCalendar cal) =>
-        c.Enabled && c.LengthWeeks > 0 ? cal.StartOfWeek(c.Anchor.ToDate()) : null;
+        c.Enabled && c.LengthWeeks > 0 && c.Anchor.Y is >= 2 and <= 9998 && c.Anchor.TryToDate() is { } a
+            ? cal.StartOfWeek(a) : null;
 
     public static int? Index(DateOnly d, SprintConfig c, WeekCalendar cal) =>
         AnchorStart(c, cal) is { } a ? FloorDiv(d.DayNumber - a.DayNumber, c.LengthWeeks * 7) : null;
@@ -119,8 +120,10 @@ public sealed record MilestoneStatus(int WeeksAway, int WorkdaysLeft)
 
 public static class Milestones
 {
-    public static MilestoneStatus Status(Milestone m, DateOnly today, WeekCalendar cal, HolidayStore h)
+    /// <summary>Null when the milestone's week does not exist (hand-edited settings), as on the Mac.</summary>
+    public static MilestoneStatus? Status(Milestone m, DateOnly today, WeekCalendar cal, HolidayStore h)
     {
+        if (m.Week.Year is < 2 or > 9998 || m.Week.Week < 1 || m.Week.Week > cal.WeeksIn(m.Week.Year)) return null;
         var weeks = cal.WeeksBetween(cal.WeekOf(today), m.Week);
         return new(weeks, weeks < 0 ? 0 : h.WorkingDays(today, cal.StartOfWeek(m.Week).AddDays(7)));
     }
