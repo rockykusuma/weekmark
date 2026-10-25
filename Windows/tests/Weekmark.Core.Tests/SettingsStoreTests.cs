@@ -345,4 +345,28 @@ public sealed class SettingsStoreTests : IDisposable
         Assert.Equal(4, SavedRoot().GetProperty("sprint").GetProperty("lengthWeeks").GetInt32());
         Assert.Equal(99, SavedRoot().GetProperty("quarter").GetProperty("fiscalStartMonth").GetInt32());
     }
+
+    [Fact]
+    public void YearWindowRoundTrips()
+    {
+        var s = Store.Load();
+        s.YearWindow = new WindowFrame(100, 80, 1060, 820);
+        Assert.True(Store.Save(s));
+        Assert.Equal(new WindowFrame(100, 80, 1060, 820), Store.Load().YearWindow);
+        using var doc = JsonDocument.Parse(File.ReadAllText(P));
+        var y = doc.RootElement.GetProperty("yearWindow");
+        foreach (var k in new[] { "x", "y", "width", "height" }) Assert.True(y.TryGetProperty(k, out _));
+        Assert.Contains("\"yearWindow\": {", File.ReadAllText(P));
+    }
+
+    [Fact]
+    public void UnreadableYearWindowIsKeptOnSave()
+    {
+        File.WriteAllText(P, "{\"yearWindow\": \"oops\"}");
+        var s = Store.Load();
+        Assert.Null(s.YearWindow);
+        Assert.True(Store.Save(s));
+        using var doc = JsonDocument.Parse(File.ReadAllText(P));
+        Assert.Equal("oops", doc.RootElement.GetProperty("yearWindow").GetString());
+    }
 }

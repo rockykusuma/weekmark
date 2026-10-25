@@ -38,6 +38,11 @@ public static class WidgetSizeExtensions
     };
 }
 
+/// <summary>X/Y: window position in physical pixels. Width/Height: client size in DIPs.</summary>
+public sealed record WindowFrame(
+    [property: JsonPropertyName("x")] double X, [property: JsonPropertyName("y")] double Y,
+    [property: JsonPropertyName("width")] double Width, [property: JsonPropertyName("height")] double Height);
+
 /// <summary>Same keys and inner shapes as the Mac; values are native JSON here. Defaults apply to missing keys.</summary>
 public sealed class AppSettings
 {
@@ -62,6 +67,7 @@ public sealed class AppSettings
     [JsonPropertyName("screenID")] public string? ScreenID { get; set; }
     [JsonPropertyName("offsetX")] public double? OffsetX { get; set; }
     [JsonPropertyName("offsetTop")] public double? OffsetTop { get; set; }
+    [JsonPropertyName("yearWindow")] public WindowFrame? YearWindow { get; set; }
 
     /// <summary>Keys this version does not know; written back unchanged on save.</summary>
     [JsonExtensionData] public Dictionary<string, JsonElement> Unknown { get; set; } = [];

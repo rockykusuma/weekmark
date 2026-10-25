@@ -51,6 +51,10 @@ public static class PlacementMath
         return (x, y);
     }
 
+    /// <summary>True when a point inside the title bar of a window at (x, y) lies on some screen's work area.</summary>
+    public static bool IsReachable(double x, double y, IReadOnlyList<ScreenInfo> screens) =>
+        double.IsFinite(x) && double.IsFinite(y) && screens.Any(s => s.WorkArea.Contains(x + 48, y + 16));
+
     // Max-then-min order: a widget larger than the area ends up at its top-left.
     private static (double X, double Y) Clamp(double x, double y, RectD area, double width, double height) =>
         (Math.Max(area.X, Math.Min(x, area.Right - width)), Math.Max(area.Y, Math.Min(y, area.Bottom - height)));

@@ -124,6 +124,7 @@ public sealed class SettingsStore(string path)
                 case "regions": Items(p.Name, v, C.HolidayRegion, s.Regions); s.Regions = s.Regions.Distinct().ToList(); break;
                 case "customHolidays": Items(p.Name, v, C.Holiday, s.CustomHolidays); break;
                 case "screenID": Scalar(p.Name, v, C.String, x => s.ScreenID = x); break;
+                case "yearWindow": Scalar(p.Name, v, C.WindowFrame, x => s.YearWindow = x); break;
                 case "offsetX": s.OffsetX = v.ValueKind == JsonValueKind.Number && v.TryGetDouble(out var x) ? x : null; break;
                 case "offsetTop": s.OffsetTop = v.ValueKind == JsonValueKind.Number && v.TryGetDouble(out var t) ? t : null; break;
                 default: s.Unknown[p.Name] = v.Clone(); break;

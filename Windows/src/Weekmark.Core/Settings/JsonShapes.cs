@@ -17,6 +17,7 @@ namespace Weekmark.Core;
 [JsonSerializable(typeof(Milestone))]
 [JsonSerializable(typeof(HolidayRegion))]
 [JsonSerializable(typeof(Holiday))]
+[JsonSerializable(typeof(WindowFrame))]
 internal sealed partial class SettingsJsonContext : JsonSerializerContext;
 
 public static class JsonShapes

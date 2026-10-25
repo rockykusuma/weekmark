@@ -105,4 +105,16 @@ public class PlacementTests
         Assert.Equal((16, 624), PlacementMath.Snap(Main, Corner.BottomLeft, 300, 400));
         Assert.Equal((1604, 624), PlacementMath.Snap(Main, Corner.BottomRight, 300, 400));
     }
+
+    [Fact]
+    public void IsReachableOnlyWhenTheTitleBarIsOnAScreen()
+    {
+        ScreenInfo[] one = [Main];
+        Assert.True(PlacementMath.IsReachable(100, 100, one));
+        Assert.False(PlacementMath.IsReachable(3000, 100, one));
+        Assert.False(PlacementMath.IsReachable(100, 1060, one));
+        Assert.True(PlacementMath.IsReachable(-40, 100, one));
+        Assert.False(PlacementMath.IsReachable(double.NaN, 100, one));
+        Assert.False(PlacementMath.IsReachable(100, 100, []));
+    }
 }
