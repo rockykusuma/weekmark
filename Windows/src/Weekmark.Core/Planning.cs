@@ -16,6 +16,8 @@ public sealed record SprintConfig
     /// <summary>0 = Program Increments off.</summary>
     [JsonPropertyName("sprintsPerPI")] public int SprintsPerPI { get; set; } = 0;
     [JsonPropertyName("firstPI")] public int FirstPI { get; set; } = 1;
+    /// <summary>Keys this version does not know; written back unchanged on save (and kept by <c>with</c> copies).</summary>
+    [JsonExtensionData] public Dictionary<string, JsonElement>? Extra { get; set; }
 }
 
 /// <summary>Start inclusive, End exclusive.</summary>
@@ -67,6 +69,8 @@ public sealed record QuarterConfig
     /// <summary>1 = January (calendar year).</summary>
     [JsonPropertyName("fiscalStartMonth")] public int FiscalStartMonth { get; set; } = 1;
     [JsonPropertyName("mode")] public QuarterMode Mode { get; set; } = QuarterMode.Months;
+    /// <summary>Keys this version does not know; written back unchanged on save (and kept by <c>with</c> copies).</summary>
+    [JsonExtensionData] public Dictionary<string, JsonElement>? Extra { get; set; }
 }
 
 /// <summary>Label is "Q4 2026" or "Q3 FY27".</summary>
@@ -112,7 +116,11 @@ public sealed record Milestone(
     [property: JsonPropertyName("id"), JsonConverter(typeof(UpperGuidConverter))] Guid Id,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("week")] WeekRef Week,
-    [property: JsonPropertyName("color")] MilestoneColor Color = MilestoneColor.Orange);
+    [property: JsonPropertyName("color")] MilestoneColor Color = MilestoneColor.Orange)
+{
+    /// <summary>Keys this version does not know; written back unchanged on save (and kept by <c>with</c> copies).</summary>
+    [JsonExtensionData] public Dictionary<string, JsonElement>? Extra { get; set; }
+}
 
 /// <summary>WeeksAway: 0 = due this week, negative = past. WorkdaysLeft: today (inclusive) to the end of the milestone week.</summary>
 public sealed record MilestoneStatus(int WeeksAway, int WorkdaysLeft)

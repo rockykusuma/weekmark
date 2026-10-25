@@ -87,6 +87,12 @@ public sealed class SettingsStore(string path)
             }
         }
 
+        T Clamped<T>(string key, JsonElement v, T read, T clamped)
+        {
+            if (!Equals(read, clamped)) s.Rejected[key] = new(v.Clone(), null);
+            return clamped;
+        }
+
         foreach (var p in root.EnumerateObject())
         {
             var v = p.Value;
@@ -106,11 +112,13 @@ public sealed class SettingsStore(string path)
                 case "onboardingDone": Scalar(p.Name, v, C.Boolean, x => s.OnboardingDone = x); break;
                 case "startWithWindows": Scalar(p.Name, v, C.Boolean, x => s.StartWithWindows = x); break;
                 // Absurd planning numbers would overflow or stall the working-day loops; 52 weeks is also Sprints' limit.
+                // The clamped copy is used in memory; the stored value goes back on Save until the user edits that key.
                 case "sprint":
-                    Scalar(p.Name, v, C.SprintConfig, x => s.Sprint = x with { LengthWeeks = Math.Clamp(x.LengthWeeks, 1, 52), SprintsPerPI = Math.Clamp(x.SprintsPerPI, 0, 100) });
+                    Scalar(p.Name, v, C.SprintConfig, x => s.Sprint = Clamped(p.Name, v, x,
+                        x with { LengthWeeks = Math.Clamp(x.LengthWeeks, 1, 52), SprintsPerPI = Math.Clamp(x.SprintsPerPI, 0, 100) }));
                     break;
                 case "quarter":
-                    Scalar(p.Name, v, C.QuarterConfig, x => s.Quarter = x with { FiscalStartMonth = Math.Clamp(x.FiscalStartMonth, 1, 12) });
+                    Scalar(p.Name, v, C.QuarterConfig, x => s.Quarter = Clamped(p.Name, v, x, x with { FiscalStartMonth = Math.Clamp(x.FiscalStartMonth, 1, 12) }));
                     break;
                 case "milestones": Items(p.Name, v, C.Milestone, s.Milestones); break;
                 case "regions": Items(p.Name, v, C.HolidayRegion, s.Regions); s.Regions = s.Regions.Distinct().ToList(); break;

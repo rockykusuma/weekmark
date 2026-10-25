@@ -63,7 +63,11 @@ public static class HolidayRegionExtensions
 public sealed record Holiday(
     [property: JsonPropertyName("day")] Day Day,
     [property: JsonPropertyName("name")] string Name,
-    [property: JsonPropertyName("source")] string Source);
+    [property: JsonPropertyName("source")] string Source)
+{
+    /// <summary>Keys this version does not know; written back unchanged on save (and kept by <c>with</c> copies).</summary>
+    [JsonExtensionData] public Dictionary<string, JsonElement>? Extra { get; set; }
+}
 
 public static class HolidayRules
 {

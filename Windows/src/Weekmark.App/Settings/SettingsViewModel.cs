@@ -118,8 +118,9 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     public bool ShowMilestones { get => S.ShowMilestones; set => Set(S.ShowMilestones, value, v => S.ShowMilestones = v); }
     public bool ShowMonth { get => S.ShowMonth; set => Set(S.ShowMonth, value, v => S.ShowMonth = v); }
 
-    // Planning. User edits are clamped (length and sprints per PI match SettingsStore's clamps and Sprints' limits);
-    // an unchanged value is never clamped, so a stored -3 or 12000 stays until the user edits that field.
+    // Planning. User edits are clamped (length and sprints per PI match SettingsStore's load-time clamps and Sprints'
+    // limits). A stored out-of-range value (-3, 12000) shows clamped, but the file keeps it until the user edits a
+    // sprint setting (any field: the sprint is saved as one object), as SettingsStore writes it back unchanged.
     public bool SprintEnabled { get => S.Sprint.Enabled; set => EditSprint(S.Sprint with { Enabled = value }); }
     /// <summary>Bound with UpdateSourceTrigger=LostFocus: saved when the field is left, not on every keystroke.</summary>
     public string SprintName { get => S.Sprint.Name; set => EditSprint(S.Sprint with { Name = value }); }
@@ -189,7 +190,10 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     void SaveMilestone()
     {
         if (Draft is not { CanSave: true } d) return;
-        var m = new Milestone(d.Id ?? Guid.NewGuid(), d.Name.Trim(), new WeekRef(d.Year, d.Week), (MilestoneColor)Math.Clamp(d.ColorIndex, 0, Colors.Length - 1));
+        var m = new Milestone(d.Id ?? Guid.NewGuid(), d.Name.Trim(), new WeekRef(d.Year, d.Week), (MilestoneColor)Math.Clamp(d.ColorIndex, 0, Colors.Length - 1))
+        {
+            Extra = S.Milestones.FirstOrDefault(x => x.Id == d.Id)?.Extra, // keys a newer version wrote survive an edit
+        };
         Draft = null;
         Edit(() =>
         {

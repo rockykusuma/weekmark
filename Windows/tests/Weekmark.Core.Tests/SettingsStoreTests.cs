@@ -301,4 +301,48 @@ public sealed class SettingsStoreTests : IDisposable
         Assert.Equal(WidgetSize.Small, store.Load().Size);
         Assert.Equal(2, raised);
     }
+    [Fact]
+    public void UnknownNestedKeysSurviveAnUnrelatedSave()
+    {
+        File.WriteAllText(P, """
+        {"sprint":{"enabled":true,"lengthWeeks":3,"futureSprintKey":{"a":1}},
+         "quarter":{"fiscalStartMonth":4,"futureQuarterKey":true},
+         "milestones":[{"id":"6F9619FF-8B86-D011-B42D-00C04FC964FF","name":"Ship","week":{"year":2026,"week":48},"note":"keep me"}],
+         "customHolidays":[{"day":{"y":2026,"m":3,"d":2},"name":"Founders","source":"custom","tag":7}]}
+        """);
+        var store = Store;
+        var s = store.Load();
+        s.Size = WidgetSize.Large;
+        s.Sprint = s.Sprint with { Name = "Renamed" }; // a `with` copy keeps the unknown keys
+        store.Save(s);
+
+        var root = SavedRoot();
+        Assert.Equal(1, root.GetProperty("sprint").GetProperty("futureSprintKey").GetProperty("a").GetInt32());
+        Assert.Equal("Renamed", root.GetProperty("sprint").GetProperty("name").GetString());
+        Assert.True(root.GetProperty("quarter").GetProperty("futureQuarterKey").GetBoolean());
+        Assert.Equal("keep me", root.GetProperty("milestones")[0].GetProperty("note").GetString());
+        Assert.Equal(7, root.GetProperty("customHolidays")[0].GetProperty("tag").GetInt32());
+        Assert.Equal("large", root.GetProperty("size").GetString());
+    }
+
+    [Fact]
+    public void ClampedPlanningNumbersAreWrittenBackUnchangedUntilEdited()
+    {
+        File.WriteAllText(P, """{"sprint":{"enabled":true,"lengthWeeks":60,"sprintsPerPI":-3},"quarter":{"fiscalStartMonth":99}}""");
+        var store = Store;
+        var s = store.Load();
+        Assert.Equal(52, s.Sprint.LengthWeeks);
+        Assert.Equal(12, s.Quarter.FiscalStartMonth);
+
+        s.Size = WidgetSize.Small;
+        store.Save(s);
+        Assert.Equal(60, SavedRoot().GetProperty("sprint").GetProperty("lengthWeeks").GetInt32());
+        Assert.Equal(-3, SavedRoot().GetProperty("sprint").GetProperty("sprintsPerPI").GetInt32());
+        Assert.Equal(99, SavedRoot().GetProperty("quarter").GetProperty("fiscalStartMonth").GetInt32());
+
+        s.Sprint = s.Sprint with { LengthWeeks = 4 }; // the user edits the sprint: the new value is saved
+        store.Save(s);
+        Assert.Equal(4, SavedRoot().GetProperty("sprint").GetProperty("lengthWeeks").GetInt32());
+        Assert.Equal(99, SavedRoot().GetProperty("quarter").GetProperty("fiscalStartMonth").GetInt32());
+    }
 }

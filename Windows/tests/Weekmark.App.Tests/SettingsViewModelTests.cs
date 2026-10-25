@@ -262,13 +262,14 @@ public sealed class SettingsViewModelTests : IDisposable
     [AvaloniaFact]
     public void EditAndDeleteMilestone()
     {
-        var vm = Demo(out var state);
+        var note = new Dictionary<string, System.Text.Json.JsonElement> { ["note"] = System.Text.Json.JsonDocument.Parse("\"from a newer version\"").RootElement };
+        var vm = Demo(out var state, s => s.Milestones = s.Milestones.Select(m => m with { Extra = note }).ToList());
         var first = vm.Milestones[0];
         first.Edit.Execute(null);
         vm.Draft!.Name = "Renamed";
         vm.Draft.ColorIndex = (int)MilestoneColor.Green;
         vm.SaveDraft.Execute(null);
-        Assert.Contains(state.Settings.Milestones, m => m.Name == "Renamed" && m.Color == MilestoneColor.Green);
+        Assert.Contains(state.Settings.Milestones, m => m.Name == "Renamed" && m.Color == MilestoneColor.Green && m.Extra == note);
 
         var count = state.Settings.Milestones.Count;
         vm.Milestones.Single(m => m.Name == "Renamed").Delete.Execute(null);
