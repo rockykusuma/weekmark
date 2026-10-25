@@ -4,8 +4,10 @@ using Velopack;
 
 namespace Weekmark.App;
 
-/// <summary>Command line: <c>--demo-data</c>, <c>--screenshot &lt;path&gt;</c> (implies demo data), <c>--exit-after &lt;seconds&gt;</c>, <c>--autostart</c>.</summary>
-public sealed record Options(bool DemoData, string? Screenshot, double? ExitAfter, bool Autostart)
+/// <summary>Command line: <c>--demo-data</c>, <c>--screenshot &lt;path&gt;</c> (implies demo data), <c>--exit-after &lt;seconds&gt;</c>,
+/// <c>--autostart</c>, <c>--settings [tab]</c> (opens Settings, e.g. on <c>planning</c>), <c>--onboarding</c> (shows the welcome window).
+/// With <c>--screenshot</c>, the settings or welcome window is captured instead of the widget when one is open.</summary>
+public sealed record Options(bool DemoData, string? Screenshot, double? ExitAfter, bool Autostart, string? Settings = null, bool Onboarding = false)
 {
     public static Options Parse(string[] args)
     {
@@ -14,7 +16,9 @@ public sealed record Options(bool DemoData, string? Screenshot, double? ExitAfte
         // Anything captured automatically uses sample data, never the user's settings.
         return new(args.Contains("--demo-data") || screenshot is not null, screenshot,
             double.TryParse(Value("--exit-after"), NumberStyles.Float, CultureInfo.InvariantCulture, out var s) ? s : null,
-            args.Contains("--autostart"));
+            args.Contains("--autostart"),
+            args.Contains("--settings") ? Value("--settings") is { } tab && !tab.StartsWith("--") ? tab : "general" : null,
+            args.Contains("--onboarding"));
     }
 }
 

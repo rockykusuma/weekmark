@@ -3,7 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using Weekmark.App.Onboarding;
 using Weekmark.App.Platform;
+using Weekmark.App.Settings;
 using Weekmark.App.Tray;
 using Weekmark.App.Widget;
 using Weekmark.Core;
@@ -16,6 +18,9 @@ public partial class App : Application
     AppState? state;
     IWindowLayering layering = new FallbackLayering();
     TrayController? tray;
+    SettingsWindow? settingsWindow;
+    WelcomeWindow? welcomeWindow;
+    string? startupExe;
     bool quitting;
 
     public WidgetWindow? Widget { get; private set; }
@@ -36,20 +41,31 @@ public partial class App : Application
         // Demo runs leave the user's start-with-Windows entry alone, like their settings. Under `dotnet Weekmark.dll`
         // the process is dotnet itself, which must not be registered.
         if (!o.DemoData && Environment.ProcessPath is { } exe && Path.GetFileNameWithoutExtension(exe) == "Weekmark")
+        {
+            startupExe = exe; // the settings and welcome windows re-apply it when the toggle changes
             Startup.Apply(state.Settings.StartWithWindows, exe);
+        }
         ShowWidget();
         tray = new TrayController(state, Widget!);
         tray.QuitRequested += () => Quit();
-        // tray.SettingsRequested: the settings window (Task 11) subscribes.
-        // Launched by hand, the widget may be hidden behind windows: show it once. A login launch shows nothing extra.
-        if (!o.Autostart) Dispatcher.UIThread.Post(() => Widget?.BringForward());
+        tray.SettingsRequested += () => OpenSettings();
+        if (o.Onboarding || (!o.DemoData && !state.Settings.OnboardingDone))
+        {
+            welcomeWindow = new WelcomeWindow(new WelcomeViewModel(state, WelcomeViewModel.CurrentRegion(), startupExe));
+            welcomeWindow.Closed += (_, _) => welcomeWindow = null;
+            welcomeWindow.Show();
+        }
+        // Launched by hand, the widget may be hidden behind windows: show it once. A login launch shows nothing extra,
+        // and neither does a first run, where the welcome window has the focus.
+        else if (!o.Autostart) Dispatcher.UIThread.Post(() => Widget?.BringForward());
+        if (o.Settings is { } tab) OpenSettings(tab);
 
         if (Program.Instance is { } instance)
             instance.ActivationRequested += () => Dispatcher.UIThread.Post(() => Widget?.BringForward());
         if (o.Screenshot is { } path)
             Dispatcher.UIThread.Post(() => // Background priority: runs after the shown widget's first layout pass
             {
-                Screenshot.Save(Widget!.View, path);
+                Screenshot.Save((Control?)settingsWindow ?? (Control?)welcomeWindow ?? Widget!.View, path);
                 Console.WriteLine($"screenshot={Path.GetFullPath(path)}");
             }, DispatcherPriority.Background);
         if (o.ExitAfter is { } seconds)
@@ -58,6 +74,18 @@ public partial class App : Application
                 Console.WriteLine($"working_set_mb={Math.Round(Environment.WorkingSet / 1048576.0)}");
                 Quit();
             }, TimeSpan.FromSeconds(seconds));
+    }
+
+    /// <summary>One settings window at a time: a second request brings the open one forward.</summary>
+    void OpenSettings(string? tab = null)
+    {
+        if (settingsWindow is null)
+        {
+            settingsWindow = new SettingsWindow(new SettingsViewModel(state!, startupExe), tab);
+            settingsWindow.Closed += (_, _) => settingsWindow = null;
+            settingsWindow.Show();
+        }
+        settingsWindow.Activate();
     }
 
     void ShowWidget()

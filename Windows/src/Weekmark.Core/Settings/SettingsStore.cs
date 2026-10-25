@@ -11,6 +11,9 @@ public sealed class SettingsStore(string path)
     // Set when the file exists but could not be read: Save must not overwrite what we could not see.
     bool unreadable;
 
+    /// <summary>True when the file exists but could not be read at Load: <see cref="Save"/> refuses until a restart.</summary>
+    public bool IsReadOnly => unreadable;
+
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Weekmark", "settings.json");
 

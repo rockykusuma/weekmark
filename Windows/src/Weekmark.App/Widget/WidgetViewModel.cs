@@ -238,7 +238,7 @@ public sealed partial class WidgetViewModel : ObservableObject, IDisposable
     static readonly DetailsModel Hint = new("", "Hover a week for details · click to pin it", true, false, false);
 
     // SwiftUI's system colours, which the Mac widget uses for milestones.
-    static IBrush BrushFor(MilestoneColor c) => new ImmutableSolidColorBrush(Color.Parse(c switch
+    internal static IBrush BrushFor(MilestoneColor c) => new ImmutableSolidColorBrush(Color.Parse(c switch
     {
         MilestoneColor.Red => "#FF3B30",
         MilestoneColor.Pink => "#FF2D55",

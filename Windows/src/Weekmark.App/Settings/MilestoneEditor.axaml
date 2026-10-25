@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:s="using:Weekmark.App.Settings"
+             x:Class="Weekmark.App.Settings.MilestoneEditor"
+             x:DataType="s:SettingsViewModel">
+  <Border BorderThickness="1" BorderBrush="#40808080" CornerRadius="6" Padding="14">
+    <StackPanel Spacing="10">
+      <TextBlock Text="{Binding Draft.Title}" FontWeight="SemiBold" />
+      <TextBox Text="{Binding Draft.Name}" Watermark="Name (e.g. Release 5.0, Code freeze)" />
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <TextBlock Text="Year" VerticalAlignment="Center" />
+        <NumericUpDown Minimum="2" Maximum="9998" Increment="1" FormatString="0" Width="130" Value="{Binding Draft.Year}" />
+        <TextBlock Text="Week" VerticalAlignment="Center" Margin="8,0,0,0" />
+        <NumericUpDown Minimum="1" Maximum="53" Increment="1" FormatString="0" Width="110" Value="{Binding Draft.Week}" />
+      </StackPanel>
+      <Panel> <!-- one line: the dates, or why the week is rejected -->
+        <TextBlock Text="{Binding Draft.Dates}" FontSize="12" Opacity="0.7" />
+        <TextBlock Text="{Binding Draft.Error}" FontSize="12" Foreground="#FF3B30" />
+      </Panel>
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <TextBlock Text="Colour" VerticalAlignment="Center" />
+        <ComboBox ItemsSource="{x:Static s:SettingsViewModel.Colors}" SelectedIndex="{Binding Draft.ColorIndex}" MinWidth="140">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="x:String">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Ellipse Width="10" Height="10" Fill="{Binding Converter={x:Static s:MilestoneEditor.ColorBrush}}" />
+                <TextBlock Text="{Binding}" />
+              </StackPanel>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+        <Button Content="Cancel" Command="{Binding CancelDraft}" />
+        <Button Content="Save" Classes="accent" Command="{Binding SaveDraft}" IsEnabled="{Binding Draft.CanSave}" IsDefault="True" />
+      </StackPanel>
+    </StackPanel>
+  </Border>
+</UserControl>

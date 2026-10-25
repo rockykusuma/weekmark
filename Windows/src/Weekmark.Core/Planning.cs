@@ -3,18 +3,19 @@ using System.Text.Json.Serialization;
 
 namespace Weekmark.Core;
 
-// Mac JSON shapes: camelCase keys, missing keys fall back to the defaults below.
+// Mac JSON shapes: camelCase keys, missing keys fall back to the defaults below. Setters, not init: the JSON source
+// generator fills missing init-only properties with zero values instead of these defaults.
 public sealed record SprintConfig
 {
-    [JsonPropertyName("enabled")] public bool Enabled { get; init; } = false;
-    [JsonPropertyName("lengthWeeks")] public int LengthWeeks { get; init; } = 2;
+    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = false;
+    [JsonPropertyName("lengthWeeks")] public int LengthWeeks { get; set; } = 2;
     /// <summary>Any date in the first sprint's first week.</summary>
-    [JsonPropertyName("anchor")] public Day Anchor { get; init; } = new(2026, 1, 5);
-    [JsonPropertyName("firstNumber")] public int FirstNumber { get; init; } = 1;
-    [JsonPropertyName("name")] public string Name { get; init; } = "Sprint";
+    [JsonPropertyName("anchor")] public Day Anchor { get; set; } = new(2026, 1, 5);
+    [JsonPropertyName("firstNumber")] public int FirstNumber { get; set; } = 1;
+    [JsonPropertyName("name")] public string Name { get; set; } = "Sprint";
     /// <summary>0 = Program Increments off.</summary>
-    [JsonPropertyName("sprintsPerPI")] public int SprintsPerPI { get; init; } = 0;
-    [JsonPropertyName("firstPI")] public int FirstPI { get; init; } = 1;
+    [JsonPropertyName("sprintsPerPI")] public int SprintsPerPI { get; set; } = 0;
+    [JsonPropertyName("firstPI")] public int FirstPI { get; set; } = 1;
 }
 
 /// <summary>Start inclusive, End exclusive.</summary>
@@ -62,10 +63,10 @@ public enum QuarterMode { [JsonStringEnumMemberName("months")] Months, [JsonStri
 
 public sealed record QuarterConfig
 {
-    [JsonPropertyName("enabled")] public bool Enabled { get; init; } = true;
+    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
     /// <summary>1 = January (calendar year).</summary>
-    [JsonPropertyName("fiscalStartMonth")] public int FiscalStartMonth { get; init; } = 1;
-    [JsonPropertyName("mode")] public QuarterMode Mode { get; init; } = QuarterMode.Months;
+    [JsonPropertyName("fiscalStartMonth")] public int FiscalStartMonth { get; set; } = 1;
+    [JsonPropertyName("mode")] public QuarterMode Mode { get; set; } = QuarterMode.Months;
 }
 
 /// <summary>Label is "Q4 2026" or "Q3 FY27".</summary>

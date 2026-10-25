@@ -167,6 +167,15 @@ public sealed class SettingsStoreTests : IDisposable
     }
 
     [Fact]
+    public void PartialPlanningObjectsKeepDefaultsForMissingKeys()
+    {
+        File.WriteAllText(P, """{"sprint":{"enabled":true},"quarter":{"mode":"weeks"}}""");
+        var s = Store.Load();
+        Assert.Equal(new SprintConfig { Enabled = true }, s.Sprint);
+        Assert.Equal(new QuarterConfig { Mode = QuarterMode.Weeks }, s.Quarter);
+    }
+
+    [Fact]
     public void InvalidDatesInValidObjectsLoadAsIs()
     {
         File.WriteAllText(P, """

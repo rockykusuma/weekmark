@@ -4,6 +4,24 @@
              Name="Weekmark"
              RequestedThemeVariant="Default">
   <Application.Styles>
-    <FluentTheme />
+    <FluentTheme>
+      <!-- The widget's accent (#007AFF / #0A84FF) for settings and welcome controls, not the Windows accent. -->
+      <FluentTheme.Palettes>
+        <ColorPaletteResources x:Key="Light" Accent="#007AFF" />
+        <ColorPaletteResources x:Key="Dark" Accent="#0A84FF" />
+      </FluentTheme.Palettes>
+    </FluentTheme>
+    <!-- Fluent's dark window is pure black; use the Windows 11 / widget panel colours. The widget sets its own. -->
+    <Style Selector=":is(Window)">
+      <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
+    </Style>
   </Application.Styles>
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light"><SolidColorBrush x:Key="WindowBackground" Color="#F3F3F3" /></ResourceDictionary>
+        <ResourceDictionary x:Key="Dark"><SolidColorBrush x:Key="WindowBackground" Color="#202020" /></ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
 </Application>

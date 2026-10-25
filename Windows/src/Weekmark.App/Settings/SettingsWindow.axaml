@@ -1,0 +1,216 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="using:Weekmark.App.Settings"
+        x:Class="Weekmark.App.Settings.SettingsWindow"
+        x:DataType="s:SettingsViewModel"
+        Title="Weekmark Settings"
+        Icon="avares://Weekmark/Assets/weekmark.ico"
+        Width="600" Height="580" MinWidth="520" MinHeight="420"
+        WindowStartupLocation="CenterScreen">
+
+  <Window.Styles>
+    <Style Selector="TabItem">
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="MinHeight" Value="38" />
+      <Setter Property="Padding" Value="10,0" />
+    </Style>
+    <Style Selector="StackPanel.page">
+      <Setter Property="Spacing" Value="10" />
+      <Setter Property="Margin" Value="20,8,20,20" />
+    </Style>
+    <Style Selector="TextBlock.section">
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Margin" Value="0,14,0,0" />
+    </Style>
+    <Style Selector="TextBlock.help">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Opacity" Value="0.7" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="Grid.row > TextBlock">
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Grid.row > ComboBox, Grid.row > NumericUpDown, Grid.row > TextBox, Grid.row > CalendarDatePicker">
+      <Setter Property="MinWidth" Value="240" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+  </Window.Styles>
+
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Background="#33FF9500" Padding="16,8"
+            IsVisible="{Binding SaveWarning, Converter={x:Static ObjectConverters.IsNotNull}}">
+      <TextBlock Text="{Binding SaveWarning}" TextWrapping="Wrap" />
+    </Border>
+
+    <TabControl x:Name="Tabs" Padding="0">
+      <TabItem Header="General">
+        <ScrollViewer>
+          <StackPanel Classes="page">
+            <Grid Classes="row" ColumnDefinitions="180,*">
+              <TextBlock Text="Week numbering" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Numberings}" SelectedIndex="{Binding NumberingIndex}" />
+            </Grid>
+            <TextBlock Classes="help" Text="ISO 8601 is the standard in Europe and most engineering orgs. US weeks start on Sunday and week 1 contains January 1." />
+            <Grid Classes="row" ColumnDefinitions="180,*">
+              <TextBlock Text="Appearance" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Appearances}" SelectedIndex="{Binding AppearanceIndex}" />
+            </Grid>
+            <TextBlock Classes="section" Text="Startup" />
+            <CheckBox Content="Start Weekmark with Windows" IsChecked="{Binding StartWithWindows}" />
+            <CheckBox Content="Show the week number in the tray icon" IsChecked="{Binding ShowInTray}" />
+            <TextBlock Classes="help" Text="Windows may hide new tray icons: drag Weekmark from the ^ overflow onto the taskbar to keep the week number visible." />
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <TabItem Header="Widget">
+        <ScrollViewer>
+          <StackPanel Classes="page">
+            <TextBlock Classes="section" Text="Placement" />
+            <Grid Classes="row" ColumnDefinitions="180,*">
+              <TextBlock Text="Layer" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Layers}" SelectedIndex="{Binding LayerIndex}" />
+            </Grid>
+            <CheckBox Content="Lock position" IsChecked="{Binding Locked}" />
+            <TextBlock Classes="help" Text="Drag the widget to move it. Its position is remembered per monitor." />
+            <TextBlock Classes="section" Text="Look" />
+            <Grid Classes="row" ColumnDefinitions="180,*">
+              <TextBlock Text="Size" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Sizes}" SelectedIndex="{Binding SizeIndex}" />
+            </Grid>
+            <Grid Classes="row" ColumnDefinitions="180,*">
+              <TextBlock Text="Style" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Backgrounds}" SelectedIndex="{Binding BackgroundIndex}" />
+            </Grid>
+            <TextBlock Classes="section" Text="Sections" />
+            <CheckBox Content="Quarter &amp; sprint chips" IsChecked="{Binding ShowPlanning}" />
+            <CheckBox Content="Week progress" IsChecked="{Binding ShowProgress}" />
+            <CheckBox Content="Upcoming milestones" IsChecked="{Binding ShowMilestones}" />
+            <CheckBox Content="Month calendar" IsChecked="{Binding ShowMonth}" />
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <TabItem Header="Planning">
+        <ScrollViewer>
+          <StackPanel Classes="page">
+            <TextBlock Classes="section" Text="Sprints" />
+            <CheckBox Content="Show sprints" IsChecked="{Binding SprintEnabled}" />
+            <StackPanel Spacing="10" IsVisible="{Binding SprintEnabled}">
+              <Grid Classes="row" ColumnDefinitions="180,*">
+                <TextBlock Text="Name" />
+                <TextBox Grid.Column="1" Text="{Binding SprintName}" />
+              </Grid>
+              <Grid Classes="row" ColumnDefinitions="180,*">
+                <TextBlock Text="Length (weeks)" />
+                <NumericUpDown Grid.Column="1" Minimum="1" Maximum="52" Increment="1" FormatString="0" Value="{Binding SprintLength}" />
+              </Grid>
+              <Grid Classes="row" ColumnDefinitions="180,*">
+                <TextBlock Text="A sprint started on" />
+                <CalendarDatePicker Grid.Column="1" SelectedDate="{Binding SprintAnchor}" />
+              </Grid>
+              <Grid Classes="row" ColumnDefinitions="180,*">
+                <TextBlock Text="That sprint's number" />
+                <NumericUpDown Grid.Column="1" Minimum="0" Maximum="9999" Increment="1" FormatString="0" Value="{Binding SprintFirstNumber}" />
+              </Grid>
+              <TextBlock Classes="help" Text="{Binding SprintPreview}" />
+              <TextBlock Classes="section" Text="Program Increments (SAFe)" />
+              <Grid Classes="row" ColumnDefinitions="180,*">
+                <TextBlock Text="Sprints per PI" />
+                <NumericUpDown Grid.Column="1" Minimum="0" Maximum="100" Increment="1" FormatString="0" Value="{Binding SprintsPerPI}" />
+              </Grid>
+              <TextBlock Classes="help" Text="0 turns Program Increments off." />
+              <Grid Classes="row" ColumnDefinitions="180,*" IsVisible="{Binding ShowPI}">
+                <TextBlock Text="That sprint is in PI" />
+                <NumericUpDown Grid.Column="1" Minimum="0" Maximum="999" Increment="1" FormatString="0" Value="{Binding FirstPI}" />
+              </Grid>
+            </StackPanel>
+            <TextBlock Classes="section" Text="Quarters" />
+            <CheckBox Content="Show quarter" IsChecked="{Binding QuarterEnabled}" />
+            <Grid Classes="row" ColumnDefinitions="180,*" IsVisible="{Binding QuarterEnabled}">
+              <TextBlock Text="Quarters" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.QuarterModes}" SelectedIndex="{Binding QuarterModeIndex}" />
+            </Grid>
+            <Grid Classes="row" ColumnDefinitions="180,*" IsVisible="{Binding ShowFiscalMonth}">
+              <TextBlock Text="Fiscal year starts in" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Months}" SelectedIndex="{Binding FiscalMonthIndex}" />
+            </Grid>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <TabItem Header="Holidays">
+        <ScrollViewer>
+          <StackPanel Classes="page">
+            <TextBlock Classes="section" Text="Public holidays" />
+            <ItemsControl ItemsSource="{Binding Regions}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="s:RegionItem">
+                  <CheckBox Content="{Binding Label}" IsChecked="{Binding IsOn}" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Classes="section" Text="Company holidays" />
+            <StackPanel Orientation="Horizontal" Spacing="12">
+              <Button Content="Import .ics File…" Click="ImportIcs" />
+              <TextBlock Text="{Binding ImportMessage}" VerticalAlignment="Center" TextWrapping="Wrap" />
+            </StackPanel>
+            <TextBlock Classes="help" Text="Export your company's holiday calendar from Outlook or Google Calendar as .ics. Festivals like Diwali or Eid can't be calculated, so add them this way." />
+            <ItemsControl ItemsSource="{Binding Sources}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="s:SourceItem">
+                  <Grid ColumnDefinitions="*,Auto,Auto" Margin="0,2">
+                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="{Binding Count}" Opacity="0.7" VerticalAlignment="Center" Margin="12,0" />
+                    <Button Grid.Column="2" Content="Remove" Command="{Binding Remove}" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <TabItem Header="Milestones">
+        <DockPanel Margin="20,8,20,20">
+          <StackPanel DockPanel.Dock="Top" Spacing="10">
+            <Button Content="Add Milestone…" Command="{Binding AddMilestone}" IsVisible="{Binding Draft, Converter={x:Static ObjectConverters.IsNull}}" />
+            <s:MilestoneEditor IsVisible="{Binding Draft, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <TextBlock Text="None yet." Opacity="0.7" IsVisible="{Binding NoMilestones}" />
+          </StackPanel>
+          <ListBox ItemsSource="{Binding Milestones}" Margin="0,10,0,0" Background="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate x:DataType="s:MilestoneItem">
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+                  <Path Data="M0,0 H1.4 V10 H0 Z M1.4,0.6 H8.6 L6.9,3.3 L8.6,6 H1.4 Z" Fill="{Binding Brush}"
+                        Width="12" Height="14" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
+                  <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Detail}" FontSize="12" Opacity="0.7" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="2" Text="{Binding Countdown}" FontSize="12" Opacity="0.7" VerticalAlignment="Center" Margin="12,0" />
+                  <Button Grid.Column="3" Content="Edit" Command="{Binding Edit}" Margin="0,0,6,0" />
+                  <Button Grid.Column="4" Content="Delete" Command="{Binding Delete}" />
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </DockPanel>
+      </TabItem>
+
+      <TabItem Header="About">
+        <StackPanel Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Image Source="avares://Weekmark/Assets/weekmark.ico" Width="96" Height="96" />
+          <TextBlock Text="Weekmark" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" />
+          <TextBlock Text="{x:Static s:SettingsViewModel.Version}" Opacity="0.7" HorizontalAlignment="Center" />
+          <TextBlock TextAlignment="Center" Opacity="0.7" HorizontalAlignment="Center"
+                     Text="The current calendar week on your desktop.&#10;Runs on your PC. No account, no tracking." />
+          <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+            <HyperlinkButton Content="Website" NavigateUri="https://rockykusuma.github.io/weekmark/" />
+            <HyperlinkButton Content="Source code" NavigateUri="https://github.com/rockykusuma/weekmark" />
+          </StackPanel>
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</Window>
