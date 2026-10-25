@@ -158,6 +158,11 @@
               <TextBlock Text="{Binding ImportMessage}" VerticalAlignment="Center" TextWrapping="Wrap" />
             </StackPanel>
             <TextBlock Classes="help" Text="Export your company's holiday calendar from Outlook or Google Calendar as .ics. Festivals like Diwali or Eid can't be calculated, so add them this way." />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBox Watermark="Name" Width="200" Text="{Binding NewHolidayName}" />
+              <DatePicker SelectedDate="{Binding NewHolidayDate}" />
+              <Button Content="Add" Command="{Binding AddHoliday}" />
+            </StackPanel>
             <ItemsControl ItemsSource="{Binding Sources}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="s:SourceItem">
@@ -169,6 +174,19 @@
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <Button Content="Remove All" Command="{Binding RemoveAllHolidays}" IsVisible="{Binding HasCustomHolidays}" />
+            <TextBlock Classes="section" Text="Coming up" />
+            <ItemsControl ItemsSource="{Binding UpcomingHolidays}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="s:UpcomingItem">
+                  <Grid ColumnDefinitions="*,Auto" Margin="0,2">
+                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Grid.Column="1" Text="{Binding When}" FontFamily="Consolas,Menlo,monospace" Opacity="0.7" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="No holidays selected" Opacity="0.7" IsVisible="{Binding NoUpcoming}" />
           </StackPanel>
         </ScrollViewer>
       </TabItem>

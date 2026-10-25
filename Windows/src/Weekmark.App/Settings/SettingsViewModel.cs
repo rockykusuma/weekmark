@@ -17,6 +17,7 @@ public sealed partial class RegionItem(HolidayRegion region, Func<HolidayRegion,
 }
 
 public sealed record SourceItem(string Name, string Count, IRelayCommand Remove);
+public sealed record UpcomingItem(string Name, string When);
 public sealed record MilestoneItem(string Name, string Detail, string? Countdown, IBrush Brush, IRelayCommand Edit, IRelayCommand Delete);
 
 /// <summary>The milestone being added or edited. Weeks are checked against the numbering in use.</summary>
@@ -64,6 +65,9 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
         this.startupExe = startupExe;
         Regions = Enum.GetValues<HolidayRegion>().Select(r => new RegionItem(r, S.Regions.Contains, SetRegion)).ToList();
         AddMilestone = new RelayCommand(() => Draft = NewDraft(null, Ctx.Current, ""));
+        AddHoliday = new RelayCommand(AddHolidayNow, () => NewHolidayDate is not null);
+        RemoveAllHolidays = new RelayCommand(() => Edit(S.CustomHolidays.Clear));
+        newHolidayDate = Ctx.Today.ToDateTime(TimeOnly.MinValue);
         SaveDraft = new RelayCommand(SaveMilestone);
         CancelDraft = new RelayCommand(() => Draft = null);
         state.Changed += OnStateChanged;
@@ -154,6 +158,21 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     public IReadOnlyList<RegionItem> Regions { get; }
     [ObservableProperty] private IReadOnlyList<SourceItem> sources = [];
     [ObservableProperty] private string? importMessage;
+    [ObservableProperty] private string newHolidayName = "";
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(AddHoliday))] private DateTime? newHolidayDate;
+    [ObservableProperty] private IReadOnlyList<UpcomingItem> upcomingHolidays = [];
+    public IRelayCommand AddHoliday { get; }
+    public IRelayCommand RemoveAllHolidays { get; }
+    public bool HasCustomHolidays => S.CustomHolidays.Count > 0;
+    public bool NoUpcoming => UpcomingHolidays.Count == 0;
+
+    void AddHolidayNow()
+    {
+        if (NewHolidayDate is not { } d) return;
+        var name = NewHolidayName.Trim();
+        Edit(() => S.CustomHolidays.Add(new Holiday(Day.From(DateOnly.FromDateTime(d)), name is "" ? "Holiday" : name, "custom")));
+        NewHolidayName = "";
+    }
 
     /// <summary>Adds (or replaces) the holidays of one imported calendar. Returns the line shown under the button.</summary>
     public string ImportIcs(string text, string source)
@@ -232,6 +251,8 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
             .Select(g => new SourceItem(g.Key == "custom" ? "Added by you" : g.Key, $"{g.Count()} day{(g.Count() == 1 ? "" : "s")}",
                 new RelayCommand(() => Edit(() => S.CustomHolidays.RemoveAll(h => h.Source == g.Key)))))
             .ToList();
+        UpcomingHolidays = Ctx.Holidays.Upcoming(Ctx.Today, 6).Select(h =>
+            new UpcomingItem(h.Name, $"{Ctx.Fmt.Format(h.Day.ToDate(), DateTemplate.WeekdayDayMonthYear)} · CW{Ctx.Cal.WeekOf(h.Day.ToDate()).Week}")).ToList();
         Milestones = S.Milestones.Select(Item).ToList();
         foreach (var r in Regions) r.Notify();
         OnPropertyChanged(string.Empty);

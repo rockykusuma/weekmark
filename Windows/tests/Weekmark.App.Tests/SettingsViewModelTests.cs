@@ -1,3 +1,4 @@
+using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -39,6 +40,48 @@ public sealed class SettingsViewModelTests : IDisposable
         edit?.Invoke(s);
         state = new AppState(s, null, () => Now);
         return new SettingsViewModel(state);
+    }
+
+    [AvaloniaFact]
+    public void AddingAHolidayGoesIntoAddedByYou()
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-GB");
+        var vm = Demo(out var state);
+        Assert.Equal(new DateTime(2026, 10, 25), vm.NewHolidayDate);
+        vm.NewHolidayName = "  Company day ";
+        vm.NewHolidayDate = new DateTime(2026, 12, 23);
+        vm.AddHoliday.Execute(null);
+        Assert.Equal(new Holiday(new Day(2026, 12, 23), "Company day", "custom"), state.Settings.CustomHolidays.Single());
+        Assert.Equal("", vm.NewHolidayName);
+        Assert.Equal(("Added by you", "1 day"), (vm.Sources.Single().Name, vm.Sources.Single().Count));
+        Assert.Equal(("Company day", "Wed, 23 Dec 2026 · CW52"), (vm.UpcomingHolidays[0].Name, vm.UpcomingHolidays[0].When));
+        vm.AddHoliday.Execute(null); // empty name
+        Assert.Equal("Holiday", state.Settings.CustomHolidays[1].Name);
+        vm.NewHolidayDate = null;
+        Assert.False(vm.AddHoliday.CanExecute(null));
+    }
+
+    [AvaloniaFact]
+    public void RemoveAllClearsEveryCompanyHoliday()
+    {
+        var vm = Demo(out var state, s => s.CustomHolidays.AddRange([new(new Day(2026, 12, 24), "Eve", "custom"), new(new Day(2026, 12, 31), "NYE", "Acme")]));
+        Assert.True(vm.HasCustomHolidays);
+        vm.RemoveAllHolidays.Execute(null);
+        Assert.Empty(state.Settings.CustomHolidays);
+        Assert.False(vm.HasCustomHolidays);
+        Assert.Empty(vm.Sources);
+    }
+
+    [AvaloniaFact]
+    public void ComingUpListsTheNextSixHolidays()
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-GB");
+        var vm = Demo(out _);
+        Assert.Equal(6, vm.UpcomingHolidays.Count);
+        Assert.Equal(new UpcomingItem("Christmas Day", "Fri, 25 Dec 2026 · CW52"), vm.UpcomingHolidays[0]);
+        Assert.Equal(new UpcomingItem("Boxing Day", "Mon, 28 Dec 2026 · CW53"), vm.UpcomingHolidays[1]);
+        Assert.False(vm.NoUpcoming);
+        Assert.True(Demo(out _, s => s.Regions.Clear()).NoUpcoming);
     }
 
     [AvaloniaFact]
