@@ -84,6 +84,28 @@ public sealed class WidgetPlacementTests : IDisposable
     }
 
     [AvaloniaFact]
+    public void ASizeChangeKeepsTheWidgetWhereItIs()
+    {
+        // Crossing onto a monitor with another scale (125 % → 100 %) resizes the widget mid-move. Restoring the saved
+        // placement then pulled it back to the old monitor: drags ping-ponged and "Move to <monitor>" was undone.
+        var store = new SettingsStore(SettingsPath);
+        var state = new AppState(store.Load(), store, () => new DateTime(2026, 10, 25, 14, 0, 0));
+        var w = new WidgetWindow(state, new FallbackLayering());
+        w.Show();
+        w.SnapTo(Corner.TopRight); // a saved placement to (wrongly) return to
+        var here = new PixelPoint(100, 120);
+        w.Position = here; // where it is now, e.g. on the other monitor
+        Settle();
+
+        state.Settings.Size = WidgetSize.Large; // any size change
+        state.Save();
+        Settle();
+
+        Assert.Equal(here, w.Position);
+        w.Close();
+    }
+
+    [AvaloniaFact]
     public void SnapSaves()
     {
         var (w, _) = Shown();

@@ -40,6 +40,7 @@ public partial class WidgetWindow : Window
         Deactivated += (_, _) => { if (floating) EndFloat(); };
         state.Changed += ApplySettings;
         Screens.Changed += OnScreensChanged;
+        ScalingChanged += (_, _) => KeepOnScreen(); // another monitor's scale: same size in DIPs, new size in pixels
         // Only a user drag saves (once it settles). Windows also moves the widget itself when its monitor goes away
         // (unplug, undock, sleep, RDP) and Place() then follows: saving those moves would forget the saved monitor.
         PositionChanged += (_, _) => { if (dragging && !placing) { saveDelay.Stop(); saveDelay.Start(); } };
@@ -128,7 +129,7 @@ public partial class WidgetWindow : Window
     {
         base.OnPropertyChanged(change);
         if (state is null) return; // designer
-        if (change.Property == ClientSizeProperty) Place(); // a new size or section keeps it on-screen
+        if (change.Property == ClientSizeProperty) KeepOnScreen(); // a new size or section keeps it on-screen
         else if (change.Property == ActualTransparencyLevelProperty) UpdateGlass();
     }
 
@@ -176,6 +177,26 @@ public partial class WidgetWindow : Window
         placing = false;
     }
 
+    /// <summary>
+    /// After a size or scale change: keeps the widget on the monitor it is on now, nudged fully on-screen. Never
+    /// restores the saved placement: crossing onto a monitor with another scale resizes the widget mid-move, and
+    /// returning it to the saved monitor then made drags ping-pong and undid "Move to". Not while it is being moved.
+    /// </summary>
+    void KeepOnScreen()
+    {
+        if (placing || dragging) return;
+        var screens = ScreenInfos();
+        if (screens.Count == 0) return;
+        var (w, h) = PhysicalSize();
+        var here = PlacementMath.Capture(Position.X, Position.Y, w, h, screens);
+        var (px, py) = PlacementMath.Restore(here, screens, w, h); // the current monitor, clamped
+        var p = new PixelPoint((int)Math.Round(px), (int)Math.Round(py));
+        if (p == Position) return;
+        placing = true;
+        Position = p;
+        placing = false;
+    }
+
     public void SavePlacement()
     {
         var screens = ScreenInfos();
@@ -204,7 +225,7 @@ public partial class WidgetWindow : Window
         var id = screenId ?? CurrentMonitor();
         if (ScreenInfos().FirstOrDefault(s => s.Id == id) is not { } screen) return;
         // ponytail: sized at the current monitor's scale; moving to a monitor with another scale resizes the widget
-        // afterwards, and Place() then clamps it on-screen (the margin may shrink). Re-snap on ScalingChanged if it shows.
+        // afterwards, and KeepOnScreen() then clamps it on that monitor (the margin may shrink). Re-snap if it shows.
         var (w, h) = PhysicalSize();
         var (x, y) = PlacementMath.Snap(screen, corner, w, h);
         placing = true;
