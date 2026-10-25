@@ -52,8 +52,8 @@ start with Windows).
 ## Year at a Glance
 
 The calendar button in the widget's month header, or "Year at a Glance…" in the tray menu, opens all 12 months with
-their week numbers. Hover a week for its details, click to pin it, ← → change the year, Ctrl+C copies the pinned
-week, Esc closes. The window remembers its size and position.
+their week numbers. Hover a week for its details, click to pin it, ← → change the year, Ctrl+C copies the week shown at
+the bottom (the hovered one, else the pinned one, else this week), This Year jumps back, Esc closes. The window remembers its size and position.
 
 ## Search field
 

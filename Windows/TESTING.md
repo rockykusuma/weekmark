@@ -49,6 +49,8 @@ Don't paste anything private (for example the contents of your company `.ics`).
     and This Year change the year? Does Esc close it? Resize the window: do the months reflow into more or fewer
     columns? Close it and open it again: does it keep its size and position? Move it to a second monitor, close it,
     unplug that monitor and open it again: does it open centred?
+    With monitors at different scales (125% and 100%): move the window to the other one, close and reopen: same size and
+    place? On a 1080p laptop at 125% or 150%, does the first open fit the screen, with the Copy button visible?
 18. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.
