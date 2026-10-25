@@ -1,0 +1,93 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:w="using:Weekmark.App.Widget"
+        xmlns:y="using:Weekmark.App.Year"
+        x:Class="Weekmark.App.Year.YearWindow"
+        x:DataType="y:YearViewModel"
+        Title="Year at a Glance"
+        Icon="avares://Weekmark/Assets/weekmark.ico"
+        MinWidth="520" MinHeight="440"
+        FontFamily="Segoe UI Variable Text, Segoe UI, $Default">
+  <Window.Styles>
+    <StyleInclude Source="avares://Weekmark/Widget/WidgetTheme.axaml" />
+    <Style Selector="TextBlock.details.current">
+      <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+    </Style>
+    <Style Selector="TextBlock.details.pinned">
+      <Setter Property="Foreground" Value="{DynamicResource PinnedColor}" />
+    </Style>
+    <Style Selector="TextBlock.monthtitle.current">
+      <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+    </Style>
+  </Window.Styles>
+
+  <Panel Background="{DynamicResource PanelSolid}">
+    <DockPanel>
+      <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" Margin="20,16,20,10">
+        <StackPanel Grid.Column="0" Spacing="0">
+          <TextBlock Text="{Binding YearText}" FontSize="34" FontWeight="Bold" />
+          <TextBlock Text="{Binding Subtitle}" Classes="secondary" FontSize="13" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+          <Button Classes="pill" Content="This Year" Command="{Binding ThisYearCommand}" IsVisible="{Binding ShowThisYear}" />
+          <Button Classes="pill square" Command="{Binding PreviousYearCommand}" ToolTip.Tip="Previous year (←)" AutomationProperties.Name="Previous year">
+            <Path Data="{DynamicResource ChevronLeft}" Stroke="{DynamicResource TextPrimary}" StrokeThickness="1.6"
+                  StrokeLineCap="Round" StrokeJoin="Round" Width="5" Height="9" Stretch="Uniform" />
+          </Button>
+          <Button Classes="pill square" Command="{Binding NextYearCommand}" ToolTip.Tip="Next year (→)" AutomationProperties.Name="Next year">
+            <Path Data="{DynamicResource ChevronRight}" Stroke="{DynamicResource TextPrimary}" StrokeThickness="1.6"
+                  StrokeLineCap="Round" StrokeJoin="Round" Width="5" Height="9" Stretch="Uniform" />
+          </Button>
+        </StackPanel>
+      </Grid>
+
+      <StackPanel DockPanel.Dock="Bottom">
+        <Border Height="1" Background="{DynamicResource Divider}" />
+        <Grid ColumnDefinitions="*,Auto" Margin="20,10">
+          <StackPanel Spacing="2" VerticalAlignment="Center">
+            <TextBlock Text="{Binding DetailsTitle}" Classes="details" Classes.current="{Binding DetailsCurrent}" Classes.pinned="{Binding DetailsPinned}"
+                       FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+            <TextBlock Text="{Binding DetailsSubtitle}" Classes="secondary" FontSize="11" TextTrimming="CharacterEllipsis" />
+          </StackPanel>
+          <Button Grid.Column="1" Classes="pill" Margin="12,0,0,0" Content="{Binding CopyLabel}" HotKey="Ctrl+C" Click="OnCopy" />
+        </Grid>
+      </StackPanel>
+
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <ItemsControl Name="Cards" ItemsSource="{Binding Months}" Margin="20,4,20,20">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <UniformGrid Columns="4" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="y:MonthCardModel">
+              <Border Background="{DynamicResource CardFill}" CornerRadius="12" Padding="10" Margin="7">
+                <StackPanel Spacing="3">
+                  <TextBlock Text="{Binding Title}" Classes="monthtitle" Classes.current="{Binding IsCurrentMonth}"
+                             FontSize="13" FontWeight="SemiBold" Margin="0,0,0,2" />
+                  <DockPanel>
+                    <TextBlock DockPanel.Dock="Left" Width="30" Text="CW" TextAlignment="Center" Classes="tertiary" FontSize="9" FontWeight="SemiBold" />
+                    <ItemsControl ItemsSource="{Binding $parent[Window].((y:YearViewModel)DataContext).Weekdays}">
+                      <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                          <UniformGrid Columns="7" />
+                        </ItemsPanelTemplate>
+                      </ItemsControl.ItemsPanel>
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                          <TextBlock Text="{Binding}" TextAlignment="Center" Classes="tertiary" FontSize="9" FontWeight="SemiBold" />
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </DockPanel>
+                  <w:WeekRows Rows="{Binding Rows}" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </DockPanel>
+  </Panel>
+</Window>

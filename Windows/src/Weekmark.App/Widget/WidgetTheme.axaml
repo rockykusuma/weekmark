@@ -18,6 +18,7 @@
           <SolidColorBrush x:Key="Fill08" Color="#14000000" />
           <SolidColorBrush x:Key="Fill07" Color="#12000000" />
           <SolidColorBrush x:Key="Divider" Color="#1A000000" />
+          <SolidColorBrush x:Key="CardFill" Color="#0B000000" />
           <SolidColorBrush x:Key="PillHover" Color="#24000000" />
           <SolidColorBrush x:Key="PillPressed" Color="#2E000000" />
           <SolidColorBrush x:Key="PanelSolid" Color="#F3F3F3" />
@@ -41,6 +42,7 @@
           <SolidColorBrush x:Key="Fill08" Color="#14FFFFFF" />
           <SolidColorBrush x:Key="Fill07" Color="#12FFFFFF" />
           <SolidColorBrush x:Key="Divider" Color="#1AFFFFFF" />
+          <SolidColorBrush x:Key="CardFill" Color="#0BFFFFFF" />
           <SolidColorBrush x:Key="PillHover" Color="#24FFFFFF" />
           <SolidColorBrush x:Key="PillPressed" Color="#2EFFFFFF" />
           <SolidColorBrush x:Key="PanelSolid" Color="#202020" />

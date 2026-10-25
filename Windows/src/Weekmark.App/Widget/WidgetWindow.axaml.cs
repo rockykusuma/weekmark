@@ -84,12 +84,7 @@ public partial class WidgetWindow : Window
 
     void ApplySettings()
     {
-        RequestedThemeVariant = S.Appearance switch
-        {
-            AppearanceMode.Light => ThemeVariant.Light,
-            AppearanceMode.Dark => ThemeVariant.Dark,
-            _ => ThemeVariant.Default,
-        };
+        RequestedThemeVariant = ThemeFor(S.Appearance);
         var glass = S.Background == BackgroundStyle.Glass && GlassAllowed;
         if (glass != glassRequested) // re-requesting the backdrop on every tick could make it flicker
         {
@@ -309,9 +304,18 @@ public partial class WidgetWindow : Window
     }
 
     /// <summary>Connected monitors, left to right, with the ids used for saved placement.</summary>
-    internal List<ScreenInfo> ScreenInfos()
+    internal List<ScreenInfo> ScreenInfos() => ScreenInfos(Screens);
+
+    internal static ThemeVariant ThemeFor(AppearanceMode m) => m switch
     {
-        var all = Screens.All.OrderBy(s => s.Bounds.X).ThenBy(s => s.Bounds.Y).ToList();
+        AppearanceMode.Light => ThemeVariant.Light,
+        AppearanceMode.Dark => ThemeVariant.Dark,
+        _ => ThemeVariant.Default,
+    };
+
+    internal static List<ScreenInfo> ScreenInfos(Screens screens)
+    {
+        var all = screens.All.OrderBy(s => s.Bounds.X).ThenBy(s => s.Bounds.Y).ToList();
         static RectD R(PixelRect r) => new(r.X, r.Y, r.Width, r.Height);
         return all.Select(s =>
         {
