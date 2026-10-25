@@ -109,6 +109,7 @@ public partial class WidgetWindow : Window
         if (!IsVisible) return; // not shown yet, or hidden on purpose: layering must not re-show it
         layering.Apply(this, floating ? WindowLayer.Floating : S.Layer);
     }
+
     internal WidgetViewModel ViewModel => vm;
 
     /// <summary>The tray sets this: the app menu, with "Add Milestone" for the hovered week.</summary>
@@ -119,6 +120,12 @@ public partial class WidgetWindow : Window
     {
         if (MenuFor is not { } build) return null;
         var menu = new ContextMenu { ItemsSource = build(vm.Hover) };
+        if (!typing) // like BeginTyping: without focus the menu ignores Esc and arrows and stays open on a click in another app
+        {
+            layering.AllowActivation(this, true);
+            Activate();
+            menu.Closed += (_, _) => { if (!typing) layering.AllowActivation(this, false); }; // typing took over: EndTyping restores it
+        }
         menu.Open(View);
         return menu;
     }
