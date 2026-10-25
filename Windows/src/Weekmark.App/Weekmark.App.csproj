@@ -7,10 +7,6 @@
     <ApplicationIcon>Assets/weekmark.ico</ApplicationIcon>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks> <!-- LibraryImport-generated P/Invoke stubs -->
-    <!-- Idle memory (target about 100 MB): workstation GC without the background GC thread, no PGO instrumentation. -->
-    <ServerGarbageCollection>false</ServerGarbageCollection>
-    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
-    <TieredPGO>false</TieredPGO>
   </PropertyGroup>
 
   <ItemGroup>
