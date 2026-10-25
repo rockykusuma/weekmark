@@ -3,6 +3,15 @@
     <channel>
         <title>Weekmark</title>
         <item>
+            <title>1.2.1</title>
+            <pubDate>Mon, 26 Oct 2026 00:19:30 +0530</pubDate>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>1.2.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink>https://rockykusuma.github.io/weekmark/Weekmark-1.2.1.html</sparkle:releaseNotesLink>
+            <enclosure url="https://github.com/rockykusuma/weekmark/releases/download/v1.2.1/Weekmark-1.2.1.dmg" length="2949344" type="application/octet-stream" sparkle:edSignature="6sri65MZgM7JUA72FYTJCv4RkwtWm1jHvtxWVizIf6y1q7JtqWew5OHW3ftrzD7yXPqnaFqSkX/mQC4lXAmfAQ=="/>
+        </item>
+        <item>
             <title>1.2</title>
             <pubDate>Sun, 25 Oct 2026 11:01:24 +0530</pubDate>
             <sparkle:version>3</sparkle:version>
@@ -19,15 +28,6 @@
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://rockykusuma.github.io/weekmark/Weekmark-1.1.html</sparkle:releaseNotesLink>
             <enclosure url="https://github.com/rockykusuma/weekmark/releases/download/v1.1/Weekmark-1.1.dmg" length="2813799" type="application/octet-stream" sparkle:edSignature="T9ASR6p3U0xk0Yaqwc29NS7OZpaK9Zk9IrKgYQZrz2G+eIrbpTpktEtYoJhUtYMN5nH0LTUlo0D1JBlZMRQVDA=="/>
-        </item>
-        <item>
-            <title>1.0</title>
-            <pubDate>Wed, 07 Oct 2026 00:58:34 +0530</pubDate>
-            <sparkle:version>1</sparkle:version>
-            <sparkle:shortVersionString>1.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <sparkle:releaseNotesLink>https://rockykusuma.github.io/weekmark/Weekmark-1.0.html</sparkle:releaseNotesLink>
-            <enclosure url="https://github.com/rockykusuma/weekmark/releases/download/v1.0/Weekmark-1.0.dmg" length="2763056" type="application/octet-stream" sparkle:edSignature="VCSsrXeF3R6XcsL9Mon38gkX18UHNrVSrDKUE9s4GtpDN8Z62Shy0NBpsvcerX9jBN1AOaTRavhXVWdQWi0/Dw=="/>
         </item>
     </channel>
 </rss>
