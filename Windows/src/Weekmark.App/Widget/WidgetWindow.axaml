@@ -1,0 +1,14 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:w="using:Weekmark.App.Widget"
+        x:Class="Weekmark.App.Widget.WidgetWindow"
+        x:DataType="w:WidgetViewModel"
+        Title="Weekmark"
+        SystemDecorations="None"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        CanResize="False"
+        SizeToContent="WidthAndHeight">
+  <w:WidgetView x:Name="View" />
+</Window>
