@@ -53,6 +53,11 @@ Signing uses team Y87BZN47C5 (Xcode → Settings → Accounts must include an Ap
 For Mac ↔ iPhone sync, the Mac release build needs `Resources/Weekmark.provisionprofile`: run
 `scripts/fetch-mac-profile.sh` once.
 
+## Windows
+A Windows version is in preview: the same widget, plus a tray icon showing the week number. Builds are unsigned for now.
+See [Windows/README.md](Windows/README.md) to run or build it, and the
+[Releases page](https://github.com/rockykusuma/weekmark/releases) for the Windows pre-releases (tags `windows-v*`).
+
 ## Build
 ```bash
 ./build.sh            # runs tests, builds build/Weekmark.app (universal, ad-hoc signed)

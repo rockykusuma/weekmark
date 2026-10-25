@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code signing policy – Weekmark</title>
+<meta name="description" content="How Weekmark's Windows binaries are built and signed: only by GitHub Actions, from tagged commits of the public repository.">
+<link rel="canonical" href="https://rockykusuma.github.io/weekmark/code-signing.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="weeks/style.css">
+<style>
+  .policy { max-width: 46em; padding-block: clamp(24px, 6vw, 56px) 8px; }
+  .policy h1 { font: 800 clamp(2rem, 5vw, 3rem)/1.05 var(--display); letter-spacing: .01em; margin-top: 10px; }
+  .policy h2 { font: 800 1.5rem/1.1 var(--display); letter-spacing: .01em; margin: 36px 0 10px; }
+  .policy p, .policy li { color: var(--ink-2); }
+  .policy ul { margin: 8px 0 0; padding-left: 1.2em; }
+  .policy li { margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="./">Weekmark</a>
+    <nav><a href="https://github.com/rockykusuma/weekmark">Source</a><a href="https://github.com/rockykusuma/weekmark/releases">Releases</a></nav>
+  </header>
+  <main class="policy">
+    <p class="eyebrow">Weekmark for Windows</p>
+    <h1>Code signing policy</h1>
+    <p style="margin-top:14px">Weekmark is free, open-source software (MIT licence). This page describes how its Windows programs are built and signed, so you can tell a genuine copy from a tampered one.</p>
+
+    <h2>What is signed</h2>
+    <p>The Windows programs and libraries of Weekmark (<code>Weekmark.exe</code>, its <code>.dll</code> files and the installer) published on the <a href="https://github.com/rockykusuma/weekmark/releases">Releases page</a>. Windows releases are tagged <code>windows-v*</code>.</p>
+
+    <h2>How they are built</h2>
+    <ul>
+      <li>Signed binaries are built only by GitHub Actions, on GitHub-hosted runners, from tagged commits of the public repository <a href="https://github.com/rockykusuma/weekmark">rockykusuma/weekmark</a>.</li>
+      <li>The build recipe is the public workflow <code>.github/workflows/windows.yml</code>. Nothing is built or signed on a personal computer.</li>
+      <li>Only builds that passed the automated tests are signed.</li>
+    </ul>
+
+    <h2>Roles</h2>
+    <ul>
+      <li><strong>Author and committer:</strong> Rakesh Kusuma</li>
+      <li><strong>Reviewer:</strong> Rakesh Kusuma</li>
+      <li><strong>Approver of signing requests:</strong> Rakesh Kusuma</li>
+    </ul>
+    <p style="margin-top:10px">Weekmark has a single maintainer. Every signing request is approved by hand.</p>
+
+    <h2>Privacy</h2>
+    <p>Weekmark collects and transmits no personal data. It has no accounts, no analytics and no telemetry.</p>
+
+    <h2>Unsigned builds</h2>
+    <p>Until code signing is approved, Windows builds are unsigned and Windows SmartScreen may show "Windows protected your PC". You can always <a href="https://github.com/rockykusuma/weekmark/blob/main/Windows/README.md">build Weekmark from source</a>.</p>
+
+    <h2>Report a problem</h2>
+    <p>If you believe a signed Weekmark file is not genuine, please <a href="https://github.com/rockykusuma/weekmark/issues">open an issue</a>.</p>
+  </main>
+  <footer><span>Weekmark is open source (MIT).</span><a href="./">weekmark home</a></footer>
+</div>
+</body>
+</html>
