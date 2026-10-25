@@ -33,6 +33,7 @@ struct RootView: View {
     var body: some View {
         TabView(selection: $tab) {
             WeekTab().tabItem { Label("Week", systemImage: "calendar") }.tag(0)
+            YearTab().tabItem { Label("Year", systemImage: "square.grid.3x3") }.tag(3)
             FindTab().tabItem { Label("Find", systemImage: "magnifyingglass") }.tag(1)
             SettingsTab().tabItem { Label("Settings", systemImage: "gearshape") }.tag(2)
         }

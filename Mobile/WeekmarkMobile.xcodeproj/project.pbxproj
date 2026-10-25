@@ -46,6 +46,7 @@
 		A300527FF4E00603D8C95898 /* QueryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408579A783BC8BCF0643066D /* QueryEngine.swift */; };
 		B320ECC3086E6F6FCDD3E22C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
 		BC12C3204CA5B44C6542F466 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D2752522AD6E43A582499 /* WidgetSupport.swift */; };
+		C246BFF94DBA0B74FA542F64 /* YearTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E2B558E232E4188324F07 /* YearTab.swift */; };
 		C95E4F1AD8F8C5B62FD67A4D /* FindTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A37FC868B4787AC3FA3CF8D /* FindTab.swift */; };
 		CE046A16D409291B7072712D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175E3322223949C72C0C651E /* Assets.xcassets */; };
 		D63E38606D9093FC2258E441 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418F29628FDE40E379041F66 /* Views.swift */; };
@@ -127,6 +128,7 @@
 		23F5B6DBBEC970AF583B8C72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		25A38A119307A9DABA64552F /* Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
 		2A3511D441A28D95B2B27400 /* WatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchApp.swift; sourceTree = "<group>"; };
+		300E2B558E232E4188324F07 /* YearTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearTab.swift; sourceTree = "<group>"; };
 		354FA41A4A4536DD230C8069 /* WeekmarkWatchWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeekmarkWatchWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		39EC48626EF29115B68B729D /* Weekmark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Weekmark.entitlements; sourceTree = "<group>"; };
 		408579A783BC8BCF0643066D /* QueryEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryEngine.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				39EC48626EF29115B68B729D /* Weekmark.entitlements */,
 				AC9C4A6565D791A91995377A /* WeekmarkApp.swift */,
 				DA66AFEFBECE3DEBBF52604C /* WeekTab.swift */,
+				300E2B558E232E4188324F07 /* YearTab.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				005B701E9BAE412164355788 /* WeekTab.swift in Sources */,
 				02E08A1D0F02C7833AD40B38 /* WeekmarkApp.swift in Sources */,
 				BC12C3204CA5B44C6542F466 /* WidgetSupport.swift in Sources */,
+				C246BFF94DBA0B74FA542F64 /* YearTab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

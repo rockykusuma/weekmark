@@ -40,7 +40,8 @@ From week 40 onward, a week number of 12 or lower means next year.
 - **Year at a Glance** (the calendar button above the month, or the menu): the whole year as 12 months with week numbers, holidays, milestones and sprint starts. Hover a week for its details, click to pin it, ⌘C copies it, ←/→ change the year.
 
 ## iPhone & Apple Watch
-`Mobile/` holds the iOS app, its Home Screen / Lock Screen / StandBy widgets, and the watchOS app with complications.
+`Mobile/` holds the iOS app (Week, Year, Find and Settings tabs), its Home Screen / Lock Screen / StandBy widgets, and
+the watchOS app with complications.
 They share `Sources/CWCore` with the Mac app. Milestones, sprints, quarters, holidays and week numbering sync between
 Mac, iPhone and Watch through iCloud key-value storage (`SettingsSync`).
 
