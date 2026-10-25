@@ -83,14 +83,26 @@ public sealed class YearWindowTests
     }
 
     [AvaloniaFact]
-    public void ClosingWhileMinimizedKeepsTheSavedFrame()
+    public void ClosingWhileMinimizedKeepsTheLastNormalFrame()
     {
-        var saved = new WindowFrame(100, 100, 900, 700);
-        var state = Demo(s => s.YearWindow = saved);
+        var state = Demo(s => s.YearWindow = new(100, 100, 900, 700));
         var w = Open(state);
+        var expected = new WindowFrame(100, 100, 900, 700);
         w.WindowState = WindowState.Minimized;
         w.Close();
-        Assert.Equal(saved, state.Settings.YearWindow);
+        Assert.Equal(expected, state.Settings.YearWindow);
+    }
+
+    [AvaloniaFact]
+    public void ClosingSavesAResize()
+    {
+        var state = Demo();
+        var w = Open(state);
+        w.Width = 700;
+        w.Height = 500;
+        w.Close();
+        Assert.Equal(700, state.Settings.YearWindow!.Width);
+        Assert.Equal(500, state.Settings.YearWindow.Height);
     }
 
     [AvaloniaFact]
@@ -99,5 +111,21 @@ public sealed class YearWindowTests
         Assert.Equal((null, new Size(1060, 820)), YearWindow.InitialFrame(new(5000, 100, 900, 700), OneScreen));
         Assert.Equal((new PixelPoint(100, 100), new Size(520, 440)), YearWindow.InitialFrame(new(100, 100, 300, 200), OneScreen));
         Assert.Null(YearWindow.InitialFrame(null, OneScreen).Position);
+    }
+
+    [AvaloniaFact]
+    public void FirstOpenFitsAndCentresOnTheTargetScreen()
+    {
+        // 1080p at 125%: 1040 px work area = 832 DIP, minus 40 for the title bar.
+        var (pos, size) = YearWindow.InitialFrame(null, OneScreen, OneScreen[0], 1.25);
+        Assert.Equal(new Size(1060, 792), size);
+        Assert.Equal(new PixelPoint(298, (int)((1040 - 792 * 1.25) / 2)), pos);
+        // 150%: 693 DIP work area.
+        Assert.Equal(653, YearWindow.InitialFrame(null, OneScreen, OneScreen[0], 1.5).Size.Height, 0.5);
+        // A big second screen: the default size, centred in its work area.
+        var big = new ScreenInfo("Big", new(1920, 0, 3840, 2160), new(1920, 0, 3840, 2120), false);
+        var (bp, bs) = YearWindow.InitialFrame(null, [OneScreen[0], big], big, 1);
+        Assert.Equal(new Size(1060, 820), bs);
+        Assert.Equal(new PixelPoint(1920 + (3840 - 1060) / 2, (2120 - 820) / 2), bp);
     }
 }

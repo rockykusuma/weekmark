@@ -128,10 +128,12 @@ public partial class App : Application
     {
         if (yearWindow is null)
         {
-            yearWindow = new YearWindow(state!);
+            var screens = Widget!.ScreenInfos();
+            yearWindow = new YearWindow(state!, screens.FirstOrDefault(x => x.Id == Widget.CurrentMonitor()));
             yearWindow.Closed += (_, _) => yearWindow = null;
             yearWindow.Show();
         }
+        if (yearWindow.WindowState == WindowState.Minimized) yearWindow.WindowState = WindowState.Normal;
         yearWindow.Activate();
     }
 
