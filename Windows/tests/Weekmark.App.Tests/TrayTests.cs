@@ -8,6 +8,7 @@ using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Weekmark.App.Platform;
 using Weekmark.App.Tray;
@@ -170,7 +171,8 @@ public sealed class TrayTests
         public List<WindowLayer> Applied { get; } = [];
         public void Apply(Window w, WindowLayer layer) => Applied.Add(layer);
         public void HideFromTaskSwitcher(Window w) { }
-        public void AllowActivation(Window w, bool allow, bool handBack = true) { }
+        public List<(bool Allow, bool HandBack)> Activation { get; } = [];
+        public void AllowActivation(Window w, bool allow, bool handBack = true) => Activation.Add((allow, handBack));
     }
 
     [AvaloniaFact]
@@ -276,6 +278,31 @@ public sealed class TrayTests
         widget.MouseUp(pt, MouseButton.Right);
         Assert.Null(widget.ViewModel.Pinned);
         Assert.Equal([true], handled); // the widget's menu took the request
+        tray.Dispose();
+    }
+
+    [AvaloniaFact]
+    public void ChoosingAWeekFromTheWidgetMenuKeepsItInFront()
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-GB");
+        var state = new AppState(DemoData.Create(DateOnly.FromDateTime(Now)), null, () => Now);
+        var layering = new RecordingLayering();
+        var widget = new WidgetWindow(state, layering);
+        widget.Show();
+        var tray = new TrayController(state, widget);
+        widget.CaptureRenderedFrame();
+        var menu = widget.ShowContextMenu()!;
+        Dispatcher.UIThread.RunJobs();
+        var weeks = MenuItems(menu).Single(i => (string?)i.Header == "Weeks in 2026");
+        weeks.IsSubMenuOpen = true;
+        Dispatcher.UIThread.RunJobs();
+        var week = weeks.Items.OfType<MenuItem>().First(i => i.IsEnabled && i.Command is not null);
+        week.Focus();
+        week.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = Key.Enter, Source = week });
+        Dispatcher.UIThread.RunJobs();
+        Assert.False(menu.IsOpen);
+        Assert.Equal((false, false), layering.Activation.Last()); // the foreground stays with the widget
+        Assert.Equal(WindowLayer.Floating, layering.Applied.Last()); // still floating
         tray.Dispose();
     }
 }

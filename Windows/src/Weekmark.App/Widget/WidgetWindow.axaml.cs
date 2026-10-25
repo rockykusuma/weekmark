@@ -124,7 +124,9 @@ public partial class WidgetWindow : Window
         {
             layering.AllowActivation(this, true);
             Activate();
-            menu.Closed += (_, _) => { if (!typing) layering.AllowActivation(this, false); }; // typing took over: EndTyping restores it
+            // Typing took over: EndTyping restores it. A picked week floated the widget (the command runs before Closed):
+            // handing the foreground back would deactivate it and drop it at once.
+            menu.Closed += (_, _) => { if (!typing) layering.AllowActivation(this, false, handBack: !floating); };
         }
         menu.Open(View);
         return menu;

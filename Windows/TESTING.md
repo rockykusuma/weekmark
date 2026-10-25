@@ -60,7 +60,8 @@ Don't paste anything private (for example the contents of your company `.ics`).
     without a name): do they appear under "Added by you" and in Coming up? Does Remove All clear them? With no
     country selected, does Coming up say "No holidays selected"? Pick a date in the holiday date picker and press Add:
     does the list show that date, not today? With the widget menu open, click another app's window: does the menu
-    close? Does Esc close it, and do the arrow keys move through it?
+    close? Does Esc close it, and do the arrow keys move through it? Right-click the widget while it sits on the
+    desktop (behind windows), then press Esc: does it stay behind your windows, not on top?
 19. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.
