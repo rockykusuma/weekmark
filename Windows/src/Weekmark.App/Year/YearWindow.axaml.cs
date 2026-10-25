@@ -32,13 +32,15 @@ public partial class YearWindow : Window
         }
         else WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-        Copy = CopyAsync;
+        Copy = t => WidgetWindow.CopyAsync(this, t);
         state.Changed += ApplyTheme;
         ApplyTheme();
         SizeChanged += (_, _) => UpdateColumns();
         AddHandler(KeyDownEvent, OnKey, RoutingStrategies.Tunnel); // before a focused button or the scroller takes the arrows
         Closing += (_, _) =>
         {
+            // A minimized or maximized window has no usable frame (minimized sits near -32000): keep the last normal one.
+            if (WindowState != WindowState.Normal) return;
             state.Settings.YearWindow = new WindowFrame(Position.X, Position.Y, Width, Height);
             state.Save();
         };
@@ -81,14 +83,4 @@ public partial class YearWindow : Window
     }
 
     void OnCopy(object? sender, RoutedEventArgs e) => _ = Copy(vm.CopyText);
-
-    async Task CopyAsync(string text)
-    {
-        // Another app holding the clipboard just means nothing is copied this time.
-        try
-        {
-            if (Clipboard is { } clipboard) await clipboard.SetTextAsync(text);
-        }
-        catch (Exception e) when (e is InvalidOperationException or System.Runtime.InteropServices.COMException or TimeoutException) { }
-    }
 }

@@ -184,12 +184,14 @@ public partial class WidgetWindow : Window
         return vm.Result is { Kind: not QueryKind.Error, CopyText: { } t } ? CopyAsync(t) : Task.CompletedTask;
     }
 
-    internal async Task CopyAsync(string text)
+    internal Task CopyAsync(string text) => CopyAsync(this, text);
+
+    internal static async Task CopyAsync(TopLevel top, string text)
     {
         // Another app holding the clipboard just means nothing is copied this time.
         try
         {
-            if (Clipboard is { } clipboard) await clipboard.SetTextAsync(text);
+            if (top.Clipboard is { } clipboard) await clipboard.SetTextAsync(text);
         }
         catch (Exception e) when (e is InvalidOperationException or System.Runtime.InteropServices.COMException or TimeoutException) { }
     }

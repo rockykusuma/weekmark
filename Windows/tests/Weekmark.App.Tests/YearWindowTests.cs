@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
@@ -79,6 +80,17 @@ public sealed class YearWindowTests
         Assert.NotNull(state.Settings.YearWindow);
         Assert.Equal(1060, state.Settings.YearWindow!.Width);
         Assert.Equal(820, state.Settings.YearWindow.Height);
+    }
+
+    [AvaloniaFact]
+    public void ClosingWhileMinimizedKeepsTheSavedFrame()
+    {
+        var saved = new WindowFrame(100, 100, 900, 700);
+        var state = Demo(s => s.YearWindow = saved);
+        var w = Open(state);
+        w.WindowState = WindowState.Minimized;
+        w.Close();
+        Assert.Equal(saved, state.Settings.YearWindow);
     }
 
     [AvaloniaFact]
