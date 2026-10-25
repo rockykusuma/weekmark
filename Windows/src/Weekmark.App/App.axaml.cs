@@ -32,19 +32,15 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime d) return; // headless tests drive views directly
         desktop = d;
+        CrashLog.InstallUIThread();
         desktop.ShutdownRequested += (_, _) => quitting = true;
 
         var o = Program.Options;
         state = AppState.FromOptions(o, SettingsStore.DefaultPath);
         state.Start();
         layering = IWindowLayering.ForCurrentPlatform();
-        // Demo runs leave the user's start-with-Windows entry alone, like their settings. Under `dotnet Weekmark.dll`
-        // the process is dotnet itself, which must not be registered.
-        if (!o.DemoData && Environment.ProcessPath is { } exe && Path.GetFileNameWithoutExtension(exe) == "Weekmark")
-        {
-            startupExe = exe; // the settings and welcome windows re-apply it when the toggle changes
-            Startup.Apply(state.Settings.StartWithWindows, exe);
-        }
+        startupExe = StartupExe(o, Environment.ProcessPath); // the settings and welcome windows re-apply it when the toggle changes
+        if (startupExe is not null) Startup.Apply(state.Settings.StartWithWindows, startupExe);
         CreateWidget();
         tray = new TrayController(state, Widget!);
         tray.QuitRequested += () => Quit();
@@ -75,6 +71,20 @@ public partial class App : Application
                 Console.WriteLine($"working_set_mb={Math.Round(Environment.WorkingSet / 1048576.0)}");
                 Quit();
             }, TimeSpan.FromSeconds(seconds));
+    }
+
+    /// <summary>
+    /// The exe to register to start with Windows, or null to leave the entry alone: demo runs (like their settings),
+    /// <c>dotnet Weekmark.dll</c> (the process is dotnet itself) and Debug builds (<c>dotnet run</c> from source would
+    /// register bin\Debug\…\Weekmark.exe). Release builds, installed or from <c>dotnet publish</c>, register.
+    /// </summary>
+    internal static string? StartupExe(Options o, string? processPath)
+    {
+#if DEBUG
+        return null;
+#else
+        return !o.DemoData && processPath is { } exe && Path.GetFileNameWithoutExtension(exe) == "Weekmark" ? exe : null;
+#endif
     }
 
     /// <summary>Shows the widget when the welcome window closes (Done or its close button), or now when there is none.</summary>

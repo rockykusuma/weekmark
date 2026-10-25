@@ -18,6 +18,20 @@ public sealed class SingleInstanceTests
     }
 
     [Fact]
+    public void OnlyReleaseBuildsOfWeekmarkExeRegisterStartWithWindows()
+    {
+        var exe = Path.Combine(Path.GetTempPath(), "Weekmark", "Weekmark.exe");
+#if DEBUG
+        Assert.Null(App.StartupExe(Options.Parse([]), exe)); // `dotnet run` from source
+#else
+        Assert.Equal(exe, App.StartupExe(Options.Parse([]), exe));
+#endif
+        Assert.Null(App.StartupExe(Options.Parse(["--demo-data"]), exe));
+        Assert.Null(App.StartupExe(Options.Parse([]), Path.Combine(Path.GetTempPath(), "dotnet")));
+        Assert.Null(App.StartupExe(Options.Parse([]), null));
+    }
+
+    [Fact]
     public void SecondInstanceIsRefused()
     {
         var name = NewName();

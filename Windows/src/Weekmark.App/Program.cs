@@ -30,6 +30,7 @@ static class Program
     [STAThread]
     public static int Main(string[] args)
     {
+        CrashLog.Install();
         // Installer hooks; a no-op when not installed by Velopack. Uninstall (Windows only) drops the start-with-Windows value.
         var velopack = VelopackApp.Build();
         if (OperatingSystem.IsWindows())
