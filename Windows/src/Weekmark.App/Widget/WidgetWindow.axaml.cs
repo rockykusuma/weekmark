@@ -22,7 +22,7 @@ public partial class WidgetWindow : Window
     readonly WidgetViewModel vm = null!;
     readonly DispatcherTimer saveDelay = new() { Interval = TimeSpan.FromMilliseconds(400) };
     readonly DispatcherTimer floatEnd = new() { Interval = TimeSpan.FromSeconds(8) };
-    bool placing, floating, hooked;
+    bool placing, floating, hooked, dragging;
 
     /// <summary>For the XAML designer only.</summary>
     public WidgetWindow() => InitializeComponent();
@@ -35,12 +35,14 @@ public partial class WidgetWindow : Window
         this.layering = layering;
         DataContext = vm = new WidgetViewModel(state);
 
-        saveDelay.Tick += (_, _) => { saveDelay.Stop(); SavePlacement(); };
+        saveDelay.Tick += (_, _) => { saveDelay.Stop(); dragging = false; SavePlacement(); };
         floatEnd.Tick += (_, _) => { floatEnd.Stop(); if (!IsActive) EndFloat(); }; // focused: Deactivated ends it
         Deactivated += (_, _) => { if (floating) EndFloat(); };
         state.Changed += ApplySettings;
         Screens.Changed += OnScreensChanged;
-        PositionChanged += (_, _) => { if (!placing) { saveDelay.Stop(); saveDelay.Start(); } }; // save once the drag settles
+        // Only a user drag saves (once it settles). Windows also moves the widget itself when its monitor goes away
+        // (unplug, undock, sleep, RDP) and Place() then follows: saving those moves would forget the saved monitor.
+        PositionChanged += (_, _) => { if (dragging && !placing) { saveDelay.Stop(); saveDelay.Start(); } };
         Opened += (_, _) => // on every show, also after Hide Widget: that re-applies the layer
         {
             layering.HideFromTaskSwitcher(this);
@@ -134,7 +136,16 @@ public partial class WidgetWindow : Window
     {
         base.OnPointerPressed(e);
         if (e.Handled || S.Locked || !e.GetCurrentPoint(this).Properties.IsLeftButtonPressed) return;
+        dragging = true;
         BeginMoveDrag(e);
+        if (OperatingSystem.IsWindows()) EndDrag(); // Win32's move loop is modal: the drag is over when it returns
+    }
+
+    void EndDrag()
+    {
+        dragging = false;
+        saveDelay.Stop();
+        SavePlacement();
     }
 
     void OnScreensChanged(object? sender, EventArgs e) => Place();
@@ -148,6 +159,8 @@ public partial class WidgetWindow : Window
     /// <summary>Restores the saved per-monitor position, clamped on-screen; top-right of the primary monitor by default.</summary>
     public void Place()
     {
+        saveDelay.Stop(); // a restore is never a drag to save
+        dragging = false;
         var screens = ScreenInfos();
         if (screens.Count == 0) return;
         var saved = S.ScreenID is { } id && S.OffsetX is { } x && S.OffsetTop is { } t ? new SavedPlacement(id, x, t) : null;
