@@ -25,6 +25,18 @@ public sealed class SettingsStoreTests : IDisposable
     }
 
     [Fact]
+    public void AutomaticUpdateChecksDefaultsOn()
+    {
+        File.WriteAllText(P, """{"size": "large"}""");
+        Assert.True(Store.Load().AutomaticUpdateChecks);
+        File.WriteAllText(P, """{"automaticUpdateChecks": false}""");
+        var s = Store.Load();
+        Assert.False(s.AutomaticUpdateChecks);
+        Store.Save(s);
+        Assert.False(SavedRoot().GetProperty("automaticUpdateChecks").GetBoolean());
+    }
+
+    [Fact]
     public void EmptyFileGivesDefaults()
     {
         File.WriteAllText(P, "");

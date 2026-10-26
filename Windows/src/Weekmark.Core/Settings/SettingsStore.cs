@@ -112,6 +112,7 @@ public sealed class SettingsStore(string path)
                 case "locked": Scalar(p.Name, v, C.Boolean, x => s.Locked = x); break;
                 case "onboardingDone": Scalar(p.Name, v, C.Boolean, x => s.OnboardingDone = x); break;
                 case "startWithWindows": Scalar(p.Name, v, C.Boolean, x => s.StartWithWindows = x); break;
+                case "automaticUpdateChecks": Scalar(p.Name, v, C.Boolean, x => s.AutomaticUpdateChecks = x); break;
                 // Absurd planning numbers would overflow or stall the working-day loops; 52 weeks is also Sprints' limit.
                 // The clamped copy is used in memory; the stored value goes back on Save until the user edits that key.
                 case "sprint":
