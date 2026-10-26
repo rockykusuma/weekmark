@@ -99,6 +99,16 @@ shortcut because another app has it, Settings says so in red. You can also open 
 
 On keyboards where AltGr+W types a character (Czech, Slovak, Hungarian, Croatian), pick Alt+Win+W in Settings.
 
+## Updates
+
+An installed copy (Setup or Portable) checks GitHub for a newer Windows release a minute after it starts, then once a day.
+GitHub sees your IP address; nothing else is sent. A new version downloads in the background and the menu shows
+**Restart to Update to {version}**. If you don't click it, the update installs the next time Weekmark starts.
+**Check for Updates…** in the menu and **Check Now** in Settings → General → Updates check right away. Untick
+**Check for updates automatically** there to stop the daily check. Source builds don't update.
+
+0.2.0 has no updater: install 0.3.0 by hand once, and updates take over from there.
+
 ## Command-line flags
 
 `--demo-data` (sample data, settings untouched), `--settings [tab]`, `--onboarding`, `--year`, `--screenshot <path>`,

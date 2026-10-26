@@ -72,6 +72,11 @@ Don't paste anything private (for example the contents of your company `.ics`).
     finder opens instead. With Alt+Win+W chosen: yes. Do the icons and rounded
     corners look right? With many matching milestones, does the list scroll? Choose Hide Widget: does the hotkey
     still open the finder?
-20. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
+20. **Updates.** In an installed copy, open Settings → General → Updates and press Check Now: does it say "Weekmark
+    0.3.0 is the latest version"? Once 0.3.1 is published: does the menu show "Restart to Update to 0.3.1", and does
+    Restart Now restart into 0.3.1? Repeat without clicking anything, then quit and start Weekmark: does it run 0.3.1?
+    Does the Portable zip do the same? Untick "Check for updates automatically": does the daily check stop? Go
+    offline and press Check Now: does it show "Couldn't check: …" without a crash?
+21. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.
