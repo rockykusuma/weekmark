@@ -3,6 +3,7 @@ using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Weekmark.App.Platform;
+using Weekmark.App.Updates;
 using Weekmark.App.Widget;
 using Weekmark.Core;
 using MilestoneMath = Weekmark.Core.Milestones;
@@ -59,11 +60,17 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     readonly string? startupExe;
     int seenVersion;
 
+    public Updater? Updater { get; }
+    public bool ShowUpdates => Updater is { Stage: not UpdateStage.Unavailable };
+    public bool UpdateReady => Updater is { Stage: UpdateStage.Ready };
+
     /// <param name="startupExe">The installed Weekmark.exe to register for "Start with Windows"; null leaves the Run key alone.</param>
-    public SettingsViewModel(AppState state, string? startupExe = null)
+    public SettingsViewModel(AppState state, string? startupExe = null, Updater? updater = null)
     {
         this.state = state;
         this.startupExe = startupExe;
+        Updater = updater;
+        if (updater is not null) updater.Changed += OnUpdaterChanged;
         Regions = Enum.GetValues<HolidayRegion>().Select(r => new RegionItem(r, S.Regions.Contains, SetRegion)).ToList();
         AddMilestone = new RelayCommand(() => Draft = NewDraft(null, Ctx.Current, ""));
         AddHoliday = new RelayCommand(AddHolidayNow, () => NewHolidayDate is not null);
@@ -114,6 +121,11 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
             if (startupExe is not null) Startup.Apply(value, startupExe);
         }
     }
+
+    public bool AutomaticUpdateChecks { get => S.AutomaticUpdateChecks; set => Set(S.AutomaticUpdateChecks, value, v => S.AutomaticUpdateChecks = v); }
+    [RelayCommand] Task CheckNow() => Updater?.CheckNow() ?? Task.CompletedTask;
+    public event Action? RestartRequested;
+    [RelayCommand] void RestartNow() => RestartRequested?.Invoke();
 
     // Widget
     public int LayerIndex { get => (int)S.Layer; set => Pick(value, S.Layer, v => S.Layer = v); }
@@ -274,5 +286,11 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
         if (state.Version != seenVersion) Refresh(); // a plain clock tick changes nothing here
     }
 
-    public void Dispose() => state.Changed -= OnStateChanged;
+    void OnUpdaterChanged() => OnPropertyChanged(string.Empty); // runs inside the updater's timer tick: must not throw
+
+    public void Dispose()
+    {
+        state.Changed -= OnStateChanged;
+        if (Updater is not null) Updater.Changed -= OnUpdaterChanged;
+    }
 }

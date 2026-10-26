@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Platform;
 using CommunityToolkit.Mvvm.Input;
 using Weekmark.App.Platform;
+using Weekmark.App.Updates;
 using Weekmark.App.Widget;
 using Weekmark.Core;
 
@@ -44,6 +45,24 @@ public sealed class TrayController : IDisposable
     public event Action? YearRequested;
     public event Action? FinderRequested;
     public event Action? QuitRequested;
+    public event Action? CheckForUpdatesRequested;
+    /// <summary>"Restart to Update" was chosen; the app hides the icon first, since a successful restart exits the process.</summary>
+    public event Action? RestartRequested;
+
+    Updater? updater;
+
+    /// <summary>Null in tests that don't care; the menu follows its <see cref="Updates.Updater.Changed"/>.</summary>
+    public Updater? Updater
+    {
+        get => updater;
+        set
+        {
+            if (updater is not null) updater.Changed -= Refresh;
+            updater = value;
+            if (value is not null) value.Changed += Refresh;
+            Refresh();
+        }
+    }
 
     public TrayIcon Icon => icon;
     public NativeMenu Menu => menu;
@@ -109,6 +128,11 @@ public sealed class TrayController : IDisposable
         var copy = ctx.Fmt.CopyText(week, week.Year);
 
         var menu = new List<NativeMenuItemBase>();
+        if (updater is { Stage: UpdateStage.Ready, ReadyVersion: { } ready })
+        {
+            menu.Add(Item($"Restart to Update to {ready}", () => RestartRequested?.Invoke()));
+            menu.Add(new NativeMenuItemSeparator());
+        }
         menu.Add(Label($"Week {week.Week} of {snap.WeeksInYear} · {snap.RangeText}, {week.Year}"));
         if (PlanningLine(ctx, s) is { } planning) menu.Add(Label(planning));
         menu.Add(Item($"Copy “{copy}”", () => _ = Widget.CopyAsync(copy)));
@@ -156,6 +180,8 @@ public sealed class TrayController : IDisposable
         menu.Add(new NativeMenuItem("Size") { Menu = size });
 
         menu.Add(new NativeMenuItemSeparator());
+        if (updater is { Stage: not UpdateStage.Unavailable })
+            menu.Add(Item("Check for Updates…", () => CheckForUpdatesRequested?.Invoke()));
         menu.Add(Item("Settings…", () => SettingsRequested?.Invoke()));
         menu.Add(Item("Quit Weekmark", () => QuitRequested?.Invoke()));
         return menu;
@@ -237,6 +263,7 @@ public sealed class TrayController : IDisposable
     {
         disposed = true;
         state.Changed -= Refresh;
+        if (updater is not null) updater.Changed -= Refresh;
         if (platform is not null) platform.ColorValuesChanged -= OnColorsChanged;
         icon.Dispose();
     }

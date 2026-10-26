@@ -12,6 +12,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Weekmark.App.Platform;
 using Weekmark.App.Tray;
+using Weekmark.App.Updates;
 using Weekmark.App.Widget;
 using Weekmark.Core;
 
@@ -82,6 +83,46 @@ public sealed class TrayTests
                 int Extent(Func<int, int> axis) => inked.Max(axis) - inked.Min(axis) + 1;
                 Assert.True(Math.Max(Extent(i => i % size), Extent(i => i / size)) >= size - 4, $"week {week} at {size} px is too small");
             }
+    }
+
+    static Updater WithUpdater(TrayController tray, AppState state, UpdaterTests.FakeEngine engine) =>
+        tray.Updater = new Updater(state, engine, autoChecks: false);
+
+    [AvaloniaFact]
+    public void MenuHasCheckForUpdatesBeforeSettings()
+    {
+        var (state, _, tray) = Demo();
+        WithUpdater(tray, state, new UpdaterTests.FakeEngine());
+        var top = Items(tray.Menu);
+        var settings = top.FindIndex(i => i.Header == "Settings…");
+        Assert.Equal("Check for Updates…", top[settings - 1].Header);
+        var raised = 0;
+        tray.CheckForUpdatesRequested += () => raised++;
+        top[settings - 1].Command!.Execute(null);
+        Assert.Equal(1, raised);
+    }
+
+    [AvaloniaFact]
+    public async Task MenuShowsRestartWhenReady()
+    {
+        var (state, _, tray) = Demo();
+        var engine = new UpdaterTests.FakeEngine { Found = "0.3.1" };
+        var updater = WithUpdater(tray, state, engine);
+        await updater.CheckNow();
+        Assert.Equal("Restart to Update to 0.3.1", tray.Menu.Items[0] is NativeMenuItem first ? first.Header : null);
+        Assert.IsType<NativeMenuItemSeparator>(tray.Menu.Items[1]);
+        var restarted = 0;
+        tray.RestartRequested += () => restarted++;
+        ((NativeMenuItem)tray.Menu.Items[0]).Command!.Execute(null);
+        Assert.Equal(1, restarted);
+    }
+
+    [AvaloniaFact]
+    public void MenuHidesUpdateItemsWhenUnavailable()
+    {
+        var (state, _, tray) = Demo();
+        WithUpdater(tray, state, new UpdaterTests.FakeEngine { IsInstalled = false });
+        Assert.DoesNotContain(Items(tray.Menu), i => i.Header == "Check for Updates…" || i.Header!.StartsWith("Restart to Update"));
     }
 
     [AvaloniaFact]

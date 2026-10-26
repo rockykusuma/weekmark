@@ -5,6 +5,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
 using Weekmark.App.Onboarding;
 using Weekmark.App.Settings;
+using Weekmark.App.Updates;
 using Weekmark.Core;
 
 namespace Weekmark.App.Tests;
@@ -40,6 +41,27 @@ public sealed class SettingsViewModelTests : IDisposable
         edit?.Invoke(s);
         state = new AppState(s, null, () => Now);
         return new SettingsViewModel(state);
+    }
+
+    [AvaloniaFact]
+    public async Task SettingsUpdatesSection()
+    {
+        Assert.False(new SettingsViewModel(new AppState(new AppSettings(), null, () => Now)).ShowUpdates);
+        var state = new AppState(new AppSettings(), null, () => Now);
+        var engine = new UpdaterTests.FakeEngine();
+        using var updater = new Updater(state, engine, autoChecks: false);
+        var vm = new SettingsViewModel(state, null, updater);
+        Assert.True(vm.ShowUpdates);
+        Assert.True(vm.AutomaticUpdateChecks);
+        vm.AutomaticUpdateChecks = false;
+        Assert.False(state.Settings.AutomaticUpdateChecks);
+        var changed = new List<string?>();
+        vm.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
+        await vm.CheckNowCommand.ExecuteAsync(null);
+        Assert.Equal(1, engine.Checks);
+        Assert.Contains(string.Empty, changed); // the Updater's Changed refreshes the view model
+        using var gone = new Updater(state, new UpdaterTests.FakeEngine { IsInstalled = false }, autoChecks: false);
+        Assert.False(new SettingsViewModel(state, null, gone).ShowUpdates);
     }
 
     [AvaloniaFact]

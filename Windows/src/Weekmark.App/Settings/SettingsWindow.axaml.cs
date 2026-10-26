@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Weekmark.Core;
 
 namespace Weekmark.App.Settings;
@@ -26,6 +27,13 @@ public partial class SettingsWindow : Window
         Tabs.SelectedIndex = Array.IndexOf(TabNames, "milestones");
         Vm.NewMilestoneIn(week);
         Editor.FocusName();
+    }
+
+    /// <summary>"Check for Updates…" from the menu: General, scrolled to the Updates section.</summary>
+    public void ShowUpdates()
+    {
+        Tabs.SelectedIndex = 0;
+        Dispatcher.UIThread.Post(() => this.FindControl<Control>("UpdatesSection")?.BringIntoView(), DispatcherPriority.Loaded);
     }
 
     SettingsViewModel Vm => (SettingsViewModel)DataContext!;

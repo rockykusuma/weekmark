@@ -8,6 +8,7 @@ using Weekmark.App.Onboarding;
 using Weekmark.App.Platform;
 using Weekmark.App.Settings;
 using Weekmark.App.Tray;
+using Weekmark.App.Updates;
 using Weekmark.App.Widget;
 using Weekmark.App.Year;
 using Weekmark.Core;
@@ -20,6 +21,7 @@ public partial class App : Application
     AppState? state;
     IWindowLayering layering = new FallbackLayering();
     TrayController? tray;
+    Updater? updater;
     SettingsWindow? settingsWindow;
     YearWindow? yearWindow;
     QuickFinderWindow? finder;
@@ -45,8 +47,16 @@ public partial class App : Application
         layering = IWindowLayering.ForCurrentPlatform();
         startupExe = StartupExe(o, Environment.ProcessPath); // the settings and welcome windows re-apply it when the toggle changes
         if (startupExe is not null) Startup.Apply(state.Settings.StartWithWindows, startupExe);
+        updater = new Updater(state, new VelopackEngine(), autoChecks: !o.DemoData);
         CreateWidget();
-        tray = new TrayController(state, Widget!);
+        tray = new TrayController(state, Widget!) { Updater = updater };
+        tray.RestartRequested += RestartToUpdate;
+        tray.CheckForUpdatesRequested += () =>
+        {
+            OpenSettings("general");
+            settingsWindow!.ShowUpdates();
+            _ = updater.CheckNow();
+        };
         tray.QuitRequested += () => Quit();
         tray.SettingsRequested += () => OpenSettings();
         tray.YearRequested += OpenYear;
@@ -119,7 +129,8 @@ public partial class App : Application
     {
         if (settingsWindow is null)
         {
-            var vm = new SettingsViewModel(state!, startupExe);
+            var vm = new SettingsViewModel(state!, startupExe, updater);
+            vm.RestartRequested += RestartToUpdate;
             vm.WelcomeRequested += OpenWelcome;
             settingsWindow = new SettingsWindow(vm, tab);
             settingsWindow.Closed += (_, _) => settingsWindow = null;
@@ -188,9 +199,20 @@ public partial class App : Application
         Widget!.Show();
     }
 
+    /// <summary>A successful restart exits the process without returning, so the tray icon goes first or Windows keeps a ghost.
+    /// If the restart fails, the icon comes back.</summary>
+    void RestartToUpdate()
+    {
+        if (tray is null || updater is null) return;
+        tray.Icon.IsVisible = false;
+        updater.RestartToUpdate();
+        tray.Icon.IsVisible = true;
+    }
+
     public void Quit(int code = 0)
     {
         quitting = true;
+        updater?.Dispose();
         tray?.Dispose(); // otherwise Windows keeps a ghost icon until the mouse passes over it
         state?.Dispose();
         desktop?.Shutdown(code);
