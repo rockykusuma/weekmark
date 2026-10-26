@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using Avalonia;
 using Avalonia.Controls;
 using Weekmark.Core;
 
@@ -101,6 +102,21 @@ public sealed partial class WindowsLayering : IWindowLayering
         }
         catch (Exception) { } // cosmetic: never worth a crash
     }
+
+    /// <summary>The mouse pointer in screen pixels; null off Windows or when the call fails.</summary>
+    internal static PixelPoint? CursorPosition()
+    {
+        if (!OperatingSystem.IsWindows()) return null;
+        try { return GetCursorPos(out var p) ? new PixelPoint(p.X, p.Y) : null; }
+        catch (Exception) { return null; }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct POINT { public int X, Y; }
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool GetCursorPos(out POINT point);
 
     static nint? Handle(Window w) => w.TryGetPlatformHandle()?.Handle is { } h && h != 0 ? h : null;
 
