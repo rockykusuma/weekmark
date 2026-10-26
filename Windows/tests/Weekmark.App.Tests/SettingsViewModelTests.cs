@@ -402,6 +402,16 @@ public sealed class SettingsViewModelTests : IDisposable
     }
 
     [AvaloniaFact]
+    public void WelcomeIgnoresAnOutOfRangeHotkey()
+    {
+        var s = new AppSettings { OnboardingDone = true, Hotkey = HotkeyPreset.OptCmdW };
+        var vm = new WelcomeViewModel(new AppState(s, null, () => Now), "DE");
+        vm.HotkeyIndex = Enum.GetValues<HotkeyPreset>().Length;
+        vm.Finish();
+        Assert.Equal(HotkeyPreset.OptCmdW, s.Hotkey);
+    }
+
+    [AvaloniaFact]
     public void WelcomeShownAgainKeepsTheSettings()
     {
         var s = new AppSettings { OnboardingDone = true, Regions = [HolidayRegion.Gb, HolidayRegion.Dk], Numbering = WeekNumbering.Us, StartWithWindows = false };

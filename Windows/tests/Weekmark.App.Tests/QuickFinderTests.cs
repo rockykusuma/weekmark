@@ -107,6 +107,16 @@ public sealed class QuickFinderTests
     }
 
     [AvaloniaFact]
+    public async Task AltGrCDoesNotCopy()
+    {
+        var w = Shown(Demo());
+        await w.Clipboard!.SetTextAsync("before");
+        Press(w, Key.C, RawInputModifiers.Control | RawInputModifiers.Alt);
+        Assert.Equal("before", await w.Clipboard.TryGetTextAsync());
+        Assert.Null(w.ViewModel.Copied);
+    }
+
+    [AvaloniaFact]
     public void ToggleAndReopenStartFresh()
     {
         var w = Shown(Demo());

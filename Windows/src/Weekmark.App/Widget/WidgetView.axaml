@@ -56,27 +56,8 @@
       <Setter Property="Foreground" Value="{DynamicResource Holiday}" />
     </Style>
 
-    <!-- Search field: a plain text run on the rounded fill, none of Fluent's box, hover or focus chrome -->
     <Style Selector="TextBox#Field">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Padding" Value="0" />
-      <Setter Property="MinHeight" Value="0" />
-      <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-      <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}" />
       <Setter Property="FontSize" Value="12" />
-      <Setter Property="FontWeight" Value="Medium" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-    </Style>
-    <Style Selector="TextBox#Field:pointerover /template/ Border#PART_BorderElement, TextBox#Field:focus /template/ Border#PART_BorderElement">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-    </Style>
-    <Style Selector="TextBox#Field /template/ TextBlock#PART_Watermark">
-      <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
-    </Style>
-    <Style Selector="TextBox#Field:pointerover, TextBox#Field:focus">
-      <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
     </Style>
     <Style Selector="Button#ClearButton">
       <Setter Property="Background" Value="Transparent" />
@@ -223,7 +204,7 @@
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <Path Data="{StaticResource Magnifier}" Stroke="{DynamicResource TextSecondary}" StrokeThickness="1.6"
                       StrokeLineCap="Round" Width="11" Height="11" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,6,0" />
-                <TextBox x:Name="Field" Grid.Column="1" Text="{Binding Query}" Watermark="46 · Dec 12 · +6w · 46-50"
+                <TextBox x:Name="Field" Classes="plain" Grid.Column="1" Text="{Binding Query}" Watermark="46 · Dec 12 · +6w · 46-50"
                          MaxLength="200" AutomationProperties.Name="Find a week" />
                 <Button x:Name="ClearButton" Grid.Column="2" Command="{Binding ResetCommand}" Margin="6,0,0,0" Cursor="Arrow"
                         IsVisible="{Binding Query, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"

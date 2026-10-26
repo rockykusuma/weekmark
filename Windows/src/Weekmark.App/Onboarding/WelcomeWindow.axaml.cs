@@ -65,7 +65,7 @@ public sealed partial class WelcomeViewModel : ObservableObject
             if (Region is not { } picked) s.Regions = [];
             else if (!s.Regions.Contains(picked)) s.Regions.Add(picked);
         }
-        if (HotkeyIndex is >= 0 and < 5) s.Hotkey = (HotkeyPreset)HotkeyIndex;
+        if (HotkeyIndex >= 0 && HotkeyIndex < Enum.GetValues<HotkeyPreset>().Length) s.Hotkey = (HotkeyPreset)HotkeyIndex;
         s.StartWithWindows = StartWithWindows;
         s.OnboardingDone = true;
         state.Save();

@@ -92,6 +92,10 @@ public sealed class WidgetRenderTests
         var frame = w.CaptureRenderedFrame();
         Assert.NotNull(frame);
         frame.Save(Path.Combine(dir, $"quick-finder-{name.ToLowerInvariant()}.png"));
+        Assert.True(w.Field.IsFocused);
+        var box = w.Field.GetVisualDescendants().OfType<Avalonia.Controls.Border>().Single(b => b.Name == "PART_BorderElement");
+        Assert.Equal(default, box.BorderThickness);
+        Assert.True(box.Background is null || (box.Background is Avalonia.Media.ISolidColorBrush { Color.A: 0 }), $"{name}: field fill {box.Background}");
         var px = Rgba(frame);
         int opaque = 0;
         for (var i = 0; i < px.Length; i += 4) if (px[i + 3] > 200) opaque++;

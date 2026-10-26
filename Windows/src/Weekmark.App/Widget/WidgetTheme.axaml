@@ -138,4 +138,25 @@
   <Style Selector="Button.pill:pressed /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource PillPressed}" />
   </Style>
+  <!-- A plain text run on its parent's fill: none of Fluent's box, hover or focus chrome -->
+  <Style Selector="TextBox.plain">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="TextBox.plain:pointerover /template/ Border#PART_BorderElement, TextBox.plain:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="TextBox.plain /template/ TextBlock#PART_Watermark">
+    <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+  </Style>
+  <Style Selector="TextBox.plain:pointerover, TextBox.plain:focus">
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
 </Styles>

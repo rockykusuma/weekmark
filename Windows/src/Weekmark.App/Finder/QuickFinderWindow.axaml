@@ -33,8 +33,8 @@
   <Border BorderBrush="{DynamicResource Divider}" BorderThickness="1" CornerRadius="8">
     <StackPanel>
       <Grid ColumnDefinitions="*,Auto" Margin="18,16">
-        <TextBox Name="Field" Text="{Binding Query}" Watermark="{x:Static f:QuickFinderViewModel.Placeholder}"
-                 FontSize="22" FontWeight="Medium" Background="Transparent" BorderThickness="0" Padding="0" VerticalAlignment="Center" />
+        <TextBox Name="Field" Classes="plain" Text="{Binding Query}" Watermark="{x:Static f:QuickFinderViewModel.Placeholder}"
+                 FontSize="22" VerticalAlignment="Center" />
         <Border Grid.Column="1" Margin="12,0,0,0" Padding="8,4" CornerRadius="12" Background="{DynamicResource CurrentRow}" VerticalAlignment="Center">
           <TextBlock Text="{Binding Badge}" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource Accent}" />
         </Border>

@@ -5,6 +5,7 @@ using Avalonia.Data.Converters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.VisualTree;
 using Weekmark.App.Platform;
 using Weekmark.App.Widget;
 using Weekmark.Core;
@@ -29,7 +30,7 @@ public partial class QuickFinderWindow : Window
         DataContext = vm;
         InitializeComponent();
         Rows.SelectionChanged += (_, _) => { if (Rows.SelectedIndex >= 0) vm.Selection = Rows.SelectedIndex; };
-        Rows.DoubleTapped += (_, _) => Copy();
+        Rows.DoubleTapped += (_, e) => { if ((e.Source as Visual)?.FindAncestorOfType<ListBoxItem>(true) is not null) Copy(); };
         // The list is fed by hand: a bound ItemsSource would reset the selection and write -1 back.
         vm.PropertyChanged += OnVmChanged;
         SyncRows();
@@ -114,6 +115,7 @@ public partial class QuickFinderWindow : Window
     void OnFieldKey(object? sender, KeyEventArgs e)
     {
         var ctrl = e.KeyModifiers.HasFlag(KeyModifiers.Control);
+        var alt = e.KeyModifiers.HasFlag(KeyModifiers.Alt); // AltGr arrives as Ctrl+Alt
         switch (e.Key)
         {
             case Key.Down: vm.Move(1); break;
@@ -127,7 +129,7 @@ public partial class QuickFinderWindow : Window
                 }
                 break;
             case Key.Enter: Copy(); break;
-            case Key.C when ctrl && vm.Query.Length == 0: Copy(); break;
+            case Key.C when ctrl && !alt && vm.Query.Length == 0: Copy(); break;
             default: return;
         }
         e.Handled = true;
