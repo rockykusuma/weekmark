@@ -12,6 +12,7 @@ namespace Weekmark.Core;
 [JsonSerializable(typeof(WindowLayer))]
 [JsonSerializable(typeof(BackgroundStyle))]
 [JsonSerializable(typeof(AppearanceMode))]
+[JsonSerializable(typeof(HotkeyPreset))]
 [JsonSerializable(typeof(SprintConfig))]
 [JsonSerializable(typeof(QuarterConfig))]
 [JsonSerializable(typeof(Milestone))]

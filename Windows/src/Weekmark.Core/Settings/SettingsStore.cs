@@ -103,6 +103,7 @@ public sealed class SettingsStore(string path)
                 case "layer": Scalar(p.Name, v, C.WindowLayer, x => s.Layer = x); break;
                 case "background": Scalar(p.Name, v, C.BackgroundStyle, x => s.Background = x); break;
                 case "appearance": Scalar(p.Name, v, C.AppearanceMode, x => s.Appearance = x); break;
+                case "hotkey": Scalar(p.Name, v, C.HotkeyPreset, x => s.Hotkey = x); break;
                 case "showMonth": Scalar(p.Name, v, C.Boolean, x => s.ShowMonth = x); break;
                 case "showProgress": Scalar(p.Name, v, C.Boolean, x => s.ShowProgress = x); break;
                 case "showPlanning": Scalar(p.Name, v, C.Boolean, x => s.ShowPlanning = x); break;

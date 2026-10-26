@@ -59,6 +59,7 @@ public sealed class AppSettings
     [JsonPropertyName("locked")] public bool Locked { get; set; }
     [JsonPropertyName("onboardingDone")] public bool OnboardingDone { get; set; }
     [JsonPropertyName("startWithWindows")] public bool StartWithWindows { get; set; } = true;
+    [JsonPropertyName("hotkey")] public HotkeyPreset Hotkey { get; set; } = HotkeyPreset.CtrlOptW;
     [JsonPropertyName("sprint")] public SprintConfig Sprint { get; set; } = new();
     [JsonPropertyName("quarter")] public QuarterConfig Quarter { get; set; } = new();
     [JsonPropertyName("milestones")] public List<Milestone> Milestones { get; set; } = [];

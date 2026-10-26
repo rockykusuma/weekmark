@@ -116,7 +116,7 @@ public sealed class SettingsStoreTests : IDisposable
         Assert.Equal(MilestoneColor.Purple, Assert.Single(s.Milestones).Color);
         Assert.Equal([HolidayRegion.Us, HolidayRegion.Gb], s.Regions);
         Assert.Equal("Founders", Assert.Single(s.CustomHolidays).Name);
-        Assert.True(s.Unknown.ContainsKey("hotkey"));
+        Assert.Equal(HotkeyPreset.Off, s.Hotkey);
     }
 
     [Fact]
