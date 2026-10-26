@@ -84,10 +84,23 @@ Dates without a year mean the next one (`Dec 12` in late December is next year).
 follow your Windows region's order (day first or month first). From week 40 onward, a week number of 12 or lower
 means next year.
 
+## Quick Finder
+
+Press **Ctrl+Alt+W** from any app to open a small search box in the middle of the screen. It answers the same
+questions as the search field above, and it works while the widget is hidden.
+
+- Enter copies the selected result and closes the box.
+- Ctrl+Enter shows that week in the widget.
+- Up and Down pick a result. Esc closes the box.
+- Press the hotkey again to close it.
+
+Change the hotkey, or turn it off, in Settings → General → Quick Finder hotkey. If another app already uses the
+shortcut, Settings says so in red. You can also open it from the tray menu or the widget menu, or start it with `--find`.
+
 ## Command-line flags
 
 `--demo-data` (sample data, settings untouched), `--settings [tab]`, `--onboarding`, `--year`, `--screenshot <path>`,
-`--exit-after <seconds>`, `--autostart`.
+`--exit-after <seconds>`, `--autostart`, `--find` (opens the Quick Finder).
 
 ## Test it
 

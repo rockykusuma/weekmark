@@ -62,6 +62,15 @@ Don't paste anything private (for example the contents of your company `.ics`).
     does the list show that date, not today? With the widget menu open, click another app's window: does the menu
     close? Does Esc close it, and do the arrow keys move through it? Right-click the widget while it sits on the
     desktop (behind windows), then press Esc: does it stay behind your windows, not on top?
-19. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
+19. **Quick Finder.** Open another app and press Ctrl+Alt+W: does the finder open in front, and does typing go into
+    it right away? Press Esc, then try again with Enter: is focus back in the other app? Right-click the widget and
+    choose Quick Finder…: does it take focus, and does closing it return focus to the previous app, not the widget?
+    Type a week and press Ctrl+Enter: does the widget show that week? Type `46` and press Enter: is the result
+    copied? Make another app hold Ctrl+Alt+W (for example a second copy of a tool that registers it), or pick a
+    shortcut Windows keeps for itself, then open Settings → General: does the red "taken" warning appear? On a Polish
+    or German keyboard, does AltGr still type its characters (AltGr counts as Ctrl+Alt)? Do the icons and rounded
+    corners look right? With many matching milestones, does the list scroll? Choose Hide Widget: does the hotkey
+    still open the finder?
+20. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.
