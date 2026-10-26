@@ -80,6 +80,7 @@ public partial class QuickFinderWindow : Window
     {
         if (!ReferenceEquals(Rows.ItemsSource, vm.Results)) Rows.ItemsSource = vm.Results;
         if (Rows.SelectedIndex != vm.Selection) Rows.SelectedIndex = vm.Selection;
+        if (vm.Selection >= 0 && vm.Selection < vm.Results.Count) Rows.ScrollIntoView(vm.Selection);
     }
 
     public void ShowFinder(string query = "")

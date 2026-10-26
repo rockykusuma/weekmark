@@ -40,7 +40,7 @@
         </Border>
       </Grid>
       <Border Height="1" Background="{DynamicResource Divider}" />
-      <ListBox Name="Rows" Background="Transparent" Padding="8" Focusable="False">
+      <ListBox Name="Rows" Background="Transparent" Padding="8" Focusable="False" MaxHeight="420">
         <ListBox.ItemTemplate>
           <DataTemplate x:DataType="c:QueryResult">
             <Grid ColumnDefinitions="Auto,*,Auto">

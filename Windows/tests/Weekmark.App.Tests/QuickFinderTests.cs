@@ -184,6 +184,22 @@ public sealed class QuickFinderTests
     }
 
     [AvaloniaFact]
+    public void ManyResultsScroll()
+    {
+        var state = Demo();
+        for (var i = 0; i < 20; i++) state.Settings.Milestones.Add(new Milestone(Guid.NewGuid(), $"sprint {i}", new WeekRef(2026, 44 + i % 8)));
+        var w = Shown(state, "sprint");
+        Assert.True(w.ViewModel.Results.Count >= 20);
+        Assert.True(w.Bounds.Height < 640, $"bounds {w.Bounds.Height}");
+
+        Press(w, Key.Up); // wraps to the last row
+        w.UpdateLayout();
+        var last = w.ViewModel.Results.Count - 1;
+        Assert.Equal(last, w.ViewModel.Selection);
+        Assert.NotNull(w.Rows.ContainerFromIndex(last));
+    }
+
+    [AvaloniaFact]
     public void FinderPositionCentresNearTop()
     {
         Assert.Equal(new PixelPoint(560, 291), QuickFinderWindow.FinderPosition(new PixelRect(0, 0, 1920, 1040), 1.25));
