@@ -67,8 +67,9 @@ Don't paste anything private (for example the contents of your company `.ics`).
     choose Quick Finder…: does it take focus, and does closing it return focus to the previous app, not the widget?
     Type a week and press Ctrl+Enter: does the widget show that week? Type `46` and press Enter: is the result
     copied? Make another app hold Ctrl+Alt+W (for example a second copy of a tool that registers it), or pick a
-    shortcut Windows keeps for itself, then open Settings → General: does the red "taken" warning appear? On a Polish
-    or German keyboard, does AltGr still type its characters (AltGr counts as Ctrl+Alt)? Do the icons and rounded
+    shortcut Windows keeps for itself, then open Settings → General: does the red "taken" warning appear? On a Czech
+    or Hungarian layout, does AltGr+W still type `|` (AltGr counts as Ctrl+Alt)? Expected with the default: no, the
+    finder opens instead. With Alt+Win+W chosen: yes. Do the icons and rounded
     corners look right? With many matching milestones, does the list scroll? Choose Hide Widget: does the hotkey
     still open the finder?
 20. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?

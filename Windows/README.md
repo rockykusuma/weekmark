@@ -86,7 +86,7 @@ means next year.
 
 ## Quick Finder
 
-Press **Ctrl+Alt+W** from any app to open a small search box in the middle of the screen. It answers the same
+Press **Ctrl+Alt+W** from any app to open a small search box near the top of the screen. It answers the same
 questions as the search field above, and it works while the widget is hidden.
 
 - Enter copies the selected result and closes the box.
@@ -94,13 +94,15 @@ questions as the search field above, and it works while the widget is hidden.
 - Up and Down pick a result. Esc closes the box.
 - Press the hotkey again to close it.
 
-Change the hotkey, or turn it off, in Settings → General → Quick Finder hotkey. If another app already uses the
-shortcut, Settings says so in red. You can also open it from the tray menu or the widget menu, or start it with `--find`.
+Change the hotkey, or turn it off, in Settings → General → Quick Finder hotkey. If Windows refuses the
+shortcut because another app has it, Settings says so in red. You can also open it from the tray menu or the widget menu, or start it with `--find [query]`.
+
+On keyboards where AltGr+W types a character (Czech, Slovak, Hungarian, Croatian), pick Alt+Win+W in Settings.
 
 ## Command-line flags
 
 `--demo-data` (sample data, settings untouched), `--settings [tab]`, `--onboarding`, `--year`, `--screenshot <path>`,
-`--exit-after <seconds>`, `--autostart`, `--find` (opens the Quick Finder).
+`--exit-after <seconds>`, `--autostart`, `--find [query]` (opens the Quick Finder).
 
 ## Test it
 
