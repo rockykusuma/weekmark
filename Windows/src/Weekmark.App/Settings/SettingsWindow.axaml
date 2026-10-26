@@ -55,6 +55,13 @@
               <TextBlock Text="Appearance" />
               <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Appearances}" SelectedIndex="{Binding AppearanceIndex}" />
             </Grid>
+            <Grid Classes="row" ColumnDefinitions="180,*">
+              <TextBlock Text="Quick Finder hotkey" />
+              <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Hotkeys}" SelectedIndex="{Binding HotkeyIndex}" />
+            </Grid>
+            <TextBlock Classes="help" Text="Press it from any app to look up a week, date, range or countdown, then press Enter to copy." />
+            <TextBlock Foreground="#FF3B30" TextWrapping="Wrap" Text="{Binding HotkeyWarning}"
+                       IsVisible="{Binding HotkeyWarning, Converter={x:Static ObjectConverters.IsNotNull}}" />
             <TextBlock Classes="section" Text="Startup" />
             <CheckBox Content="Start Weekmark with Windows" IsChecked="{Binding StartWithWindows}" />
             <CheckBox Content="Show the week number in the tray icon" IsChecked="{Binding ShowInTray}" />

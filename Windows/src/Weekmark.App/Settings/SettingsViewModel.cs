@@ -44,6 +44,7 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
 
     public static string[] Numberings { get; } = ["ISO 8601 (Monday start)", "US (Sunday start)"];
     public static string[] Appearances { get; } = ["System", "Light", "Dark"];
+    public static string[] Hotkeys { get; } = Enum.GetValues<HotkeyPreset>().Select(p => p.Title()).ToArray();
     public static string[] Layers { get; } = ["On Desktop (behind windows)", "Float Above Windows"];
     public static string[] Sizes { get; } = ["Small", "Medium", "Large", "Extra Large"];
     public static string[] Backgrounds { get; } = ["Glass", "Solid", "Clear"];
@@ -100,6 +101,8 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     // General
     public int NumberingIndex { get => (int)S.Numbering; set => Pick(value, S.Numbering, v => S.Numbering = v); }
     public int AppearanceIndex { get => (int)S.Appearance; set => Pick(value, S.Appearance, v => S.Appearance = v); }
+    public int HotkeyIndex { get => (int)S.Hotkey; set => Pick(value, S.Hotkey, v => S.Hotkey = v); }
+    public string? HotkeyWarning => state.HotKeyTaken && S.Hotkey != HotkeyPreset.Off ? $"{S.Hotkey.Title()} is taken by another app. Pick another." : null;
     public bool ShowInTray { get => S.ShowInMenuBar; set => Set(S.ShowInMenuBar, value, v => S.ShowInMenuBar = v); }
     public bool StartWithWindows
     {

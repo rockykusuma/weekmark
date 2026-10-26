@@ -16,6 +16,7 @@ public sealed partial class WelcomeViewModel : ObservableObject
     readonly int seededRegion;
 
     public static string[] Numberings => SettingsViewModel.Numberings;
+    public static string[] Hotkeys => SettingsViewModel.Hotkeys;
     public static string[] Regions { get; } =
         ["None", .. Enum.GetValues<HolidayRegion>().Select(r => $"{r.Flag()} {r.Title()}")];
 
@@ -32,6 +33,7 @@ public sealed partial class WelcomeViewModel : ObservableObject
         numberingIndex = (int)s.Numbering;
         if (s.Regions.Count > 0) seededRegion = regionIndex = (int)s.Regions[0] + 1;
         startWithWindows = s.StartWithWindows;
+        hotkeyIndex = (int)s.Hotkey;
     }
 
     public static string CurrentRegion()
@@ -42,6 +44,7 @@ public sealed partial class WelcomeViewModel : ObservableObject
 
     [ObservableProperty, NotifyPropertyChangedFor(nameof(WeekTitle), nameof(WeekRange))] private int numberingIndex;
     [ObservableProperty] private int regionIndex;
+    [ObservableProperty] private int hotkeyIndex;
     [ObservableProperty] private bool startWithWindows = true;
 
     public WeekNumbering Numbering => (WeekNumbering)Math.Clamp(NumberingIndex, 0, 1);
@@ -62,6 +65,7 @@ public sealed partial class WelcomeViewModel : ObservableObject
             if (Region is not { } picked) s.Regions = [];
             else if (!s.Regions.Contains(picked)) s.Regions.Add(picked);
         }
+        if (HotkeyIndex is >= 0 and < 5) s.Hotkey = (HotkeyPreset)HotkeyIndex;
         s.StartWithWindows = StartWithWindows;
         s.OnboardingDone = true;
         state.Save();

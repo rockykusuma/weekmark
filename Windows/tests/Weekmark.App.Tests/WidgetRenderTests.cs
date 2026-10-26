@@ -80,6 +80,25 @@ public sealed class WidgetRenderTests
             }
     }
 
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void QuickFinderRenders(string name)
+    {
+        var dir = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "renders")).FullName;
+        var w = new Weekmark.App.Finder.QuickFinderWindow(Demo(s => s.Appearance = name == "Dark" ? AppearanceMode.Dark : AppearanceMode.Light));
+        w.ShowFinder("46");
+        w.UpdateLayout();
+        var frame = w.CaptureRenderedFrame();
+        Assert.NotNull(frame);
+        frame.Save(Path.Combine(dir, $"quick-finder-{name.ToLowerInvariant()}.png"));
+        var px = Rgba(frame);
+        int opaque = 0;
+        for (var i = 0; i < px.Length; i += 4) if (px[i + 3] > 200) opaque++;
+        Assert.True(opaque > px.Length / 8, $"{name}: only {opaque} pixels drawn");
+        w.Close();
+    }
+
     sealed class NoPicker : IWeekPicker
     {
         public WeekRef? Hover { get; set; }

@@ -368,6 +368,40 @@ public sealed class SettingsViewModelTests : IDisposable
     }
 
     [AvaloniaFact]
+    public void HotkeyIndexSavesPreset()
+    {
+        var vm = Demo(out var state);
+        Assert.Equal("Ctrl+Alt+W", SettingsViewModel.Hotkeys[0]);
+        vm.HotkeyIndex = 3;
+        Assert.Equal(HotkeyPreset.CtrlOptSpace, state.Settings.Hotkey);
+        Assert.Equal(3, vm.HotkeyIndex);
+    }
+
+    [AvaloniaFact]
+    public void HotkeyWarningWhenTaken()
+    {
+        var vm = Demo(out var state);
+        Assert.Null(vm.HotkeyWarning);
+        state.HotKeyTaken = true;
+        vm.Refresh();
+        Assert.Equal("Ctrl+Alt+W is taken by another app. Pick another.", vm.HotkeyWarning);
+        vm.HotkeyIndex = 4;
+        Assert.Null(vm.HotkeyWarning);
+    }
+
+    [AvaloniaFact]
+    public void WelcomeKeepsAndWritesHotkey()
+    {
+        var s = new AppSettings { OnboardingDone = true, Hotkey = HotkeyPreset.OptCmdW };
+        var state = new AppState(s, null, () => Now);
+        var vm = new WelcomeViewModel(state, "DE");
+        Assert.Equal(1, vm.HotkeyIndex);
+        vm.HotkeyIndex = 3;
+        vm.Finish();
+        Assert.Equal(HotkeyPreset.CtrlOptSpace, s.Hotkey);
+    }
+
+    [AvaloniaFact]
     public void WelcomeShownAgainKeepsTheSettings()
     {
         var s = new AppSettings { OnboardingDone = true, Regions = [HolidayRegion.Gb, HolidayRegion.Dk], Numbering = WeekNumbering.Us, StartWithWindows = false };
