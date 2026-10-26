@@ -136,6 +136,8 @@ jobs:
           path: |
             releases/*-Setup.exe
             releases/*-Portable.zip
+            releases/*.nupkg
+            releases/releases.*.json
           if-no-files-found: error
 
   screenshot:
@@ -186,6 +188,11 @@ jobs:
           for arch in x64 arm64; do
             cp pkg/weekmark-win-$arch/*-Setup.exe "assets/Weekmark-Windows-$VERSION-$arch-Setup.exe"
             cp pkg/weekmark-win-$arch/*-Portable.zip "assets/Weekmark-Windows-$VERSION-$arch-Portable.zip"
+            # Update files keep their names: Velopack finds releases.<channel>.json and then the exact FileName in it.
+            for f in pkg/weekmark-win-$arch/*.nupkg pkg/weekmark-win-$arch/releases.*.json; do
+              [ ! -e "assets/$(basename "$f")" ] || { echo "duplicate asset name: $(basename "$f")"; exit 1; }
+              cp "$f" assets/
+            done
           done
           ls -1 assets
       - name: Dry run
