@@ -74,9 +74,15 @@ Don't paste anything private (for example the contents of your company `.ics`).
     still open the finder?
 20. **Updates.** In an installed copy, open Settings → General → Updates and press Check Now: does it say "Weekmark
     0.3.0 is the latest version"? Once 0.3.1 is published: does the menu show "Restart to Update to 0.3.1", and does
-    Restart Now restart into 0.3.1? Repeat without clicking anything, then quit and start Weekmark: does it run 0.3.1?
+    Restart Now restart into 0.3.1? Repeat without clicking anything (needs a further release, or a reinstall of the older version), then quit and start Weekmark: does it run 0.3.1?
     Does the Portable zip do the same? Untick "Check for updates automatically": does the daily check stop? Go
     offline and press Check Now: does it show "Couldn't check: …" without a crash?
+    Does the "Check for Updates…" menu entry open Settings at Updates and check? Does "0.3.1 is ready" appear with
+    Restart Now? After Restart Now, is the old tray icon gone? Leave an update ready, sign out and back in: does the
+    widget stay put (no jump forward) and is there no ghost tray icon? With an update ready, launch Weekmark again
+    from the Start menu: the running copy just comes forward, and the update installs at the next real start. A copy
+    built from source should show "Updates work in installed copies." and have no update menu items. After the
+    laptop sleeps overnight, does the daily check still happen about a day after the last one?
 21. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.
