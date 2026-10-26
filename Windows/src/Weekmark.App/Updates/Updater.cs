@@ -143,14 +143,15 @@ public sealed partial class Updater : ObservableObject, IDisposable
         catch (Exception e)
         {
             lastChecked = state.Now;
-            ReadyVersion = null;
             failure = e.Message.Split('\n')[0].Trim();
-            Set(UpdateStage.Failed);
+            // A downloaded update stays offered when a later check fails (offline laptop); a failed download never got that far.
+            Set(ReadyVersion is null ? UpdateStage.Failed : UpdateStage.Ready);
         }
     }
 
     public void RestartToUpdate()
     {
+        if (Stage != UpdateStage.Ready) return;
         try { engine.ApplyAndRestart(); }
         catch (Exception e)
         {

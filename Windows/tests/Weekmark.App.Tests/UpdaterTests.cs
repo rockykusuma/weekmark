@@ -9,7 +9,7 @@ public sealed class UpdaterTests
 {
     static readonly DateTime Now = new(2026, 10, 25, 14, 30, 0);
 
-    sealed class FakeEngine : IUpdateEngine
+    internal sealed class FakeEngine : IUpdateEngine
     {
         public bool IsInstalled { get; set; } = true;
         public string? CurrentVersion { get; set; } = "0.3.0";
@@ -36,7 +36,7 @@ public sealed class UpdaterTests
         public void ApplyAndRestart() => Applies++;
     }
 
-    static AppState State(bool auto = true) =>
+    internal static AppState State(bool auto = true) =>
         new(new AppSettings { AutomaticUpdateChecks = auto }, null, () => Now);
 
     static async Task Until(Func<bool> done)
@@ -114,6 +114,30 @@ public sealed class UpdaterTests
         await Until(() => e.Checks >= 2); // the timer keeps running
         e.CheckError = null;
         await Until(() => u.Stage == UpdateStage.UpToDate);
+    }
+
+    [AvaloniaFact]
+    public async Task FailedRecheckKeepsTheReadyUpdate()
+    {
+        var e = new FakeEngine { Found = "0.3.1" };
+        using var u = new Updater(State(), e, autoChecks: false);
+        await u.CheckNow();
+        e.CheckError = new HttpRequestException("offline");
+        await u.CheckNow();
+        Assert.Equal("0.3.1", u.ReadyVersion);
+        Assert.Equal(UpdateStage.Ready, u.Stage); // ponytail: stays Ready, only LastChecked moves; the restart items stay
+        u.RestartToUpdate();
+        Assert.Equal(1, e.Applies);
+    }
+
+    [AvaloniaFact]
+    public void RestartWhenNotReadyDoesNothing()
+    {
+        var e = new FakeEngine { IsInstalled = false };
+        using var u = new Updater(State(), e, autoChecks: false);
+        u.RestartToUpdate();
+        Assert.Equal(UpdateStage.Unavailable, u.Stage);
+        Assert.Equal(0, e.Applies);
     }
 
     [AvaloniaFact]
