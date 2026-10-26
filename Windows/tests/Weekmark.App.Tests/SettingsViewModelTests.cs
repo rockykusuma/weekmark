@@ -59,7 +59,9 @@ public sealed class SettingsViewModelTests : IDisposable
         vm.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
         await vm.CheckNowCommand.ExecuteAsync(null);
         Assert.Equal(1, engine.Checks);
-        Assert.Contains(string.Empty, changed); // the Updater's Changed refreshes the view model
+        Assert.Contains(nameof(SettingsViewModel.UpdateReady), changed); // the Updater's Changed refreshes the view model
+        Assert.DoesNotContain(string.Empty, changed); // a blanket refresh would reset half-typed fields
+        Assert.DoesNotContain(nameof(SettingsViewModel.SprintName), changed);
         using var gone = new Updater(state, new UpdaterTests.FakeEngine { IsInstalled = false }, autoChecks: false);
         Assert.False(new SettingsViewModel(state, null, gone).ShowUpdates);
     }

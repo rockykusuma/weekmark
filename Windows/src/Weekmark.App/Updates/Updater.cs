@@ -17,6 +17,25 @@ public interface IUpdateEngine
     void ApplyAndRestart();
 }
 
+/// <summary>
+/// Velopack's GithubSource asks GitHub for only the 10 newest releases, and the Mac releases in this repo count toward them,
+/// so an older Windows copy could stop seeing any Windows release. This asks for 100; everything else is Velopack's.
+/// </summary>
+internal sealed class WeekmarkGithubSource(string repoUrl, string? accessToken, bool prerelease, IFileDownloader? downloader = null)
+    : GithubSource(repoUrl, accessToken, prerelease, downloader)
+{
+    internal static GithubRelease[] Parse(string json, bool includePrereleases) =>
+        (System.Text.Json.JsonSerializer.Deserialize<GithubRelease[]>(json) ?? [])
+            .OrderByDescending(d => d.PublishedAt).Where(x => includePrereleases || !x.Prerelease).ToArray();
+
+    protected override async Task<GithubRelease[]> GetReleases(bool includePrereleases)
+    {
+        var uri = new Uri(GetApiBaseUrl(RepoUri), $"repos{RepoUri.AbsolutePath}/releases?per_page=100&page=1");
+        var response = await Downloader.DownloadString(uri.ToString(), GetRequestHeaders("application/vnd.github.v3+json")).ConfigureAwait(false);
+        return Parse(response, includePrereleases);
+    }
+}
+
 /// <summary>Velopack against the GitHub releases. Never throws from <see cref="IsInstalled"/>: a copy that cannot update reports false.</summary>
 internal sealed class VelopackEngine : IUpdateEngine
 {
@@ -27,7 +46,7 @@ internal sealed class VelopackEngine : IUpdateEngine
     {
         try
         {
-            var m = new UpdateManager(new GithubSource("https://github.com/rockykusuma/weekmark", null, prerelease: true));
+            var m = new UpdateManager(new WeekmarkGithubSource("https://github.com/rockykusuma/weekmark", null, true));
             return m.IsInstalled ? m : null;
         }
         catch { return null; }

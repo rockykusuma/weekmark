@@ -286,7 +286,7 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
         if (state.Version != seenVersion) Refresh(); // a plain clock tick changes nothing here
     }
 
-    void OnUpdaterChanged() => OnPropertyChanged(string.Empty); // runs inside the updater's timer tick: must not throw
+    void OnUpdaterChanged() { OnPropertyChanged(nameof(ShowUpdates)); OnPropertyChanged(nameof(UpdateReady)); } // the Updater.* bindings are notified by the Updater itself; a blanket refresh would reset half-typed fields. Runs in the updater's timer tick: must not throw // runs inside the updater's timer tick: must not throw
 
     public void Dispose()
     {

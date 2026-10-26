@@ -37,6 +37,10 @@ static class Program
         var velopack = VelopackApp.Build();
         if (OperatingSystem.IsWindows())
             velopack.OnBeforeUninstallFastCallback(_ => { try { Platform.Startup.Apply(false, ""); } catch { /* never block uninstall */ } });
+        // A second launch must not auto-apply a ready update: Update.exe would force-kill the running copy (ghost tray icon).
+        // The mutex is only probed, never owned; it exists while another Weekmark runs.
+        velopack.SetAutoApplyOnStartup(!Mutex.TryOpenExisting($@"Local\Weekmark-{Environment.UserName}", out var running));
+        running?.Dispose();
         velopack.Run();
         Options = Options.Parse(args);
 
