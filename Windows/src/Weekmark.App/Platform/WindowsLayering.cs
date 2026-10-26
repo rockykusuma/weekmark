@@ -156,6 +156,14 @@ public sealed partial class WindowsLayering : IWindowLayering
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool ShowWindow(nint hWnd, int cmd);
 
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool RegisterHotKey(nint hWnd, int id, uint modifiers, uint key);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool UnregisterHotKey(nint hWnd, int id);
+
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetWindowAttribute(nint hWnd, int attribute, in int value, int size);
 }

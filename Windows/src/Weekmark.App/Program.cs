@@ -6,9 +6,9 @@ namespace Weekmark.App;
 
 /// <summary>Command line: <c>--demo-data</c>, <c>--screenshot &lt;path&gt;</c> (implies demo data), <c>--exit-after &lt;seconds&gt;</c>
 /// (after the screenshot when there is one; prints idle memory, then quits),
-/// <c>--autostart</c>, <c>--settings [tab]</c> (opens Settings, e.g. on <c>planning</c>), <c>--onboarding</c> (shows the welcome window), <c>--year</c> (opens Year at a Glance).
-/// With <c>--screenshot</c>, the year, settings or welcome window is captured instead of the widget when one is open.</summary>
-public sealed record Options(bool DemoData, string? Screenshot, double? ExitAfter, bool Autostart, string? Settings = null, bool Onboarding = false, bool Year = false)
+/// <c>--autostart</c>, <c>--settings [tab]</c> (opens Settings, e.g. on <c>planning</c>), <c>--onboarding</c> (shows the welcome window), <c>--year</c> (opens Year at a Glance), <c>--find [query]</c> (opens the Quick Finder, optionally with a query).
+/// With <c>--screenshot</c>, the Quick Finder, year, settings or welcome window is captured instead of the widget when one is open.</summary>
+public sealed record Options(bool DemoData, string? Screenshot, double? ExitAfter, bool Autostart, string? Settings = null, bool Onboarding = false, bool Year = false, string? Find = null)
 {
     public static Options Parse(string[] args)
     {
@@ -19,7 +19,8 @@ public sealed record Options(bool DemoData, string? Screenshot, double? ExitAfte
             double.TryParse(Value("--exit-after"), NumberStyles.Float, CultureInfo.InvariantCulture, out var s) ? s : null,
             args.Contains("--autostart"),
             args.Contains("--settings") ? Value("--settings") is { } tab && !tab.StartsWith("--") ? tab : "general" : null,
-            args.Contains("--onboarding"), args.Contains("--year"));
+            args.Contains("--onboarding"), args.Contains("--year"),
+            args.Contains("--find") ? Value("--find") is { } q && !q.StartsWith("--") ? q : "" : null);
     }
 }
 

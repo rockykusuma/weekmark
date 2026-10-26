@@ -42,6 +42,7 @@ public sealed class TrayController : IDisposable
     /// <summary>"Settings…" was chosen; the settings window (Task 11) listens.</summary>
     public event Action? SettingsRequested;
     public event Action? YearRequested;
+    public event Action? FinderRequested;
     public event Action? QuitRequested;
 
     public TrayIcon Icon => icon;
@@ -117,6 +118,8 @@ public sealed class TrayController : IDisposable
             menu.Add(Item($"Add Milestone in CW{w.Week}…", () => AddMilestoneRequested?.Invoke(w)));
             menu.Add(new NativeMenuItemSeparator());
         }
+        var hotkey = s.Hotkey;
+        menu.Add(Item(hotkey == HotkeyPreset.Off ? "Quick Finder…" : $"Quick Finder…   {hotkey.Title()}", () => FinderRequested?.Invoke()));
         menu.Add(Item("Year at a Glance…", () => YearRequested?.Invoke()));
         menu.Add(WeeksMenu(snap, week.Year));
         menu.Add(WeeksMenu(snap, week.Year + 1));

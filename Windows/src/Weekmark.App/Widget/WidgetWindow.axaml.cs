@@ -24,8 +24,10 @@ public partial class WidgetWindow : Window
     readonly DispatcherTimer saveDelay = new() { Interval = TimeSpan.FromMilliseconds(400) };
     readonly DispatcherTimer floatEnd = new() { Interval = TimeSpan.FromSeconds(8) };
     bool placing, floating, hooked, dragging, typing;
+    HotkeyPreset? appliedHotkey; // null: nothing registered yet
 
     public event Action? YearRequested;
+    public event Action? HotKeyPressed;
 
     /// <summary>For the XAML designer only.</summary>
     public WidgetWindow() => InitializeComponent();
@@ -61,12 +63,14 @@ public partial class WidgetWindow : Window
                 WindowsLayering.RoundCorners(this);
                 if (!hooked) Win32Properties.AddWndProcHookCallback(this, WndProc);
                 hooked = true;
+                ApplyHotKey();
             }
             ApplyLayer();
             Place();
         };
         Closed += (_, _) =>
         {
+            if (OperatingSystem.IsWindows() && hooked && TryGetPlatformHandle() is { } h) WindowsLayering.UnregisterHotKey(h.Handle, HotKeyId);
             EndTyping();
             state.Changed -= ApplySettings;
             Screens.Changed -= OnScreensChanged;
@@ -98,6 +102,7 @@ public partial class WidgetWindow : Window
                 : [WindowTransparencyLevel.Transparent];
         }
         UpdateGlass();
+        ApplyHotKey();
         ApplyLayer(); // every tick: also recovers the layer after Show desktop or an Explorer restart
     }
 
@@ -362,13 +367,27 @@ public partial class WidgetWindow : Window
         }).ToList();
     }
 
-    // Windows: refresh at once after a clock/time-zone change or resume from sleep (otherwise within 30 s).
-    nint WndProc(nint hwnd, uint msg, nint wParam, nint lParam, ref bool handled)
+    const int HotKeyId = 1;
+    const uint MOD_NOREPEAT = 0x4000;
+
+    /// <summary>(Re)registers the Quick Finder hotkey; a no-op before the hook exists or while the preset is unchanged.</summary>
+    void ApplyHotKey()
     {
-        const uint WM_TIMECHANGE = 0x1E, WM_POWERBROADCAST = 0x218;
+        if (!OperatingSystem.IsWindows() || !hooked || S.Hotkey == appliedHotkey || TryGetPlatformHandle() is not { } h) return;
+        appliedHotkey = S.Hotkey;
+        WindowsLayering.UnregisterHotKey(h.Handle, HotKeyId);
+        state.HotKeyTaken = S.Hotkey.Win32() is { } k && !WindowsLayering.RegisterHotKey(h.Handle, HotKeyId, k.Modifiers | MOD_NOREPEAT, k.Key);
+    }
+
+    // Windows: refresh at once after a clock/time-zone change or resume from sleep (otherwise within 30 s); the hotkey.
+    internal nint WndProc(nint hwnd, uint msg, nint wParam, nint lParam, ref bool handled)
+    {
+        const uint WM_TIMECHANGE = 0x1E, WM_POWERBROADCAST = 0x218, WM_HOTKEY = 0x0312;
         const nint PBT_APMRESUMESUSPEND = 0x7, PBT_APMRESUMEAUTOMATIC = 0x12;
         if (msg == WM_TIMECHANGE || (msg == WM_POWERBROADCAST && wParam is PBT_APMRESUMESUSPEND or PBT_APMRESUMEAUTOMATIC))
             Dispatcher.UIThread.Post(state.Tick);
+        else if (msg == WM_HOTKEY && wParam == HotKeyId)
+            Dispatcher.UIThread.Post(() => HotKeyPressed?.Invoke());
         return 0;
     }
 }

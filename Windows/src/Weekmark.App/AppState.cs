@@ -41,6 +41,8 @@ public sealed class AppState : IDisposable
     public DateTime Now => clock();
     /// <summary>Bumped on every settings change, so views can tell a settings change from a clock tick.</summary>
     public int Version { get; private set; }
+    /// <summary>Windows refused the Quick Finder hotkey (another app has it). Runtime only, never saved.</summary>
+    public bool HotKeyTaken { get; set; }
     public event Action? Changed;
 
     public void Start()

@@ -53,10 +53,11 @@ public sealed class YearEntryTests
         var tray = new TrayController(state, widget);
         var items = tray.Menu.Items.OfType<NativeMenuItem>().ToList();
         Assert.StartsWith("Copy", items[2].Header);
-        Assert.Equal("Year at a Glance…", items[4].Header);
+        var year = items.Single(i => i.Header == "Year at a Glance…");
+        Assert.Equal("Quick Finder…   Ctrl+Alt+W", items[items.IndexOf(year) - 1].Header);
         var raised = 0;
         tray.YearRequested += () => raised++;
-        items[4].Command!.Execute(null);
+        year.Command!.Execute(null);
         Assert.Equal(1, raised);
     }
 }

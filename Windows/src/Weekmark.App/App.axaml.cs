@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using Weekmark.App.Finder;
 using Weekmark.App.Onboarding;
 using Weekmark.App.Platform;
 using Weekmark.App.Settings;
@@ -21,6 +22,7 @@ public partial class App : Application
     TrayController? tray;
     SettingsWindow? settingsWindow;
     YearWindow? yearWindow;
+    QuickFinderWindow? finder;
     WelcomeWindow? welcomeWindow;
     string? startupExe;
     bool quitting;
@@ -48,6 +50,7 @@ public partial class App : Application
         tray.QuitRequested += () => Quit();
         tray.SettingsRequested += () => OpenSettings();
         tray.YearRequested += OpenYear;
+        tray.FinderRequested += () => Finder().ShowFinder();
         tray.AddMilestoneRequested += AddMilestone;
         if (o.Onboarding || (!o.DemoData && !state.Settings.OnboardingDone))
         {
@@ -59,13 +62,14 @@ public partial class App : Application
         if (welcomeWindow is null && !o.Autostart) Dispatcher.UIThread.Post(() => Widget?.BringForward());
         if (o.Settings is { } tab) OpenSettings(tab);
         if (o.Year) OpenYear();
+        if (o.Find is { } query) Dispatcher.UIThread.Post(() => Finder().ShowFinder(query));
 
         if (Program.Instance is { } instance)
             instance.ActivationRequested += () => Dispatcher.UIThread.Post(() => Widget?.BringForward());
         if (o.Screenshot is { } path)
             Dispatcher.UIThread.Post(() => // Background priority: runs after the shown widget's first layout pass
             {
-                Screenshot.Save((Control?)yearWindow ?? (Control?)settingsWindow ?? (Control?)welcomeWindow ?? Widget!.View, path);
+                Screenshot.Save((Control?)(finder is { IsVisible: true } ? finder : null) ?? (Control?)yearWindow ?? (Control?)settingsWindow ?? (Control?)welcomeWindow ?? Widget!.View, path);
                 Console.WriteLine($"screenshot={Path.GetFullPath(path)}");
                 ExitLater(o.ExitAfter);
             }, DispatcherPriority.Background);
@@ -157,12 +161,24 @@ public partial class App : Application
         yearWindow.Activate();
     }
 
+    /// <summary>One finder for the whole run; closing it only hides it.</summary>
+    QuickFinderWindow Finder()
+    {
+        if (finder is null)
+        {
+            finder = new QuickFinderWindow(state!);
+            finder.ShowInWidgetRequested += r => Widget!.ShowWeek(r);
+        }
+        return finder;
+    }
+
     void CreateWidget()
     {
         Widget = new WidgetWindow(state!, layering, glassAllowed: Program.Options.Screenshot is null);
         // The widget never closes by itself; if Windows destroys it (Explorer restart takes its owner along), recreate it.
         Widget.Closed += (_, _) => { if (!quitting) Dispatcher.UIThread.Post(ShowWidget); };
         Widget.YearRequested += OpenYear;
+        Widget.HotKeyPressed += () => Finder().Toggle();
         if (tray is not null) tray.Widget = Widget;
     }
 

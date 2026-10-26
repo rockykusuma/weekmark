@@ -89,7 +89,7 @@ public sealed class TrayTests
     {
         var (_, _, tray) = Demo();
         var top = Items(tray.Menu);
-        Assert.Equal(["-", "Year at a Glance…", "Weeks in 2026", "Weeks in 2027", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"],
+        Assert.Equal(["-", "Quick Finder…   Ctrl+Alt+W", "Year at a Glance…", "Weeks in 2026", "Weeks in 2027", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"],
             top.Skip(3).Select(i => i.Header));
         var weeks = Items(Item(tray.Menu, "Weeks in 2026").Menu!);
         Assert.Equal("January", weeks[0].Header);
@@ -121,7 +121,7 @@ public sealed class TrayTests
         var (state, _, tray) = Demo();
         var snap = new WeekSnapshot(state.Context.Now, state.Context.Cal, state.Context.Fmt);
         var with = tray.BuildMenu(snap, new WeekRef(2026, 46)).OfType<NativeMenuItem>().Select(i => i.Header).ToList();
-        Assert.Equal(["-", "Add Milestone in CW46…", "-", "Year at a Glance…"], with.Skip(3).Take(4));
+        Assert.Equal(["-", "Add Milestone in CW46…", "-", "Quick Finder…   Ctrl+Alt+W"], with.Skip(3).Take(4));
         WeekRef? asked = null;
         tray.AddMilestoneRequested += w => asked = w;
         tray.BuildMenu(snap, new WeekRef(2026, 46)).OfType<NativeMenuItem>().Single(i => i.Header == "Add Milestone in CW46…").Command!.Execute(null);
@@ -139,7 +139,7 @@ public sealed class TrayTests
         Assert.Equal("Q4 2026 · Sprint 21, day 10 of 10", top[1].Header);
         Assert.False(top[1].IsEnabled);
         Assert.Equal("Copy “CW43 (19–25 Oct)”", top[2].Header);
-        Assert.Equal(["-", "Year at a Glance…", "Weeks in 2026", "Weeks in 2027", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"], top.Skip(3).Select(i => i.Header));
+        Assert.Equal(["-", "Quick Finder…   Ctrl+Alt+W", "Year at a Glance…", "Weeks in 2026", "Weeks in 2027", "-", "Hide Widget", "Position", "Size", "-", "Settings…", "Quit Weekmark"], top.Skip(3).Select(i => i.Header));
         Assert.Equal("CW 43 · 19–25 Oct 2026", tray.Icon.ToolTipText);
 
         var position = Item(tray.Menu, "Position").Menu!;
@@ -304,5 +304,45 @@ public sealed class TrayTests
         Assert.Equal((false, false), layering.Activation.Last()); // the foreground stays with the widget
         Assert.Equal(WindowLayer.Floating, layering.Applied.Last()); // still floating
         tray.Dispose();
+    }
+
+    [AvaloniaFact]
+    public void MenuHasQuickFinderBeforeYear()
+    {
+        var (_, _, tray) = Demo();
+        var items = Items(tray.Menu);
+        var year = items.FindIndex(i => i.Header == "Year at a Glance…");
+        Assert.Equal("Quick Finder…   Ctrl+Alt+W", items[year - 1].Header);
+        var raised = 0;
+        tray.FinderRequested += () => raised++;
+        items[year - 1].Command!.Execute(null);
+        Assert.Equal(1, raised);
+
+        var (_, _, off) = Demo(s => s.Hotkey = HotkeyPreset.Off);
+        Assert.Contains(Items(off.Menu), i => i.Header == "Quick Finder…");
+    }
+
+    [AvaloniaFact]
+    public void HotKeyMessageRaisesPressed()
+    {
+        var (_, widget, _) = Demo();
+        var pressed = 0;
+        widget.HotKeyPressed += () => pressed++;
+        var handled = false;
+        widget.WndProc(0, 0x0312, 2, 0, ref handled);
+        Dispatcher.UIThread.RunJobs();
+        Assert.Equal(0, pressed);
+        widget.WndProc(0, 0x0312, 1, 0, ref handled);
+        Dispatcher.UIThread.RunJobs();
+        Assert.Equal(1, pressed);
+    }
+
+    [Fact]
+    public void FindFlag()
+    {
+        Assert.Equal("46", Options.Parse(["--find", "46"]).Find);
+        Assert.Equal("", Options.Parse(["--find"]).Find);
+        Assert.Equal("", Options.Parse(["--find", "--demo-data"]).Find);
+        Assert.Null(Options.Parse([]).Find);
     }
 }
