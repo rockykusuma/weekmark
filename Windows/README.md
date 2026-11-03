@@ -13,7 +13,7 @@ The calendar week number on your Windows desktop, same content and look as the M
   x64 download; "ARM-based processor" (Snapdragon / Copilot+ PCs) → ARM64. The wrong one says "This app can't run on
   your PC".
 - Setup installs per user, without admin rights. The Portable zip runs from any folder.
-- The builds are **unsigned** until the SignPath Foundation application is approved. If SmartScreen says "Windows
+- The builds are **unsigned** (SignPath Foundation declined the project for now, as too new). If SmartScreen says "Windows
   protected your PC", click **More info**, then **Run anyway**. If your laptop doesn't allow that, build from source.
 
 ## Build and run from source
