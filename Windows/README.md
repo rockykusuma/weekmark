@@ -4,11 +4,10 @@ The calendar week number on your Windows desktop, same content and look as the M
 
 ## Download a build
 
-- Until the first `windows-v0.1.0` pre-release exists: open the latest successful **Windows** run on the
-  [Actions page](https://github.com/rockykusuma/weekmark/actions/workflows/windows.yml) and download the artifact
-  `weekmark-win-x64` or `weekmark-win-arm64`. It downloads as a zip: right-click it, **Extract all**, then run the
-  `…-Setup.exe` from the extracted folder (not from inside the zip view).
-- After that: [Releases](https://github.com/rockykusuma/weekmark/releases) (Windows builds are marked pre-release).
+- Open the newest **Weekmark for Windows** pre-release on the
+  [Releases page](https://github.com/rockykusuma/weekmark/releases?q=windows-v&expanded=true), and under **Assets**
+  download `Weekmark-Windows-<version>-x64-Setup.exe` (or `-arm64-`). Run it. Updates arrive on their own after
+  that.
 - x64 or ARM64? Check Settings → System → About → "System type". "x64-based processor" (almost all laptops) → the
   x64 download; "ARM-based processor" (Snapdragon / Copilot+ PCs) → ARM64. The wrong one says "This app can't run on
   your PC".
