@@ -77,7 +77,7 @@ public sealed partial class Updater : ObservableObject, IDisposable
     readonly DispatcherTimer timer = new();
     string? checkingVersion, failure;
     DateTime? lastChecked;
-    bool firstDone;
+    bool firstDone, autoChecks;
 
     [ObservableProperty] UpdateStage stage;
 
@@ -88,15 +88,24 @@ public sealed partial class Updater : ObservableObject, IDisposable
         bool installed;
         try { installed = engine.IsInstalled; } catch { installed = false; }
         stage = installed ? UpdateStage.Idle : UpdateStage.Unavailable;
-        if (!installed || !autoChecks) return;
+        if (!installed) return;
+        this.autoChecks = autoChecks;
+        state.Changed += OnStateChanged;
+        if (!autoChecks) return;
         timer.Tick += async (_, _) =>
         {
             firstDone = true;
             timer.Interval = Interval;
             await CheckNow();
         };
-        state.Changed += Reschedule;
         Reschedule();
+    }
+
+    // After midnight "Last checked: 14:30" would read as today, so the date appears on the next tick.
+    void OnStateChanged()
+    {
+        if (autoChecks) Reschedule();
+        OnPropertyChanged(nameof(LastCheckedText));
     }
 
     /// <summary>Tests shorten these. Changing FirstDelay reschedules a first check that is still waiting.</summary>
@@ -192,6 +201,6 @@ public sealed partial class Updater : ObservableObject, IDisposable
     public void Dispose()
     {
         timer.Stop();
-        state.Changed -= Reschedule;
+        state.Changed -= OnStateChanged;
     }
 }

@@ -3,6 +3,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using Weekmark.Core;
 
 namespace Weekmark.App.Settings;
@@ -33,7 +34,9 @@ public partial class SettingsWindow : Window
     public void ShowUpdates()
     {
         Tabs.SelectedIndex = 0;
-        Dispatcher.UIThread.Post(() => this.FindControl<Control>("UpdatesSection")?.BringIntoView(), DispatcherPriority.Loaded);
+        // Updates is the last section of General, so scrolling to the end shows all of it, not just its title.
+        Dispatcher.UIThread.Post(() => this.FindControl<Control>("UpdatesSection")?.FindAncestorOfType<ScrollViewer>()?.ScrollToEnd(),
+            DispatcherPriority.Loaded);
     }
 
     SettingsViewModel Vm => (SettingsViewModel)DataContext!;

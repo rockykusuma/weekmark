@@ -61,6 +61,21 @@ public sealed class UpdaterTests
     }
 
     [AvaloniaFact]
+    public async Task LastCheckedShowsTheDateAfterMidnight()
+    {
+        var now = Now;
+        var state = new AppState(new AppSettings(), null, () => now);
+        using var u = new Updater(state, new FakeEngine(), autoChecks: false);
+        await u.CheckNow();
+        var raised = new List<string?>();
+        u.PropertyChanged += (_, e) => raised.Add(e.PropertyName);
+        now = Now.AddDays(1);
+        state.Tick();
+        Assert.Contains(nameof(Updater.LastCheckedText), raised);
+        Assert.Equal($"Last checked: {Now:d} 14:30", u.LastCheckedText);
+    }
+
+    [AvaloniaFact]
     public void LastCheckedNever()
     {
         using var u = new Updater(State(), new FakeEngine(), autoChecks: false);

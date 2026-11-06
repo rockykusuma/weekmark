@@ -203,7 +203,7 @@ public partial class App : Application
     /// If the restart fails, the icon comes back.</summary>
     void RestartToUpdate()
     {
-        if (tray is null || updater is null) return;
+        if (tray is null || updater is not { Stage: UpdateStage.Ready }) return; // nothing to restart into: no icon blink
         tray.Icon.IsVisible = false;
         updater.RestartToUpdate();
         tray.Icon.IsVisible = true;
