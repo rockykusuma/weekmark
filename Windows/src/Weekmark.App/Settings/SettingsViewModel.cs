@@ -132,6 +132,7 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     public bool Locked { get => S.Locked; set => Set(S.Locked, value, v => S.Locked = v); }
     public int SizeIndex { get => (int)S.Size; set => Pick(value, S.Size, v => S.Size = v); }
     public int BackgroundIndex { get => (int)S.Background; set => Pick(value, S.Background, v => S.Background = v); }
+    public bool GlassNeedsRestart => S.Background == BackgroundStyle.Glass && Program.SoftwareRendering;
     public bool ShowPlanning { get => S.ShowPlanning; set => Set(S.ShowPlanning, value, v => S.ShowPlanning = v); }
     public bool ShowProgress { get => S.ShowProgress; set => Set(S.ShowProgress, value, v => S.ShowProgress = v); }
     public bool ShowMilestones { get => S.ShowMilestones; set => Set(S.ShowMilestones, value, v => S.ShowMilestones = v); }

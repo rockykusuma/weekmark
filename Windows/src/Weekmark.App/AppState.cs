@@ -29,9 +29,16 @@ public sealed class AppState : IDisposable
     /// <summary><c>--demo-data</c> uses in-memory sample settings and never constructs a store on <paramref name="settingsPath"/>.</summary>
     public static AppState FromOptions(Options o, string settingsPath)
     {
-        if (o.DemoData) return new AppState(DemoData.Create(DateOnly.FromDateTime(DateTime.Now)), null);
+        var (settings, store) = Load(o, settingsPath);
+        return new AppState(settings, store);
+    }
+
+    /// <summary>The settings and their store (none for demo data), read once at startup before Avalonia starts.</summary>
+    public static (AppSettings Settings, SettingsStore? Store) Load(Options o, string settingsPath)
+    {
+        if (o.DemoData) return (DemoData.Create(DateOnly.FromDateTime(DateTime.Now)), null);
         var store = new SettingsStore(settingsPath);
-        return new AppState(store.Load(), store);
+        return (store.Load(), store);
     }
 
     public AppSettings Settings { get; }

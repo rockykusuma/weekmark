@@ -103,6 +103,7 @@
               <TextBlock Text="Style" />
               <ComboBox Grid.Column="1" ItemsSource="{x:Static s:SettingsViewModel.Backgrounds}" SelectedIndex="{Binding BackgroundIndex}" />
             </Grid>
+            <TextBlock Classes="help" Text="Quit and reopen Weekmark to see the glass background." IsVisible="{Binding GlassNeedsRestart}" />
             <TextBlock Classes="section" Text="Sections" />
             <CheckBox Content="Quarter &amp; sprint chips" IsChecked="{Binding ShowPlanning}" />
             <CheckBox Content="Week progress" IsChecked="{Binding ShowProgress}" />

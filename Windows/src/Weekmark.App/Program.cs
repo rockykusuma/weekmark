@@ -1,5 +1,6 @@
 using System.Globalization;
 using Avalonia;
+using Weekmark.Core;
 using Velopack;
 
 namespace Weekmark.App;
@@ -28,6 +29,12 @@ static class Program
 {
     public static Options Options { get; private set; } = Options.Parse([]);
     public static SingleInstance? Instance { get; private set; }
+    public static (AppSettings Settings, SettingsStore? Store) Loaded { get; private set; } = (new(), null);
+    /// <summary>Glass (Mica/Acrylic) needs the GPU renderer; every other style draws in software, about 30 MB less idle
+    /// memory. Chosen at start, so switching to Glass takes effect after a restart.</summary>
+    internal static bool SoftwareRendering { get; set; }
+    // A screenshot never shows glass (no desktop behind a PNG), so it draws in software too.
+    internal static bool SoftwareFor(AppSettings s, Options o) => !(s.Background == BackgroundStyle.Glass && o.Screenshot is null);
 
     [STAThread]
     public static int Main(string[] args)
@@ -55,6 +62,8 @@ static class Program
                 return 0;
             }
         }
+        Loaded = AppState.Load(Options, SettingsStore.DefaultPath);
+        SoftwareRendering = SoftwareFor(Loaded.Settings, Options);
         try
         {
             return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, Avalonia.Controls.ShutdownMode.OnExplicitShutdown);
@@ -63,5 +72,9 @@ static class Program
     }
 
     // Also used by the Avalonia designer.
-    public static AppBuilder BuildAvaloniaApp() => AppBuilder.Configure<App>().UsePlatformDetect().LogToTrace();
+    public static AppBuilder BuildAvaloniaApp()
+    {
+        var b = AppBuilder.Configure<App>().UsePlatformDetect().LogToTrace();
+        return SoftwareRendering ? b.With(new Win32PlatformOptions { RenderingMode = [Win32RenderingMode.Software] }) : b;
+    }
 }

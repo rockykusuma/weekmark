@@ -43,6 +43,32 @@ public sealed class SettingsViewModelTests : IDisposable
         return new SettingsViewModel(state);
     }
 
+    [Fact]
+    public void OnlyGlassUsesTheGpuRenderer()
+    {
+        var normal = Options.Parse([]);
+        Assert.False(Program.SoftwareFor(new AppSettings { Background = BackgroundStyle.Glass }, normal));
+        Assert.True(Program.SoftwareFor(new AppSettings { Background = BackgroundStyle.Solid }, normal));
+        Assert.True(Program.SoftwareFor(new AppSettings { Background = BackgroundStyle.Clear }, normal));
+        Assert.True(Program.SoftwareFor(new AppSettings { Background = BackgroundStyle.Glass }, Options.Parse(["--screenshot", "w.png"])));
+    }
+
+    [AvaloniaFact]
+    public void SwitchingToGlassInSoftwareAsksForARestart()
+    {
+        var vm = new SettingsViewModel(new AppState(new AppSettings { Background = BackgroundStyle.Solid }, null, () => Now));
+        Program.SoftwareRendering = true;
+        try
+        {
+            Assert.False(vm.GlassNeedsRestart);
+            vm.BackgroundIndex = (int)BackgroundStyle.Glass;
+            Assert.True(vm.GlassNeedsRestart);
+            Program.SoftwareRendering = false; // started with Glass: the GPU renderer is already running
+            Assert.False(vm.GlassNeedsRestart);
+        }
+        finally { Program.SoftwareRendering = false; }
+    }
+
     [AvaloniaFact]
     public async Task SettingsUpdatesSection()
     {

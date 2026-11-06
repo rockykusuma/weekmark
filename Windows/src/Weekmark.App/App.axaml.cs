@@ -42,7 +42,7 @@ public partial class App : Application
         desktop.ShutdownRequested += (_, _) => quitting = true;
 
         var o = Program.Options;
-        state = AppState.FromOptions(o, SettingsStore.DefaultPath);
+        state = new AppState(Program.Loaded.Settings, Program.Loaded.Store);
         state.Start();
         layering = IWindowLayering.ForCurrentPlatform();
         startupExe = StartupExe(o, Environment.ProcessPath); // the settings and welcome windows re-apply it when the toggle changes

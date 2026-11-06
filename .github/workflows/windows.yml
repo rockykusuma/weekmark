@@ -160,7 +160,8 @@ jobs:
           Get-Content out.txt, err.txt
           if ($p.ExitCode -ne 0) { throw "Weekmark exited with $($p.ExitCode)" }
           if (-not (Test-Path $png)) { throw 'widget.png was not written' }
-          # Idle memory: printed 60 s after the screenshot, after a full GC.
+          # Idle memory: printed 60 s after the screenshot, after a full GC. A screenshot draws in software, like the
+          # Solid and Clear styles; Glass runs the GPU renderer, about 30 MB more (measured 124 MB working set on this runner).
           $m = Select-String -Path out.txt -Pattern 'working_set_mb=(\d+) private_mb=(\d+)'
           if (-not $m) { throw 'no working_set_mb/private_mb in the output' }
           $mb = [int]$m.Matches[0].Groups[1].Value
