@@ -166,7 +166,7 @@ jobs:
           if (-not $m) { throw 'no working_set_mb/private_mb in the output' }
           $mb = [int]$m.Matches[0].Groups[1].Value
           $priv = [int]$m.Matches[0].Groups[2].Value
-          "| Idle memory (60 s after the screenshot, full GC) | MB |`n|---|---|`n| Working set | $mb |`n| Private bytes | $priv |" >> $env:GITHUB_STEP_SUMMARY
+          "| Idle memory, Solid/Clear renderer (60 s after the screenshot, full GC) | MB |`n|---|---|`n| Working set | $mb |`n| Private bytes | $priv |" >> $env:GITHUB_STEP_SUMMARY
           if ($mb -gt 100) { "::warning::Working set is $mb MB, above the 100 MB target" }
       - uses: actions/upload-artifact@v7
         with: { name: widget.png, path: widget.png, if-no-files-found: error }

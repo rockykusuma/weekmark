@@ -85,9 +85,11 @@ Don't paste anything private (for example the contents of your company `.ics`).
     laptop sleeps overnight, does the daily check still happen about a day after the last one?
 21. **Memory and style.** In Task Manager → Details, note Weekmark's memory after a few idle minutes. Switch
     Settings → Widget → Style to Solid, quit and reopen Weekmark: is the figure about 30 MB lower, and does the widget
-    look right (text sharp, corners rounded)? Clear too? Switch back to Glass: does "Quit and reopen Weekmark to see
-    the glass background." appear, and after reopening is the glass back? Do the Quick Finder, Year at a Glance and
-    Settings windows still look right in Solid?
+    look right (text sharp, corners rounded)? With Clear, are the rounded corners see-through, with no black or white
+    square behind them? Switch back to Glass: does "Quit and reopen Weekmark to see
+    the glass background." appear, and after reopening is the glass back? Do the Quick Finder, Year at a Glance, Settings and
+    Welcome windows still look right in Solid? On Windows 10: with Solid saved, switch to Glass without restarting:
+    does the widget stay solid while the note shows (no half-blurred look)?
 22. **Uninstall** from Settings → Apps. Does Weekmark stop starting with Windows and leave nothing running?
 
 Optional: run with `--demo-data` to see the widget with sample data, without touching your settings.
