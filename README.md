@@ -17,6 +17,8 @@ brew install --cask rockykusuma/weekmark/weekmark
 ```
 Or download the notarized DMG from [Releases](https://github.com/rockykusuma/weekmark/releases/latest). macOS 14 or later.
 
+iPhone and Apple Watch: [Weekmark on the App Store](https://apps.apple.com/app/id6826903407), free, iOS 17 / watchOS 10 or later.
+
 ## Quick Finder syntax
 
 | Type | Example | Result |
@@ -40,6 +42,7 @@ From week 40 onward, a week number of 12 or lower means next year.
 - **Year at a Glance** (the calendar button above the month, or the menu): the whole year as 12 months with week numbers, holidays, milestones and sprint starts. Hover a week for its details, click to pin it, ⌘C copies it, ←/→ change the year.
 
 ## iPhone & Apple Watch
+On the App Store: [https://apps.apple.com/app/id6826903407](https://apps.apple.com/app/id6826903407).
 `Mobile/` holds the iOS app (Week, Year, Find and Settings tabs), its Home Screen / Lock Screen / StandBy widgets, and
 the watchOS app with complications.
 They share `Sources/CWCore` with the Mac app. Milestones, sprints, quarters, holidays and week numbering sync between
