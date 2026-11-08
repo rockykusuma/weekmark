@@ -467,8 +467,9 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
   }
   function parseDate(q) {
     if (!/[a-z\/]/i.test(q)) return null;
-    let t = Date.parse(q);
-    if (isNaN(t)) t = Date.parse(`${q} ${cur.year}`);
+    // Chrome reads a yearless "Dec 12" as 2001, so supply this year first
+    let t = /\d{4}/.test(q) ? Date.parse(q) : Date.parse(`${q} ${cur.year}`);
+    if (isNaN(t)) t = Date.parse(q);
     if (isNaN(t)) return null;
     const d = new Date(t);
     return utc(d.getFullYear(), d.getMonth(), d.getDate());
