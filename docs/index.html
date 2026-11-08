@@ -20,6 +20,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/hero.css">
+<script src="assets/hero.js" defer></script>
 <style>
 /* Layout: a planning board. Faint 7-column day grid behind everything; the week number is the hero; the year is a 53-cell strip. */
 :root {
@@ -170,7 +172,8 @@ tr:last-child td { border-bottom: 0; }
 td code { font: 400 .84rem/1.5 var(--mono); color: var(--ink); background: var(--paper); padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
 td:last-child { color: var(--ink-2); }
 
-.finder-shot { margin-top: clamp(28px, 4vw, 40px); width: 100%; max-width: 640px; border-radius: 16px; box-shadow: var(--shadow); display: block; }
+.block .finder { margin-top: clamp(28px, 4vw, 40px); max-width: 640px; }
+.hero-demo { min-width: 0; }
 
 /* Teams */
 .teams { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 56px); align-items: start; }
@@ -257,17 +260,7 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
           <p class="fine">Free · macOS 14 or later · Apple silicon and Intel · No account, no tracking<br>Also on <a href="https://github.com/rockykusuma/weekmark/releases/tag/windows-v0.3.1">Windows 10 and 11 (preview)</a> · iPhone and Apple Watch coming to the App Store</p>
         </div>
 
-        <div class="finder" aria-label="Quick Finder demo">
-          <div class="finder-bar">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            <label for="q" class="eyebrow" style="position:absolute;left:-9999px">Look up a week</label>
-            <input id="q" value="46" autocomplete="off" spellcheck="false" placeholder="46 · Dec 12 · +6w · 46-50">
-            <span class="kbd">⌃⌥W</span>
-          </div>
-          <div id="results"></div>
-          <div class="chips" id="chips"></div>
-          <div class="finder-foot"><span><b>⏎</b>Copy</span><span><b>⌘⏎</b>Show in widget</span><span><b>esc</b>Close</span><span>This demo counts Mon–Fri. The app also subtracts holidays.</span></div>
-        </div>
+        <div class="hero-demo" id="heroDemo" role="img" aria-label="Weekmark on a Mac desktop: Control-Option-W opens Quick Finder, typing 47 shows CW47, 16 to 22 November, with the Code freeze milestone, and Command-Return shows that week in the widget."></div>
       </section>
     </main>
   </div>
@@ -318,7 +311,17 @@ footer { padding-block: 40px 56px; color: var(--ink-3); font-size: .85rem; displ
         </tbody>
       </table>
     </div>
-    <img class="finder-shot" src="assets/finder.png" alt="The Quick Finder panel listing this week, two upcoming milestones and the next holiday">
+    <div class="finder" aria-label="Quick Finder demo">
+      <div class="finder-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <label for="q" class="eyebrow" style="position:absolute;left:-9999px">Look up a week</label>
+        <input id="q" value="46" autocomplete="off" spellcheck="false" placeholder="46 · Dec 12 · +6w · 46-50">
+        <span class="kbd">⌃⌥W</span>
+      </div>
+      <div id="results"></div>
+      <div class="chips" id="chips"></div>
+      <div class="finder-foot"><span><b>⏎</b>Copy</span><span><b>⌘⏎</b>Show in widget</span><span><b>esc</b>Close</span><span>This demo counts Mon–Fri. The app also subtracts holidays.</span></div>
+    </div>
   </div>
 </section>
 

@@ -1,0 +1,519 @@
+/* Weekmark hero. Corner bleed: the desktop sits one gutter in from the top
+   and left and runs off the right and bottom; the widget keeps a gutter from
+   the stage's right edge and runs off the bottom past its month grid. */
+.wm {
+  & .ss-stage {
+    --gutter: 24px;
+    --fade: 120px;
+    --w-accent: #007aff;
+    --w-lookup: #ff9500;
+    --w-ink: #1d1d1f;
+    --w-ink-2: rgba(60, 60, 67, 0.62);
+    --w-ink-3: rgba(60, 60, 67, 0.34);
+    --w-ink-2-solid: #808086;
+    --w-fill: rgba(0, 0, 0, 0.07);
+    --w-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    --w-round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    overflow: hidden;
+    background: transparent;
+    font-family: var(--w-font);
+    color: var(--w-ink);
+  }
+  & .ss-stage[data-layout="compact"] {
+    --gutter: 12px;
+    --fade: 104px;
+  }
+
+  .wm-desk {
+    position: absolute;
+    inset: var(--gutter) var(--gutter) 0;
+    border-radius: 18px 18px 0 0;
+    overflow: hidden;
+    /* Fade crop: the desktop dissolves at its foot, over filler only (the
+       rows after CW47 and the widget's find field) */
+    -webkit-mask-image: linear-gradient(#000 calc(100% - var(--fade)), transparent);
+    mask-image: linear-gradient(#000 calc(100% - var(--fade)), transparent);
+    background:
+      radial-gradient(120% 90% at 85% 100%, #f4b98f 0%, rgba(244, 185, 143, 0) 60%),
+      radial-gradient(90% 80% at 0% 0%, #4d74e0 0%, rgba(77, 116, 224, 0) 70%),
+      linear-gradient(160deg, #5b83ea 0%, #8aa6ef 48%, #d9b3a8 100%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+
+  /* The widget at the app's size 1 geometry (WidgetView.swift) */
+  .wm-widget {
+    position: absolute;
+    top: var(--gutter);
+    left: calc(520px - var(--gutter) * 2 - 300px);
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    border-radius: 24px;
+    background: #ececec;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06), 0 3px 8px rgba(0, 0, 0, 0.22), 0 18px 40px -12px rgba(20, 30, 70, 0.35);
+  }
+  & .ss-stage[data-layout="wide"] .wm-widget {
+    zoom: 1.15;
+    left: calc((480px - var(--gutter) * 3) / 1.15 - 300px);
+    top: calc(var(--gutter) / 1.15);
+  }
+  & .ss-stage[data-layout="compact"] .wm-widget {
+    left: calc((358px - var(--gutter) * 2 - 300px) / 2);
+  }
+
+  .wm-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .wm-eyebrow {
+    font: 600 11px/13px var(--w-font);
+    letter-spacing: 1.6px;
+    color: var(--w-ink-2);
+  }
+  .wm-cw {
+    font: 700 78px/1 var(--w-round);
+    letter-spacing: -1px;
+    color: var(--w-accent);
+    margin: -2px 0 -4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .wm-range {
+    font: 500 14px/18px var(--w-font);
+    color: var(--w-ink-2);
+  }
+  .wm-year {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    font: 600 13px/16px var(--w-round);
+    color: var(--w-ink-2);
+  }
+  .wm-year > span:last-child {
+    font: 500 10px/12px var(--w-font);
+  }
+  .wm-ring {
+    position: relative;
+    width: 50px;
+    height: 50px;
+  }
+  .wm-ring svg {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+    fill: none;
+    stroke-width: 5;
+  }
+  .wm-ring-track {
+    stroke: rgba(0, 0, 0, 0.12);
+  }
+  .wm-ring-arc {
+    stroke: var(--w-accent);
+    stroke-linecap: round;
+  }
+  .wm-ring-num {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    color: var(--w-ink);
+  }
+  .wm-ring-num b {
+    font: 700 13px/13px var(--w-round);
+    margin-bottom: 3.5px;
+  }
+  .wm-ring-num small {
+    font: 500 10px/11px var(--w-font);
+    letter-spacing: -0.2px;
+    color: var(--w-ink-2);
+  }
+
+  .wm-chips {
+    display: flex;
+    gap: 5px;
+    letter-spacing: -0.1px;
+  }
+  .wm-chip svg {
+    flex: none;
+    color: var(--w-ink-2-solid);
+  }
+  .wm-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+    padding: 4px 6px;
+    border-radius: 999px;
+    background: var(--w-fill);
+    color: var(--w-ink-2);
+    font: 600 10.5px/13px var(--w-round);
+    white-space: nowrap;
+  }
+
+  .wm-strip {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: -6px;
+  }
+  .wm-day {
+    display: grid;
+    justify-items: center;
+    gap: 5px;
+    padding-bottom: 9px;
+  }
+  .wm-day span {
+    font: 600 10px/12px var(--w-font);
+    color: var(--w-ink-2);
+  }
+  .wm-day[data-weekend] span {
+    color: var(--w-ink-3);
+  }
+  .wm-day b {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font: 500 15px/1 var(--w-round);
+    font-variant-numeric: tabular-nums;
+  }
+  .wm-day[data-today] span {
+    color: var(--w-accent);
+  }
+  .wm-day[data-today] b {
+    background: var(--w-accent);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .wm-milestones {
+    display: grid;
+    gap: 5px;
+  }
+  .wm-ms {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font: 600 12px/16px var(--w-font);
+  }
+  .wm-ms svg {
+    flex: none;
+  }
+  .wm-ms-name {
+    flex: 1;
+  }
+  .wm-ms-cw {
+    font: 700 11px/14px var(--w-round);
+  }
+  .wm-ms-left {
+    font: 500 10.5px/14px var(--w-round);
+    color: var(--w-ink-2);
+  }
+
+  .wm-rule {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .wm-month-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+  .wm-month-title {
+    margin-right: auto;
+    font: 600 12px/16px var(--w-font);
+  }
+  .wm-pill {
+    display: inline-grid;
+    place-items: center;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.09);
+    font: 600 10px/1 var(--w-font);
+    color: var(--w-ink);
+    transition: background 0.12s;
+  }
+  .wm-pill[data-pressed] {
+    background: rgba(0, 0, 0, 0.18);
+  }
+  .wm-pill--sq {
+    width: 20px;
+    padding: 0;
+  }
+  /* Today opens its own width beside the year button, as SwiftUI inserts it */
+  .wm-today {
+    display: grid;
+    grid-template-columns: 0fr;
+    margin-right: -6px;
+    opacity: 0;
+    visibility: hidden;
+    /* Closing: the label fades first, then the slot closes */
+    transition: grid-template-columns 0.3s cubic-bezier(0.45, 0, 0.1, 1) 0.12s, margin 0.3s cubic-bezier(0.45, 0, 0.1, 1) 0.12s, opacity 0.12s, visibility 0s 0.42s;
+  }
+  .wm-today > * {
+    min-width: 0;
+    overflow: hidden;
+    will-change: transform;
+  }
+  .wm-today[data-show] {
+    grid-template-columns: 1fr;
+    margin-right: 0;
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s, 0s, 0.12s, 0s;
+  }
+
+  .wm-grid-head,
+  .wm-week {
+    display: grid;
+    grid-template-columns: 30px repeat(7, 1fr);
+    align-items: center;
+    text-align: center;
+  }
+  .wm-grid-head {
+    font: 600 9px/12px var(--w-font);
+    color: var(--w-ink-3);
+    margin-bottom: 3px;
+  }
+  .wm-grids {
+    display: grid;
+  }
+  .wm-grid {
+    grid-area: 1 / 1;
+    display: grid;
+    gap: 3px;
+    opacity: 0;
+    transform: translateY(6px);
+    will-change: transform;
+    transition: opacity 0.15s ease, transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .wm-grid[data-show] {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.06s;
+  }
+  .wm-week {
+    position: relative;
+    padding: 1px 0;
+    border-radius: 7px;
+  }
+  .wm-week[data-sprint]::before {
+    content: "";
+    position: absolute;
+    left: 30px;
+    right: 0;
+    top: -2px;
+    height: 1px;
+    background: color-mix(in srgb, var(--w-accent) 45%, transparent);
+  }
+  .wm-week[data-current] {
+    background: color-mix(in srgb, var(--w-accent) 14%, transparent);
+  }
+  .wm-week[data-lookup] {
+    background: color-mix(in srgb, var(--w-lookup) 20%, transparent);
+    box-shadow: inset 0 0 0 1.2px color-mix(in srgb, var(--w-lookup) 85%, transparent);
+  }
+  .wm-week-cw {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font: 700 10px/1 var(--w-round);
+    color: var(--w-ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .wm-week[data-current] .wm-week-cw {
+    color: var(--w-accent);
+  }
+  .wm-week[data-lookup] .wm-week-cw {
+    color: var(--w-lookup);
+  }
+  .wm-date {
+    justify-self: center;
+    width: 21px;
+    height: 21px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font: 400 11px/1 var(--w-round);
+    font-variant-numeric: tabular-nums;
+  }
+  .wm-date[data-out] {
+    color: rgba(60, 60, 67, 0.22);
+  }
+  .wm-date[data-holiday] {
+    color: #ff3b30;
+  }
+  .wm-date[data-today] {
+    background: var(--w-accent);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .wm-find {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: var(--w-fill);
+    color: var(--w-ink-3);
+    font: 500 12px/16px var(--w-round);
+  }
+  .wm-find svg {
+    flex: none;
+    color: var(--w-ink-2-solid);
+  }
+  .wm-find-hint {
+    min-height: 32px;
+    font: 400 10.5px/14px var(--w-font);
+    color: var(--w-ink-3);
+  }
+
+  /* Quick Finder: the app's 640pt panel, narrowed to the stage */
+  .wm-finder {
+    --ss-popover-bg: rgba(246, 246, 248, 0.93);
+    --ss-popover-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.18), 0 22px 60px -10px rgba(10, 20, 60, 0.45), 0 4px 14px rgba(10, 20, 60, 0.12);
+    position: absolute;
+    left: var(--gutter);
+    top: 132px;
+    width: 408px;
+    padding: 0;
+    border-radius: 18px;
+    backdrop-filter: blur(40px) saturate(1.6);
+    -webkit-backdrop-filter: blur(40px) saturate(1.6);
+    overflow: hidden;
+  }
+  & .ss-stage[data-layout="compact"] .wm-finder {
+    left: 8px;
+    top: 96px;
+    width: 318px;
+  }
+  .wm-finder-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 16px;
+  }
+  .wm-finder-icon {
+    flex: none;
+    color: var(--w-accent);
+  }
+  .wm-finder-input {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 26px;
+    font: 500 21px/26px var(--w-round);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .wm-finder-placeholder {
+    position: absolute;
+    left: 4px;
+    right: 0;
+    color: var(--w-ink-3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* A macOS field drops its placeholder on the first keystroke, no fade */
+  .wm-finder-placeholder[data-hidden] {
+    visibility: hidden;
+  }
+  .wm-caret {
+    flex: none;
+    width: 2px;
+    height: 22px;
+    margin-left: 1px;
+    background: var(--w-accent);
+    border-radius: 1px;
+  }
+  .wm-finder-now {
+    flex: none;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--w-accent) 18%, transparent);
+    color: var(--w-accent);
+    font: 700 13px/16px var(--w-round);
+  }
+  .wm-finder-results {
+    padding: 8px;
+    border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+  }
+  .wm-result {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--w-accent) 16%, transparent);
+  }
+  .wm-result-icon {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    color: var(--w-accent);
+    background: color-mix(in srgb, var(--w-accent) 14%, transparent);
+  }
+  .wm-result-text {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+  }
+  .wm-result-title {
+    font: 600 14px/18px var(--w-font);
+    white-space: nowrap;
+  }
+  .wm-result-sub {
+    font: 400 12px/15px var(--w-font);
+    color: var(--w-ink-2);
+    white-space: nowrap;
+  }
+  .wm-result-detail {
+    font: 400 11px/14px var(--w-font);
+    color: var(--w-ink-3);
+  }
+  .wm-result-copy {
+    flex: none;
+    padding-top: 8px;
+    font: 600 10px/12px var(--w-font);
+    color: var(--w-ink-2);
+  }
+  & .ss-stage[data-layout="compact"] .wm-result-title {
+    font-size: 13px;
+  }
+  .wm-finder-foot {
+    display: flex;
+    gap: 14px;
+    padding: 12px 16px;
+    will-change: transform;
+    border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+    font: 500 11px/14px var(--w-font);
+    color: var(--w-ink-2);
+  }
+  .wm-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .wm-hint kbd {
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.08);
+    font: 600 10px/13px var(--w-round);
+  }
+
+}

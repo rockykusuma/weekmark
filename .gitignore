@@ -10,3 +10,4 @@ xcuserdata/
 .env.local
 .env
 .claude/worktrees/
+node_modules/
